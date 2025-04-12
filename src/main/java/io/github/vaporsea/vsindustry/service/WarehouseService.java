@@ -1,0 +1,387 @@
+package io.github.vaporsea.vsindustry.service;
+
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import io.github.vaporsea.vsindustry.component.Warehouse;
+import io.github.vaporsea.vsindustry.contract.ContractHeaderDTO;
+import io.github.vaporsea.vsindustry.contract.WarehouseItemDTO;
+import io.github.vaporsea.vsindustry.domain.*;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import io.github.vaporsea.vsindustry.contract.IndustryJobDTO;
+import io.github.vaporsea.vsindustry.contract.MarketTransactionDTO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @author Matt Maurer <br>
+ * @since 6/9/2024
+ */
+@Slf4j
+@RequiredArgsConstructor
+@Service
+public class WarehouseService {
+    
+    private static final String MARKET_TRANSACTION_NAME = "market_transaction";
+    private static final String INDUSTRY_JOB_NAME = "industry_job";
+    
+    private final LastProcessedRepository lastProcessedRepository;
+    private final ProductToIgnoreRepository productToIgnoreRepository;
+    private final MarketTransactionRepository marketTransactionRepository;
+    private final IndustryJobRepository industryJobRepository;
+    private final ProductRepository productRepository;
+    private final WarehouseItemRepository warehouseItemRepository;
+    private final TypeRepository typeRepository;
+    private final ContractHeaderRepository contractHeaderRepository;
+    private final ContractDetailRepository contractDetailRepository;
+    private final Warehouse warehouse;
+    private final WarehouseListener warehouseListener;
+    private final ExtraCostComponent extraCostComponent;
+    
+    private final ModelMapper modelMapper = new ModelMapper();
+    
+    @Value("${vsindustry.client.corporationId}")
+    private String corporationId;
+    
+    public void save(WarehouseItemDTO warehouseItemDTO) {
+        WarehouseItem warehouseItem = modelMapper.map(warehouseItemDTO, WarehouseItem.class);
+        
+        warehouseItemRepository.save(warehouseItem);
+    }
+    
+    public List<WarehouseItemDTO> getWarehouse() {
+        List<WarehouseItem> warehouseItems = warehouseItemRepository.findAll();
+        List<WarehouseItemDTO> warehouseItemDTOs = new LinkedList<>();
+        
+        for (WarehouseItem warehouseItem : warehouseItems) {
+            WarehouseItemDTO warehouseItemDTO = modelMapper.map(warehouseItem, WarehouseItemDTO.class);
+            
+            String name = typeRepository.findById(warehouseItem.getItemId())
+                                        .map(Type::getTypeName)
+                                        .orElseThrow(() -> new RuntimeException(
+                                                "Type not found for item id: " + warehouseItem.getItemId()));
+            
+            warehouseItemDTO.setName(name);
+            
+            warehouseItemDTOs.add(warehouseItemDTO);
+        }
+        
+        return warehouseItemDTOs;
+    }
+    
+    /**
+     * Process all the market transactions, industry jobs and contracts.  This will sort them by timestamp and process
+     * them in order.  This is done to ensure that the warehouse is always in a consistent state.
+     */
+    @Transactional
+    public void processAll() {
+        List<MarketTransaction> marketTransactions = marketTransactionRepository.findUnprocessed();
+        List<Timestamped> allEvents = new LinkedList<>(marketTransactions);
+        allEvents.addAll(industryJobRepository.findUnprocessed());
+        allEvents.addAll(contractHeaderRepository.findProcessable());
+        allEvents.sort(Comparator.comparing(Timestamped::getTimestamp));
+        
+        allEvents.forEach(t -> {
+            if (t instanceof MarketTransaction) {
+                MarketTransactionDTO marketTransaction = modelMapper.map(t, MarketTransactionDTO.class);
+                processMarketTransaction(marketTransaction);
+                warehouseListener.marketTransactionProcessed(marketTransaction);
+            }
+            else if (t instanceof IndustryJob) {
+                IndustryJobDTO industryJob = modelMapper.map(t, IndustryJobDTO.class);
+                processIndustryJob(industryJob);
+                warehouseListener.industryJobProcessed(industryJob);
+            }
+            else if (t instanceof ContractHeader) {
+                ContractHeaderDTO contractHeader = modelMapper.map(t, ContractHeaderDTO.class);
+                processContract(contractHeader);
+                warehouseListener.contractProcessed(contractHeader);
+            }
+        });
+    }
+    
+    /**
+     * Process a market transaction.  This is either a buy or sell order.  If it is a sell order, we need to remove the
+     * quantity from the warehouse.  If it is a buy order, we need to add the quantity to the warehouse along with it's
+     * cost
+     *
+     * @param marketTransaction The market transaction
+     */
+    public void processMarketTransaction(MarketTransactionDTO marketTransaction) {
+        LastProcessedKey key = LastProcessedKey.builder()
+                                               .objectId(marketTransaction.getTransactionId())
+                                               .objectType(MARKET_TRANSACTION_NAME)
+                                               .build();
+        
+        //TODO: this query should be rendered moot now that we're doing it in the database in the processAll method
+        if (lastProcessedRepository.findById(key).isPresent()) {
+            log.info("Market transaction {} already processed", marketTransaction.getTransactionId());
+            return;
+        }
+        
+        WarehouseItem warehouseItem = warehouse.getWarehouseItem(marketTransaction.getTypeId());
+        if (warehouseItem != null) {
+            if (marketTransaction.getIsBuy()) {
+                Double newCost = rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(),
+                        marketTransaction.getUnitPrice(), marketTransaction.getQuantity());
+                
+                warehouse.addItem(marketTransaction.getTypeId(), marketTransaction.getQuantity(), newCost);
+            }
+            else {
+                warehouse.removeItem(marketTransaction.getTypeId(), marketTransaction.getQuantity());
+            }
+        }
+        else {
+            if (marketTransaction.getIsBuy()) {
+                warehouse.addItem(marketTransaction.getTypeId(), marketTransaction.getQuantity(),
+                        marketTransaction.getUnitPrice());
+            }
+            else {
+                log.warn("No warehouse item found for sell order: {}", marketTransaction.getTransactionId());
+            }
+        }
+        
+        marketTransactionRepository.save(modelMapper.map(marketTransaction, MarketTransaction.class));
+        
+        LastProcessed lastProcessed = LastProcessed.builder()
+                                                   .id(key)
+                                                   .build();
+        lastProcessedRepository.save(lastProcessed);
+    }
+    
+    /**
+     * Dispatch the industry job to the appropriate processing method
+     *
+     * @param industryJob The industry job
+     */
+    public void processIndustryJob(IndustryJobDTO industryJob) {
+        Optional<ProductToIgnore> productToIgnore = productToIgnoreRepository.findById(industryJob.getProductTypeId());
+        if (productToIgnore.isPresent()) {
+            return;
+        }
+        
+        //TODO: this query should be rendered moot now that we're doing it in the database in the processAll method
+        Optional<LastProcessed> lastProcessed = lastProcessedRepository.findById_ObjectId(industryJob.getJobId());
+        if (lastProcessed.isPresent()) {
+            log.warn("Job already processed: {}", industryJob.getJobId());
+            return;
+        }
+        
+        if (industryJob.getActivityId() != null) {
+            boolean shouldMarkProcessed = switch (industryJob.getActivityId()) {
+                case 1 -> processManufacturingJob(industryJob);
+                case 5 -> processCopyJob(industryJob);
+                case 8 -> processInventionJob(industryJob);
+                default -> warnAndGiveTrue(industryJob);
+            };
+            
+            if (shouldMarkProcessed) {
+                lastProcessedRepository.save(LastProcessed.builder()
+                                                          .id(LastProcessedKey.builder()
+                                                                              .objectId(industryJob.getJobId())
+                                                                              .objectType(INDUSTRY_JOB_NAME)
+                                                                              .build()).build());
+            }
+        }
+    }
+    
+    private static boolean warnAndGiveTrue(IndustryJobDTO industryJob) {
+        log.warn("Unknown industry job activity id: {}", industryJob.getActivityId());
+        return true;
+    }
+    
+    /**
+     * Process the contract.  This will fetch the details and process them similarly to how market transactions are
+     * processed. It will attempt to 'stack the items' in the contract since they are not always in the same stack and
+     * the contract preserves that state.
+     *
+     * @param contractHeader The contract header
+     */
+    private void processContract(ContractHeaderDTO contractHeader) {
+        LastProcessedKey key = LastProcessedKey.builder()
+                                               .objectId(contractHeader.getContractId())
+                                               .objectType("contract")
+                                               .build();
+        
+        //TODO: this query should be rendered moot now that we're doing it in the database in the processAll method
+        if (lastProcessedRepository.findById(key).isPresent()) {
+            log.info("Contract {} already processed", contractHeader.getContractId());
+            return;
+        }
+        
+        //Stack the items in the contract
+        List<ContractDetail> details = contractDetailRepository.findByContractId(contractHeader.getContractId());
+        Map<Long, Long> stackedItems = details.stream()
+                                              .collect(Collectors.groupingBy(ContractDetail::getTypeId,
+                                                      Collectors.summingLong(ContractDetail::getQuantity)));
+        
+        //Process the items in the contract
+        for (Map.Entry<Long, Long> entry : stackedItems.entrySet()) {
+            Long typeId = entry.getKey();
+            Long quantity = entry.getValue();
+            
+            WarehouseItem warehouseItem = warehouse.getWarehouseItem(typeId);
+            if (warehouseItem != null) {
+                Double newCost = rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(),
+                        contractHeader.getPrice() / quantity, quantity);
+                
+                warehouse.addItem(typeId, quantity, newCost);
+            }
+            else {
+                warehouse.addItem(typeId, quantity, contractHeader.getPrice());
+            }
+        }
+        
+        lastProcessedRepository.save(LastProcessed.builder()
+                                                  .id(key)
+                                                  .build());
+    }
+    
+    /**
+     * Process a manufacturing job.  We need to find the old cost per item, multiply it by the quantity, add the new
+     * total cost and then divide all that by the totalQuantity + totalRuns.
+     *
+     * @param industryJob The industry job
+     */
+    private boolean processManufacturingJob(IndustryJobDTO industryJob) {
+        Long productTypeId = industryJob.getProductTypeId();
+        
+        Product product = productRepository.findById(productTypeId)
+                                           .orElseThrow(() -> new RuntimeException(
+                                                   "Product not found for product type id: " + productTypeId));
+        
+        WarehouseItem warehouseItem = warehouse.getWarehouseItem(productTypeId);
+        double cost = manufacturingCostForJob(industryJob, product);
+        double costPerItem = cost / (double) (industryJob.getRuns() * product.getMakeTypeAmount());
+        if (warehouseItem != null) {
+            double newCostPerItem =
+                    rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(), costPerItem,
+                            industryJob.getRuns());
+            
+            warehouse.addItem(productTypeId, industryJob.getRuns(), newCostPerItem);
+        }
+        else {
+            warehouse.addItem(productTypeId, industryJob.getRuns(), costPerItem);
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Process a copy job.  This is simply setting the cost of the BPC to that of the industry job cost.
+     *
+     * @param industryJob The industry job
+     */
+    private boolean processCopyJob(IndustryJobDTO industryJob) {
+        WarehouseItem warehouseItem = warehouse.getWarehouseItem(industryJob.getJobId());
+        long totalBluePrints = industryJob.getRuns() * industryJob.getLicensedRuns();
+        double costPerItem = industryJob.getCost() / totalBluePrints;
+        
+        if (warehouseItem != null) {
+            Double newCost = rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(), costPerItem,
+                    totalBluePrints);
+            
+            warehouse.addItem(industryJob.getProductTypeId(), totalBluePrints, newCost);
+        }
+        else {
+            warehouse.addItem(industryJob.getProductTypeId(), totalBluePrints, costPerItem);
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Process an invention job.  We need to find the old cost per item, multiply it by the quantity, add the new total
+     * cost and then divide all that by the totalQuantity + totalSuccessfulRuns.
+     *
+     * @param industryJob The industry job
+     */
+    private boolean processInventionJob(IndustryJobDTO industryJob) {
+        if ("active".equalsIgnoreCase(industryJob.getStatus())) {
+            return false;
+        }
+        
+        Long t2BpcId = industryJob.getProductTypeId();
+        Long t1BpcId = industryJob.getBlueprintTypeId();
+        
+        //Get the product, tells us the inputs for the invention job
+        Product product = productRepository.findById(t2BpcId)
+                                           .orElseThrow(() -> new RuntimeException(
+                                                   "Product not found for product type id: " + t2BpcId));
+        
+        double newTotal = 0d;
+        //        for(int idx = 0; idx < industryJob.getRuns(); idx++) {
+        for (InventionItem inventionItem : product.getInventionItems()) {
+            double cost = warehouse.removeItem(
+                    inventionItem.getItem().getItemId(), inventionItem.getQuantity() * industryJob.getRuns());
+            newTotal += cost;
+            log.debug("Removed {} of product item {} with cost {}", inventionItem.getQuantity() * industryJob.getRuns(),
+                    inventionItem.getItem().getName(), cost);
+        }
+        newTotal += warehouse.removeItem(t1BpcId, industryJob.getRuns());
+        //        }
+        
+        WarehouseItem warehousedBlueprints = warehouse.getWarehouseItem(t2BpcId);
+        long successfulRuns = industryJob.getSuccessfulRuns() == 0 ? 1L :
+                industryJob.getSuccessfulRuns() * product.getMakeTypeAmount();
+        if (warehousedBlueprints != null) {
+            double newCostPerItem = newTotal / successfulRuns;
+            double newCost = rollingAverage(warehousedBlueprints.getCostPerItem(), warehousedBlueprints.getQuantity(),
+                    newCostPerItem, successfulRuns);
+            
+            warehouse.addItem(t2BpcId, industryJob.getSuccessfulRuns() * product.getMakeTypeAmount(), newCost);
+        }
+        else {
+            double newCostPerItem = newTotal / successfulRuns;
+            warehouse.addItem(t2BpcId, industryJob.getSuccessfulRuns() * product.getMakeTypeAmount(), newCostPerItem);
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Calculate the cost of manufacturing a job and pull items out of the warehouse.
+     *
+     * @param industryJob The industry job
+     * @param product The product
+     *
+     * @return The cost of manufacturing the job
+     */
+    private double manufacturingCostForJob(IndustryJobDTO industryJob, Product product) {
+        double result = 0.0;
+        
+        for (ProductItem productItem : product.getProductItems()) {
+            result += warehouse.removeItem(productItem.getItem().getItemId(),
+                    productItem.getQuantity() * industryJob.getRuns());
+        }
+        
+        double bpcCost = warehouse.removeItem(product.getMakeType(), industryJob.getRuns());
+        result += bpcCost;
+        result += industryJob.getCost();
+        result += extraCostComponent.extraCost(product) * industryJob.getRuns();
+        
+        return result;
+    }
+    
+    /**
+     * Calculate the rolling average of a cost
+     *
+     * @param oldAverage The old cost per item... or old average
+     * @param oldQuantity The old quantity
+     * @param newCost The new cost per item
+     * @param newQuantity The new quantity
+     *
+     * @return The new average
+     */
+    private static Double rollingAverage(Double oldAverage, Long oldQuantity, Double newCost, Long newQuantity) {
+        return (oldAverage * oldQuantity + newCost * newQuantity) / (oldQuantity + newQuantity);
+    }
+}

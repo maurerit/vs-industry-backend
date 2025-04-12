@@ -1,0 +1,44 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.ehcache.org/v3"
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
+
+    <persistence directory="vsindustry"/>
+
+    <cache-template name="default">
+        <key-type>java.lang.String</key-type>
+        <value-type>java.util.ArrayList</value-type>
+        <expiry>
+            <ttl unit="minutes">30</ttl>
+        </expiry>
+
+        <resources>
+            <heap unit="entries">200</heap>
+            <offheap unit="MB">100</offheap>
+            <disk persistent="true" unit="GB">5</disk>
+        </resources>
+    </cache-template>
+
+    <cache alias="industryJobs" uses-template="default">
+        <value-type>io.github.vaporsea.vsindustry.contract.Page</value-type>
+    </cache>
+
+    <cache alias="wallets" uses-template="default">
+    </cache>
+
+    <cache alias="marketTransactions" uses-template="default">
+    </cache>
+
+    <cache alias="journalEntries" uses-template="default">
+        <value-type>io.github.vaporsea.vsindustry.contract.Page</value-type>
+    </cache>
+
+    <cache alias="marketOrders" uses-template="default">
+    </cache>
+    
+    <cache alias="contractHeaders" uses-template="default">
+        <value-type>io.github.vaporsea.vsindustry.contract.Page</value-type>
+    </cache>
+    
+    <cache alias="contractDetails" uses-template="default">
+    </cache>
+</config>

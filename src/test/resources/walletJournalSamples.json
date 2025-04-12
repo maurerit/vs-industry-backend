@@ -1,0 +1,28 @@
+[
+    {
+        "amount": 8550,
+        "balance": 378969950.66,
+        "date": "2024-06-08T02:53:48Z",
+        "description": "Mission reward bonus from agent Zia Mesghoh to Marq Aideron",
+        "first_party_id": 3008799,
+        "id": 22922083623,
+        "reason": "",
+        "ref_type": "agent_mission_time_bonus_reward",
+        "second_party_id": 93461829,
+        "tax": 8550,
+        "tax_receiver_id": 98588687
+    },
+    {
+        "amount": 5680000,
+        "balance": 769200081.87,
+        "context_id": 6330650916,
+        "context_id_type": "market_transaction_id",
+        "date": "2024-06-09T06:04:20Z",
+        "description": "Market: Meiqur Orez bought stuff from Marq Aideron",
+        "first_party_id": 93473185,
+        "id": 22926467642,
+        "reason": "",
+        "ref_type": "market_transaction",
+        "second_party_id": 93461829
+    }
+]

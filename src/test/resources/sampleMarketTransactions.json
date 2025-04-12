@@ -1,0 +1,24 @@
+[
+    {
+        "client_id": 93775508,
+        "date": "2024-06-09T10:49:00Z",
+        "is_buy": false,
+        "journal_ref_id": 22927232151,
+        "location_id": 60008494,
+        "quantity": 3,
+        "transaction_id": 6330791252,
+        "type_id": 2175,
+        "unit_price": 1090000
+    },
+    {
+        "client_id": 93473185,
+        "date": "2024-06-09T06:04:20Z",
+        "is_buy": false,
+        "journal_ref_id": 22926467644,
+        "location_id": 60008494,
+        "quantity": 5,
+        "transaction_id": 6330650916,
+        "type_id": 2185,
+        "unit_price": 1136000
+    }
+]

@@ -1,0 +1,46 @@
+spring:
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
+  datasource:
+    url: jdbc:h2:file:./vaporseaindustry;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  application:
+    name: vs-industry
+  security:
+    oauth2:
+      client:
+        registration:
+          eve:
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/eve
+            client-name: Vapor Sea Industry
+            scope:
+              - esi-wallet.read_corporation_wallet.v1
+              - esi-wallet.read_corporation_wallets.v1
+              - esi-industry.read_corporation_jobs.v1
+              - esi-markets.read_corporation_orders.v1
+              - esi-corporations.read_divisions.v1
+              - esi-contracts.read_corporation_contracts.v1
+        provider:
+          eve:
+            authorization-uri: https://login.eveonline.com/v2/oauth/authorize/
+            token-uri: https://login.eveonline.com/v2/oauth/token/
+            user-info-uri: https://login.eveonline.com/oauth/verify/
+            user-name-attribute: CharacterName
+            jwk-set-uri: https://login.eveonline.com/oauth/jwks/
+
+logging:
+  level:
+    io:
+      github:
+        vaporsea:
+          eve: DEBUG
+
+vsindustry:
+  client:
+    characterName: Marq Aideron
+    corporationId: 98588687
