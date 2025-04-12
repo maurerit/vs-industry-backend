@@ -1,0 +1,8 @@
+spring:
+    security:
+        oauth2:
+            client:
+                registration:
+                    eve:
+                        client-id: <CLIENT ID FROM developers.eveonline.com>
+                        client-secret: <CLIENT SECRET FROM developers.eveonline.com>
