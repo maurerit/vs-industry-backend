@@ -1,7 +1,6 @@
 package io.github.vaporsea.vsindustry.domain;
 
-import java.time.ZonedDateTime;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -19,16 +18,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "items")
+@Table(name = "inv_types")
 public class Item {
+    
     @Id
+    @Column(name = "type_id")
     private Long itemId;
-
+    
+    @Column(name = "type_name")
     private String name;
-
+    
     private String description;
-
-    private ZonedDateTime createdAt;
-
-    private ZonedDateTime updatedAt;
 }

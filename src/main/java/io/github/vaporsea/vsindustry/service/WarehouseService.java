@@ -12,7 +12,6 @@ import io.github.vaporsea.vsindustry.contract.ContractHeaderDTO;
 import io.github.vaporsea.vsindustry.contract.WarehouseItemDTO;
 import io.github.vaporsea.vsindustry.domain.*;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +38,7 @@ public class WarehouseService {
     private final IndustryJobRepository industryJobRepository;
     private final ProductRepository productRepository;
     private final WarehouseItemRepository warehouseItemRepository;
-    private final TypeRepository typeRepository;
+    private final ItemRepository itemRepository;
     private final ContractHeaderRepository contractHeaderRepository;
     private final ContractDetailRepository contractDetailRepository;
     private final Warehouse warehouse;
@@ -47,9 +46,6 @@ public class WarehouseService {
     private final ExtraCostComponent extraCostComponent;
     
     private final ModelMapper modelMapper = new ModelMapper();
-    
-    @Value("${vsindustry.client.corporationId}")
-    private String corporationId;
     
     public void save(WarehouseItemDTO warehouseItemDTO) {
         WarehouseItem warehouseItem = modelMapper.map(warehouseItemDTO, WarehouseItem.class);
@@ -64,8 +60,8 @@ public class WarehouseService {
         for (WarehouseItem warehouseItem : warehouseItems) {
             WarehouseItemDTO warehouseItemDTO = modelMapper.map(warehouseItem, WarehouseItemDTO.class);
             
-            String name = typeRepository.findById(warehouseItem.getItemId())
-                                        .map(Type::getTypeName)
+            String name = itemRepository.findById(warehouseItem.getItemId())
+                                        .map(Item::getName)
                                         .orElseThrow(() -> new RuntimeException(
                                                 "Type not found for item id: " + warehouseItem.getItemId()));
             

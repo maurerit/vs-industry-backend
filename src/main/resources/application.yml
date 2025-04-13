@@ -6,7 +6,7 @@ spring:
     jcache:
       config: classpath:ehcache.xml
   datasource:
-    url: jdbc:h2:file:./vaporseaindustry;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+    url: jdbc:h2:file:./data/vaporseaindustry;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
     driver-class-name: org.h2.Driver
     username: sa
     password: password

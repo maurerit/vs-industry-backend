@@ -43,7 +43,7 @@ public class EveContractClient {
                                                                       });
         
         return new Page<>(Integer.parseInt(page), Integer.parseInt(contracts.getHeaders().get("x-pages").get(0)),
-                contracts.getBody());
+                0, contracts.getBody());
     }
     
     /**

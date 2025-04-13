@@ -7,5 +7,6 @@ import java.util.List;
  * @author Matt Maurer <br>
  * @since 6/9/2024
  */
-public record Page<T>(int page, int totalPages, List<T> content) implements Serializable {
+public record Page<T>(int page, int totalPages, long totalElements, List<T> content) implements Serializable {
+
 }

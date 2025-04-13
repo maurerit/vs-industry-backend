@@ -28,15 +28,6 @@ public class ProductSetupService {
     private final IndustryActivityProductRepository industryActivityProductRepository;
     
     public void setupProduct(BlueprintDTO blueprintDTO) {
-        //Add all the items in this blueprint to the items table
-        blueprintDTO.getActivityMaterials().values().stream()
-                    .flatMap(List::stream)
-                    .map(material -> Item.builder()
-                                         .itemId(material.getTypeid())
-                                         .name(material.getName())
-                                         .build())
-                    .forEach(itemRepository::save);
-        
         checkT2AndCreateInventionitemsForBlueprint(blueprintDTO);
         
         createProductItemsForBlueprint(blueprintDTO);

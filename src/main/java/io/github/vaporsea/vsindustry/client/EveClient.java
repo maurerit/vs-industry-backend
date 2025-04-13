@@ -61,7 +61,7 @@ public class EveClient {
                                                                       });
         
         return new Page<>(Integer.parseInt(page), Integer.parseInt(industryJobs.getHeaders().get("x-pages").get(0)),
-                industryJobs.getBody());
+                0, industryJobs.getBody());
     }
     
     /**
@@ -98,7 +98,7 @@ public class EveClient {
                                                                          });
         
         return new Page<>(Integer.parseInt(page), Integer.parseInt(journalEntries.getHeaders().get("x-pages").get(0)),
-                journalEntries.getBody());
+                0, journalEntries.getBody());
     }
     
     /**

@@ -1,0 +1,5084 @@
+[
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 0,
+      "productTypeName": "Hornet II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 0
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 440,
+      "productTypeName": "5MN Microwarpdrive II",
+      "productQuantity": null,
+      "productMakeTypeID": 1073
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 17,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 11530,
+          "name": "Plasma Thruster",
+          "quantity": 24,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11531,
+          "name": "Ion Thruster",
+          "quantity": 15,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 434,
+          "name": "5MN Microwarpdrive I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11475,
+          "name": "R.A.M.- Armor/Hull Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1300.0
+        },
+        {
+          "typeid": 11549,
+          "name": "Antimatter Reactor Unit",
+          "quantity": 8,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 482,
+      "productTypeName": "Miner II",
+      "productQuantity": null,
+      "productMakeTypeID": 784
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 1,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 3689,
+          "name": "Mechanical Parts",
+          "quantity": 8,
+          "maketype": null,
+          "price": 10850.0
+        },
+        {
+          "typeid": 483,
+          "name": "Miner I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11541,
+          "name": "Photon Microprocessor",
+          "quantity": 5,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11689,
+          "name": "Laser Focusing Crystals",
+          "quantity": 3,
+          "maketype": null,
+          "price": 23201.16
+        },
+        {
+          "typeid": 11482,
+          "name": "R.A.M.- Energy Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 533,
+      "productTypeName": "Small Energy Neutralizer I",
+      "productQuantity": null,
+      "productMakeTypeID": 533
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 520,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 35,
+          "name": "Pyerite",
+          "quantity": 39,
+          "maketype": null,
+          "price": 20.0
+        },
+        {
+          "typeid": 36,
+          "name": "Mexallon",
+          "quantity": 198,
+          "maketype": null,
+          "price": 65.0
+        },
+        {
+          "typeid": 37,
+          "name": "Isogen",
+          "quantity": 96,
+          "maketype": null,
+          "price": 280.0
+        },
+        {
+          "typeid": 39,
+          "name": "Zydrine",
+          "quantity": 2,
+          "maketype": null,
+          "price": 2749.0
+        },
+        {
+          "typeid": 40,
+          "name": "Megacyte",
+          "quantity": 2,
+          "maketype": null,
+          "price": 4196.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 784,
+      "productTypeName": "Miner II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 784
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20424,
+          "name": "Datacore - Mechanical Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20413,
+          "name": "Datacore - Laser Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 1073,
+      "productTypeName": "5MN Microwarpdrive II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 1073
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20420,
+          "name": "Datacore - Rocket Science",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20415,
+          "name": "Datacore - Molecular Engineering",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 1183,
+      "productTypeName": "Small Armor Repairer II",
+      "productQuantity": null,
+      "productMakeTypeID": 1184
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 1,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 523,
+          "name": "Small Armor Repairer I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11475,
+          "name": "R.A.M.- Armor/Hull Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1300.0
+        },
+        {
+          "typeid": 11539,
+          "name": "Nanoelectrical Microprocessor",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 3,
+          "maketype": null,
+          "price": 87784.66
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 1184,
+      "productTypeName": "Small Armor Repairer II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 1184
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20416,
+          "name": "Datacore - Nanite Engineering",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20171,
+          "name": "Datacore - Hydromagnetic Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 1201,
+      "productTypeName": "Wasp I",
+      "productQuantity": null,
+      "productMakeTypeID": 1201
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 5947,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 35,
+          "name": "Pyerite",
+          "quantity": 729,
+          "maketype": null,
+          "price": 20.0
+        },
+        {
+          "typeid": 37,
+          "name": "Isogen",
+          "quantity": 47,
+          "maketype": null,
+          "price": 280.0
+        },
+        {
+          "typeid": 38,
+          "name": "Nocxium",
+          "quantity": 27,
+          "maketype": null,
+          "price": 1578.0
+        },
+        {
+          "typeid": 39,
+          "name": "Zydrine",
+          "quantity": 18,
+          "maketype": null,
+          "price": 2749.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 1405,
+      "productTypeName": "Inertial Stabilizers II",
+      "productQuantity": null,
+      "productMakeTypeID": 1406
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 1,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 3689,
+          "name": "Mechanical Parts",
+          "quantity": 5,
+          "maketype": null,
+          "price": 10850.0
+        },
+        {
+          "typeid": 11530,
+          "name": "Plasma Thruster",
+          "quantity": 3,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11475,
+          "name": "R.A.M.- Armor/Hull Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1300.0
+        },
+        {
+          "typeid": 1403,
+          "name": "Inertial Stabilizers I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 1406,
+      "productTypeName": "Inertial Stabilizers II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 1406
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20416,
+          "name": "Datacore - Nanite Engineering",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20415,
+          "name": "Datacore - Molecular Engineering",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2048,
+      "productTypeName": "Damage Control II",
+      "productQuantity": null,
+      "productMakeTypeID": 2049
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11553,
+          "name": "Oscillator Capacitor Unit",
+          "quantity": 1,
+          "maketype": null,
+          "price": 61728.44
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 1,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 3689,
+          "name": "Mechanical Parts",
+          "quantity": 5,
+          "maketype": null,
+          "price": 10850.0
+        },
+        {
+          "typeid": 11695,
+          "name": "Plasma Pulse Generator",
+          "quantity": 1,
+          "maketype": null,
+          "price": 25443.58
+        },
+        {
+          "typeid": 11475,
+          "name": "R.A.M.- Armor/Hull Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1300.0
+        },
+        {
+          "typeid": 3828,
+          "name": "Construction Blocks",
+          "quantity": 3,
+          "maketype": null,
+          "price": 10858.13
+        },
+        {
+          "typeid": 11542,
+          "name": "Fernite Carbide Composite Armor Plate",
+          "quantity": 1,
+          "maketype": null,
+          "price": 6946.0
+        },
+        {
+          "typeid": 11540,
+          "name": "Quantum Microprocessor",
+          "quantity": 1,
+          "maketype": null,
+          "price": 75763.05
+        },
+        {
+          "typeid": 2046,
+          "name": "Damage Control I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 7000.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 2049,
+      "productTypeName": "Damage Control II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 2049
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20416,
+          "name": "Datacore - Nanite Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20415,
+          "name": "Datacore - Molecular Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2173,
+      "productTypeName": "Infiltrator I",
+      "productQuantity": null,
+      "productMakeTypeID": 2173
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 3133,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 35,
+          "name": "Pyerite",
+          "quantity": 160,
+          "maketype": null,
+          "price": 20.0
+        },
+        {
+          "typeid": 36,
+          "name": "Mexallon",
+          "quantity": 154,
+          "maketype": null,
+          "price": 65.0
+        },
+        {
+          "typeid": 37,
+          "name": "Isogen",
+          "quantity": 1,
+          "maketype": null,
+          "price": 280.0
+        },
+        {
+          "typeid": 38,
+          "name": "Nocxium",
+          "quantity": 8,
+          "maketype": null,
+          "price": 1578.0
+        },
+        {
+          "typeid": 39,
+          "name": "Zydrine",
+          "quantity": 2,
+          "maketype": null,
+          "price": 2749.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2175,
+      "productTypeName": "Infiltrator II",
+      "productQuantity": null,
+      "productMakeTypeID": 2176
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11689,
+          "name": "Laser Focusing Crystals",
+          "quantity": 1,
+          "maketype": null,
+          "price": 23201.16
+        },
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 3,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 3,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 3,
+          "maketype": null,
+          "price": 87784.66
+        },
+        {
+          "typeid": 11481,
+          "name": "R.A.M.- Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1014.79
+        },
+        {
+          "typeid": 2173,
+          "name": "Infiltrator I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 55946.78
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 2176,
+      "productTypeName": "Infiltrator II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 2176
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2183,
+      "productTypeName": "Hammerhead I",
+      "productQuantity": null,
+      "productMakeTypeID": 2183
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 3413,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 35,
+          "name": "Pyerite",
+          "quantity": 2,
+          "maketype": null,
+          "price": 20.0
+        },
+        {
+          "typeid": 36,
+          "name": "Mexallon",
+          "quantity": 224,
+          "maketype": null,
+          "price": 65.0
+        },
+        {
+          "typeid": 37,
+          "name": "Isogen",
+          "quantity": 11,
+          "maketype": null,
+          "price": 280.0
+        },
+        {
+          "typeid": 39,
+          "name": "Zydrine",
+          "quantity": 4,
+          "maketype": null,
+          "price": 2749.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2185,
+      "productTypeName": "Hammerhead II",
+      "productQuantity": null,
+      "productMakeTypeID": 2186
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 2183,
+          "name": "Hammerhead I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 32417.35
+        },
+        {
+          "typeid": 11688,
+          "name": "Particle Accelerator Unit",
+          "quantity": 1,
+          "maketype": null,
+          "price": 38613.42
+        },
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 3,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 3,
+          "maketype": null,
+          "price": 87784.66
+        },
+        {
+          "typeid": 11481,
+          "name": "R.A.M.- Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1014.79
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 3,
+          "maketype": null,
+          "price": 50779.55
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 2186,
+      "productTypeName": "Hammerhead II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 2186
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2193,
+      "productTypeName": "Praetor I",
+      "productQuantity": null,
+      "productMakeTypeID": 2193
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 8516,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 36,
+          "name": "Mexallon",
+          "quantity": 627,
+          "maketype": null,
+          "price": 65.0
+        },
+        {
+          "typeid": 37,
+          "name": "Isogen",
+          "quantity": 9,
+          "maketype": null,
+          "price": 280.0
+        },
+        {
+          "typeid": 38,
+          "name": "Nocxium",
+          "quantity": 2,
+          "maketype": null,
+          "price": 1578.0
+        },
+        {
+          "typeid": 39,
+          "name": "Zydrine",
+          "quantity": 8,
+          "maketype": null,
+          "price": 2749.0
+        },
+        {
+          "typeid": 40,
+          "name": "Megacyte",
+          "quantity": 4,
+          "maketype": null,
+          "price": 4196.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2195,
+      "productTypeName": "Praetor II",
+      "productQuantity": null,
+      "productMakeTypeID": 2196
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11689,
+          "name": "Laser Focusing Crystals",
+          "quantity": 3,
+          "maketype": null,
+          "price": 23201.16
+        },
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 6,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 6,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 2193,
+          "name": "Praetor I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 6,
+          "maketype": null,
+          "price": 87784.66
+        },
+        {
+          "typeid": 11481,
+          "name": "R.A.M.- Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1014.79
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 2196,
+      "productTypeName": "Praetor II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 2196
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 3,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 3,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2203,
+      "productTypeName": "Acolyte I",
+      "productQuantity": null,
+      "productMakeTypeID": 2203
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 471,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 36,
+          "name": "Mexallon",
+          "quantity": 4,
+          "maketype": null,
+          "price": 65.0
+        },
+        {
+          "typeid": 38,
+          "name": "Nocxium",
+          "quantity": 2,
+          "maketype": null,
+          "price": 1578.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2205,
+      "productTypeName": "Acolyte II",
+      "productQuantity": null,
+      "productMakeTypeID": 2206
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 1,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 11689,
+          "name": "Laser Focusing Crystals",
+          "quantity": 1,
+          "maketype": null,
+          "price": 23201.16
+        },
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 1,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 87784.66
+        },
+        {
+          "typeid": 11481,
+          "name": "R.A.M.- Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1014.79
+        },
+        {
+          "typeid": 2203,
+          "name": "Acolyte I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 2769.78
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 2206,
+      "productTypeName": "Acolyte II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 2206
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 1,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2333,
+      "productTypeName": "Survey Scanner II",
+      "productQuantity": null,
+      "productMakeTypeID": 2334
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 1,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 9840,
+          "name": "Transmitter",
+          "quantity": 3,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9842,
+          "name": "Miniature Electronics",
+          "quantity": 5,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11539,
+          "name": "Nanoelectrical Microprocessor",
+          "quantity": 5,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11483,
+          "name": "R.A.M.- Electronics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 444,
+          "name": "Survey Scanner I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 2334,
+      "productTypeName": "Survey Scanner II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 2334
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20417,
+          "name": "Datacore - Electromagnetic Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2436,
+      "productTypeName": "Wasp II",
+      "productQuantity": null,
+      "productMakeTypeID": 2437
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 6,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 6,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 1201,
+          "name": "Wasp I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 6,
+          "maketype": null,
+          "price": 87784.66
+        },
+        {
+          "typeid": 11481,
+          "name": "R.A.M.- Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1014.79
+        },
+        {
+          "typeid": 11690,
+          "name": "Superconductor Rails",
+          "quantity": 3,
+          "maketype": null,
+          "price": 29000.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 2437,
+      "productTypeName": "Wasp II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 2437
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 3,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 3,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2444,
+      "productTypeName": "Ogre I",
+      "productQuantity": null,
+      "productMakeTypeID": 2444
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 40,
+          "name": "Megacyte",
+          "quantity": 8,
+          "maketype": null,
+          "price": 4196.0
+        },
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 258,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 35,
+          "name": "Pyerite",
+          "quantity": 4964,
+          "maketype": null,
+          "price": 20.0
+        },
+        {
+          "typeid": 38,
+          "name": "Nocxium",
+          "quantity": 2,
+          "maketype": null,
+          "price": 1578.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2446,
+      "productTypeName": "Ogre II",
+      "productQuantity": null,
+      "productMakeTypeID": 2447
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 6,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 6,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 2444,
+          "name": "Ogre I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11688,
+          "name": "Particle Accelerator Unit",
+          "quantity": 3,
+          "maketype": null,
+          "price": 38613.42
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 6,
+          "maketype": null,
+          "price": 87784.66
+        },
+        {
+          "typeid": 11481,
+          "name": "R.A.M.- Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1014.79
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 2447,
+      "productTypeName": "Ogre II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 2447
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 3,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 3,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2454,
+      "productTypeName": "Hobgoblin I",
+      "productQuantity": null,
+      "productMakeTypeID": 2454
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 509,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 35,
+          "name": "Pyerite",
+          "quantity": 7,
+          "maketype": null,
+          "price": 20.0
+        },
+        {
+          "typeid": 37,
+          "name": "Isogen",
+          "quantity": 4,
+          "maketype": null,
+          "price": 280.0
+        },
+        {
+          "typeid": 38,
+          "name": "Nocxium",
+          "quantity": 2,
+          "maketype": null,
+          "price": 1578.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2456,
+      "productTypeName": "Hobgoblin II",
+      "productQuantity": null,
+      "productMakeTypeID": 2457
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 1,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 11688,
+          "name": "Particle Accelerator Unit",
+          "quantity": 1,
+          "maketype": null,
+          "price": 38613.42
+        },
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 1,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 2454,
+          "name": "Hobgoblin I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 3730.0
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 87784.66
+        },
+        {
+          "typeid": 11481,
+          "name": "R.A.M.- Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1014.79
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 2457,
+      "productTypeName": "Hobgoblin II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 2457
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 1,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2466,
+      "productTypeName": "Hornet II",
+      "productQuantity": null,
+      "productMakeTypeID": 2467
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 2464,
+          "name": "Hornet I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 1,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 1,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 87784.66
+        },
+        {
+          "typeid": 11481,
+          "name": "R.A.M.- Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1014.79
+        },
+        {
+          "typeid": 11690,
+          "name": "Superconductor Rails",
+          "quantity": 1,
+          "maketype": null,
+          "price": 29000.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 2467,
+      "productTypeName": "Honert II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 2467
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 1,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2476,
+      "productTypeName": "Berserker I",
+      "productQuantity": null,
+      "productMakeTypeID": 2476
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 7120,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 35,
+          "name": "Pyerite",
+          "quantity": 896,
+          "maketype": null,
+          "price": 20.0
+        },
+        {
+          "typeid": 37,
+          "name": "Isogen",
+          "quantity": 73,
+          "maketype": null,
+          "price": 280.0
+        },
+        {
+          "typeid": 38,
+          "name": "Nocxium",
+          "quantity": 9,
+          "maketype": null,
+          "price": 1578.0
+        },
+        {
+          "typeid": 39,
+          "name": "Zydrine",
+          "quantity": 8,
+          "maketype": null,
+          "price": 2749.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2478,
+      "productTypeName": "Berserker II",
+      "productQuantity": null,
+      "productMakeTypeID": 2479
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 6,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 6,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 2476,
+          "name": "Berserker I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 6,
+          "maketype": null,
+          "price": 87784.66
+        },
+        {
+          "typeid": 11481,
+          "name": "R.A.M.- Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1014.79
+        },
+        {
+          "typeid": 11691,
+          "name": "Thermonuclear Trigger Unit",
+          "quantity": 3,
+          "maketype": null,
+          "price": 30038.12
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 2479,
+      "productTypeName": "Berserker II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 2479
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 3,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 3,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2486,
+      "productTypeName": "Warrior I",
+      "productQuantity": null,
+      "productMakeTypeID": 2486
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 951,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 35,
+          "name": "Pyerite",
+          "quantity": 7,
+          "maketype": null,
+          "price": 20.0
+        },
+        {
+          "typeid": 36,
+          "name": "Mexallon",
+          "quantity": 7,
+          "maketype": null,
+          "price": 65.0
+        },
+        {
+          "typeid": 38,
+          "name": "Nocxium",
+          "quantity": 4,
+          "maketype": null,
+          "price": 1578.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 2488,
+      "productTypeName": "Warrior II",
+      "productQuantity": null,
+      "productMakeTypeID": 2489
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 1,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 1,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 11691,
+          "name": "Thermonuclear Trigger Unit",
+          "quantity": 1,
+          "maketype": null,
+          "price": 30038.12
+        },
+        {
+          "typeid": 2486,
+          "name": "Warrior I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 21384.36
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 87784.66
+        },
+        {
+          "typeid": 11481,
+          "name": "R.A.M.- Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1014.79
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 2489,
+      "productTypeName": "Warrior II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 2489
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 1,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 3831,
+      "productTypeName": "Medium Shield Extender II",
+      "productQuantity": null,
+      "productMakeTypeID": 3832
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11558,
+          "name": "Sustained Shield Emitter",
+          "quantity": 6,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 5,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 3829,
+          "name": "Medium Shield Extender I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11484,
+          "name": "R.A.M.- Shield Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 3685,
+          "name": "Hydrogen Batteries",
+          "quantity": 6,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 3832,
+      "productTypeName": "Medium Shield Extender II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 3832
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20171,
+          "name": "Datacore - Hydromagnetic Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20414,
+          "name": "Datacore - Quantum Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 4258,
+      "productTypeName": "Core Probe Launcher II",
+      "productQuantity": null,
+      "productMakeTypeID": 4259
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 1,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 6,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 17938,
+          "name": "Core Probe Launcher I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11540,
+          "name": "Quantum Microprocessor",
+          "quantity": 6,
+          "maketype": null,
+          "price": 75763.05
+        },
+        {
+          "typeid": 11483,
+          "name": "R.A.M.- Electronics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 4259,
+      "productTypeName": "Core Probe Launcher II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 4259
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20423,
+          "name": "Datacore - Nuclear Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20420,
+          "name": "Datacore - Rocket Science",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 4260,
+      "productTypeName": "Expanded Probe Launcher II",
+      "productQuantity": null,
+      "productMakeTypeID": 4261
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 1,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 6,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 18639,
+          "name": "Expanded Probe Launcher I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11540,
+          "name": "Quantum Microprocessor",
+          "quantity": 6,
+          "maketype": null,
+          "price": 75763.05
+        },
+        {
+          "typeid": 11483,
+          "name": "R.A.M.- Electronics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 4261,
+      "productTypeName": "Expanded Probe Launcher II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 4261
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20423,
+          "name": "Datacore - Nuclear Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20420,
+          "name": "Datacore - Rocket Science",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11172,
+      "productTypeName": "Helios",
+      "productQuantity": null,
+      "productMakeTypeID": 11173
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11553,
+          "name": "Oscillator Capacitor Unit",
+          "quantity": 60,
+          "maketype": null,
+          "price": 61728.44
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 15,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 11556,
+          "name": "Pulse Shield Emitter",
+          "quantity": 15,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11535,
+          "name": "Magnetometric Sensor Cluster",
+          "quantity": 68,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 3828,
+          "name": "Construction Blocks",
+          "quantity": 23,
+          "maketype": null,
+          "price": 10858.13
+        },
+        {
+          "typeid": 11541,
+          "name": "Photon Microprocessor",
+          "quantity": 165,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11478,
+          "name": "R.A.M.- Starship Tech",
+          "quantity": 3,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11531,
+          "name": "Ion Thruster",
+          "quantity": 30,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11545,
+          "name": "Crystalline Carbonide Armor Plate",
+          "quantity": 300,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11547,
+          "name": "Fusion Reactor Unit",
+          "quantity": 3,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 607,
+          "name": "Imicus",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11173,
+      "productTypeName": "Helios Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 11173
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20410,
+          "name": "Datacore - Gallentean Starship Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20414,
+          "name": "Datacore - Quantum Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11192,
+      "productTypeName": "Buzzard",
+      "productQuantity": null,
+      "productMakeTypeID": 11193
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11552,
+          "name": "Scalar Capacitor Unit",
+          "quantity": 60,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 15,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 11533,
+          "name": "Magpulse Thruster",
+          "quantity": 30,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11534,
+          "name": "Gravimetric Sensor Cluster",
+          "quantity": 68,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 3828,
+          "name": "Construction Blocks",
+          "quantity": 23,
+          "maketype": null,
+          "price": 10858.13
+        },
+        {
+          "typeid": 11478,
+          "name": "R.A.M.- Starship Tech",
+          "quantity": 3,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11544,
+          "name": "Titanium Diborite Armor Plate",
+          "quantity": 300,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11540,
+          "name": "Quantum Microprocessor",
+          "quantity": 165,
+          "maketype": null,
+          "price": 75763.05
+        },
+        {
+          "typeid": 11558,
+          "name": "Sustained Shield Emitter",
+          "quantity": 15,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 605,
+          "name": "Heron",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11550,
+          "name": "Graviton Reactor Unit",
+          "quantity": 3,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11193,
+      "productTypeName": "Buzzard Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 11193
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20414,
+          "name": "Datacore - Quantum Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 25887,
+          "name": "Datacore - Caldari Starship Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11202,
+      "productTypeName": "Ares",
+      "productQuantity": null,
+      "productMakeTypeID": 11203
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 608,
+          "name": "Atron",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11553,
+          "name": "Oscillator Capacitor Unit",
+          "quantity": 75,
+          "maketype": null,
+          "price": 61728.44
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 8,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 11556,
+          "name": "Pulse Shield Emitter",
+          "quantity": 23,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11535,
+          "name": "Magnetometric Sensor Cluster",
+          "quantity": 30,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 3828,
+          "name": "Construction Blocks",
+          "quantity": 15,
+          "maketype": null,
+          "price": 10858.13
+        },
+        {
+          "typeid": 11541,
+          "name": "Photon Microprocessor",
+          "quantity": 120,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11478,
+          "name": "R.A.M.- Starship Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11531,
+          "name": "Ion Thruster",
+          "quantity": 45,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11545,
+          "name": "Crystalline Carbonide Armor Plate",
+          "quantity": 450,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11547,
+          "name": "Fusion Reactor Unit",
+          "quantity": 5,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11203,
+      "productTypeName": "Ares Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 11203
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20410,
+          "name": "Datacore - Gallentean Starship Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20411,
+          "name": "Datacore - High Energy Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11295,
+      "productTypeName": "200mm Steel Plates I",
+      "productQuantity": null,
+      "productMakeTypeID": 11295
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 5244,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 35,
+          "name": "Pyerite",
+          "quantity": 3160,
+          "maketype": null,
+          "price": 20.0
+        },
+        {
+          "typeid": 36,
+          "name": "Mexallon",
+          "quantity": 842,
+          "maketype": null,
+          "price": 65.0
+        },
+        {
+          "typeid": 38,
+          "name": "Nocxium",
+          "quantity": 20,
+          "maketype": null,
+          "price": 1578.0
+        },
+        {
+          "typeid": 39,
+          "name": "Zydrine",
+          "quantity": 6,
+          "maketype": null,
+          "price": 2749.0
+        },
+        {
+          "typeid": 40,
+          "name": "Megacyte",
+          "quantity": 2,
+          "maketype": null,
+          "price": 4196.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11540,
+      "productTypeName": "Quantum Microprocessor",
+      "productQuantity": null,
+      "productMakeTypeID": 11540
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16680,
+          "name": "Phenolic Composites",
+          "quantity": 6,
+          "maketype": null,
+          "price": 1567.0
+        },
+        {
+          "typeid": 16681,
+          "name": "Nanotransistors",
+          "quantity": 2,
+          "maketype": null,
+          "price": 5070.0
+        },
+        {
+          "typeid": 33362,
+          "name": "Nonlinear Metamaterials",
+          "quantity": 2,
+          "maketype": null,
+          "price": 24880.0
+        },
+        {
+          "typeid": 16671,
+          "name": "Titanium Carbide",
+          "quantity": 17,
+          "maketype": null,
+          "price": 119.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11553,
+      "productTypeName": "Oscillator Capacitor Unit",
+      "productQuantity": null,
+      "productMakeTypeID": 11553
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16681,
+          "name": "Nanotransistors",
+          "quantity": 1,
+          "maketype": null,
+          "price": 5070.0
+        },
+        {
+          "typeid": 33359,
+          "name": "Photonic Metamaterials",
+          "quantity": 2,
+          "maketype": null,
+          "price": 19700.0
+        },
+        {
+          "typeid": 16670,
+          "name": "Crystalline Carbonide",
+          "quantity": 27,
+          "maketype": null,
+          "price": 133.5
+        },
+        {
+          "typeid": 16679,
+          "name": "Fullerides",
+          "quantity": 11,
+          "maketype": null,
+          "price": 949.8
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11578,
+      "productTypeName": "Covert Ops Cloaking Device II",
+      "productQuantity": null,
+      "productMakeTypeID": 12105
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11370,
+          "name": "Prototype Cloaking Device I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 15,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 11693,
+          "name": "Graviton Pulse Generator",
+          "quantity": 26,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9840,
+          "name": "Transmitter",
+          "quantity": 22,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9842,
+          "name": "Miniature Electronics",
+          "quantity": 22,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11541,
+          "name": "Photon Microprocessor",
+          "quantity": 33,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11483,
+          "name": "R.A.M.- Electronics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11688,
+      "productTypeName": "Particle Accelerator Unit",
+      "productQuantity": null,
+      "productMakeTypeID": 17344
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16682,
+          "name": "Hypersynaptic Fibers",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16670,
+          "name": "Crystalline Carbonide",
+          "quantity": 31,
+          "maketype": null,
+          "price": 133.5
+        },
+        {
+          "typeid": 16679,
+          "name": "Fullerides",
+          "quantity": 11,
+          "maketype": null,
+          "price": 949.8
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11689,
+      "productTypeName": "Laser Focusing Crystals",
+      "productQuantity": null,
+      "productMakeTypeID": 11689
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16672,
+          "name": "Tungsten Carbide",
+          "quantity": 31,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16682,
+          "name": "Hypersynaptic Fibers",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16679,
+          "name": "Fullerides",
+          "quantity": 11,
+          "maketype": null,
+          "price": 949.8
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11690,
+      "productTypeName": "Superconductor Rails",
+      "productQuantity": null,
+      "productMakeTypeID": 11690
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16682,
+          "name": "Hypersynaptic Fibers",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16679,
+          "name": "Fullerides",
+          "quantity": 11,
+          "maketype": null,
+          "price": 949.8
+        },
+        {
+          "typeid": 16671,
+          "name": "Titanium Carbide",
+          "quantity": 31,
+          "maketype": null,
+          "price": 119.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11691,
+      "productTypeName": "Thermonuclear Trigger Unit",
+      "productQuantity": null,
+      "productMakeTypeID": 11691
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16673,
+          "name": "Fernite Carbide",
+          "quantity": 31,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16682,
+          "name": "Hypersynaptic Fibers",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16679,
+          "name": "Fullerides",
+          "quantity": 11,
+          "maketype": null,
+          "price": 949.8
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 11695,
+      "productTypeName": "Plasma Pulse Generator",
+      "productQuantity": null,
+      "productMakeTypeID": 11695
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16680,
+          "name": "Phenolic Composites",
+          "quantity": 7,
+          "maketype": null,
+          "price": 1567.0
+        },
+        {
+          "typeid": 16681,
+          "name": "Nanotransistors",
+          "quantity": 2,
+          "maketype": null,
+          "price": 5070.0
+        },
+        {
+          "typeid": 16670,
+          "name": "Crystalline Carbonide",
+          "quantity": 22,
+          "maketype": null,
+          "price": 133.5
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 12105,
+      "productTypeName": "Covert Ops Cloaking Device II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 12105
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20414,
+          "name": "Datacore - Quantum Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 5000,
+      "productTypeID": 12801,
+      "productTypeName": "Javelin M",
+      "productQuantity": null,
+      "productMakeTypeID": 12802
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16679,
+          "name": "Fullerides",
+          "quantity": 300,
+          "maketype": null,
+          "price": 949.8
+        },
+        {
+          "typeid": 16671,
+          "name": "Titanium Carbide",
+          "quantity": 600,
+          "maketype": null,
+          "price": 119.0
+        },
+        {
+          "typeid": 11476,
+          "name": "R.A.M.- Ammunition Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 6,
+          "maketype": null,
+          "price": 50779.55
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 12802,
+      "productTypeName": "Javelin M Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 12802
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20412,
+          "name": "Datacore - Plasma Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20414,
+          "name": "Datacore - Quantum Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 5000,
+      "productTypeID": 12805,
+      "productTypeName": "Spike M",
+      "productQuantity": null,
+      "productMakeTypeID": 12806
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16679,
+          "name": "Fullerides",
+          "quantity": 300,
+          "maketype": null,
+          "price": 949.8
+        },
+        {
+          "typeid": 16671,
+          "name": "Titanium Carbide",
+          "quantity": 600,
+          "maketype": null,
+          "price": 119.0
+        },
+        {
+          "typeid": 11476,
+          "name": "R.A.M.- Ammunition Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 6,
+          "maketype": null,
+          "price": 50779.55
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 12806,
+      "productTypeName": "Spike M Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 12806
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20412,
+          "name": "Datacore - Plasma Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20414,
+          "name": "Datacore - Quantum Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 4,
+      "productTypeID": 12814,
+      "productTypeName": "Conflagration M",
+      "productQuantity": null,
+      "productMakeTypeID": 12815
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16672,
+          "name": "Tungsten Carbide",
+          "quantity": 432,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16679,
+          "name": "Fullerides",
+          "quantity": 180,
+          "maketype": null,
+          "price": 949.8
+        },
+        {
+          "typeid": 11476,
+          "name": "R.A.M.- Ammunition Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 6,
+          "maketype": null,
+          "price": 50779.55
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 12815,
+      "productTypeName": "Conflagration M Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 12815
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20411,
+          "name": "Datacore - High Energy Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20413,
+          "name": "Datacore - Laser Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 4,
+      "productTypeID": 12816,
+      "productTypeName": "Conflagration L",
+      "productQuantity": null,
+      "productMakeTypeID": 12817
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16672,
+          "name": "Tungsten Carbide",
+          "quantity": 1080,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16679,
+          "name": "Fullerides",
+          "quantity": 450,
+          "maketype": null,
+          "price": 949.8
+        },
+        {
+          "typeid": 11476,
+          "name": "R.A.M.- Ammunition Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 15,
+          "maketype": null,
+          "price": 50779.55
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 12817,
+      "productTypeName": "Conflagration L Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 12817
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20411,
+          "name": "Datacore - High Energy Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20413,
+          "name": "Datacore - Laser Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 4,
+      "productTypeID": 12818,
+      "productTypeName": "Scorch M",
+      "productQuantity": null,
+      "productMakeTypeID": 12819
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16672,
+          "name": "Tungsten Carbide",
+          "quantity": 432,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16679,
+          "name": "Fullerides",
+          "quantity": 180,
+          "maketype": null,
+          "price": 949.8
+        },
+        {
+          "typeid": 11476,
+          "name": "R.A.M.- Ammunition Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 6,
+          "maketype": null,
+          "price": 50779.55
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 4,
+      "productTypeID": 12819,
+      "productTypeName": "Scorch M Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 12819
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20411,
+          "name": "Datacore - High Energy Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20413,
+          "name": "Datacore - Laser Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 4,
+      "productTypeID": 12820,
+      "productTypeName": "Scorch L",
+      "productQuantity": null,
+      "productMakeTypeID": 12821
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16672,
+          "name": "Tungsten Carbide",
+          "quantity": 1080,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16679,
+          "name": "Fullerides",
+          "quantity": 450,
+          "maketype": null,
+          "price": 949.8
+        },
+        {
+          "typeid": 11476,
+          "name": "R.A.M.- Ammunition Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 15,
+          "maketype": null,
+          "price": 50779.55
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 12821,
+      "productTypeName": "Scorch L Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 12821
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20411,
+          "name": "Datacore - High Energy Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20413,
+          "name": "Datacore - Laser Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 13003,
+      "productTypeName": "Small Energy Neutralizer II",
+      "productQuantity": null,
+      "productMakeTypeID": 13004
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11554,
+          "name": "Tesseract Capacitor Unit",
+          "quantity": 15,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9838,
+          "name": "Superconductors",
+          "quantity": 8,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11539,
+          "name": "Nanoelectrical Microprocessor",
+          "quantity": 8,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 533,
+          "name": "Small Energy Neutralizer I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 13004,
+      "productTypeName": "Small Energy Neutralizer II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 13004
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20411,
+          "name": "Datacore - High Energy Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20414,
+          "name": "Datacore - Quantum Physics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 15510,
+      "productTypeName": "Valkyrie I",
+      "productQuantity": null,
+      "productMakeTypeID": 15510
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 2724,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 35,
+          "name": "Pyerite",
+          "quantity": 300,
+          "maketype": null,
+          "price": 20.0
+        },
+        {
+          "typeid": 36,
+          "name": "Mexallon",
+          "quantity": 187,
+          "maketype": null,
+          "price": 65.0
+        },
+        {
+          "typeid": 37,
+          "name": "Isogen",
+          "quantity": 4,
+          "maketype": null,
+          "price": 280.0
+        },
+        {
+          "typeid": 38,
+          "name": "Nocxium",
+          "quantity": 4,
+          "maketype": null,
+          "price": 1578.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 18068,
+      "productTypeName": "Modulated Deep Core Miner II",
+      "productQuantity": null,
+      "productMakeTypeID": 18069
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 23,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 12108,
+          "name": "Deep Core Mining Laser I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11541,
+          "name": "Photon Microprocessor",
+          "quantity": 5,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11689,
+          "name": "Laser Focusing Crystals",
+          "quantity": 3,
+          "maketype": null,
+          "price": 23201.16
+        },
+        {
+          "typeid": 11482,
+          "name": "R.A.M.- Energy Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 18069,
+      "productTypeName": "Modulated Deep Core Miner II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 18069
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20424,
+          "name": "Datacore - Mechanical Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20413,
+          "name": "Datacore - Laser Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 20347,
+      "productTypeName": "200mm Steel Plates II",
+      "productQuantity": null,
+      "productMakeTypeID": 20348
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 6,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 11475,
+          "name": "R.A.M.- Armor/Hull Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1300.0
+        },
+        {
+          "typeid": 11543,
+          "name": "Tungsten Carbide Armor Plate",
+          "quantity": 11,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11295,
+          "name": "200mm Steel Plates I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 20348,
+      "productTypeName": "200mm Steel Plates II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 20348
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20416,
+          "name": "Datacore - Nanite Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20171,
+          "name": "Datacore - Hydromagnetic Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 21638,
+      "productTypeName": "Vespa II",
+      "productQuantity": null,
+      "productMakeTypeID": 21638
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 3,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 3,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 15508,
+          "name": "Vespa I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 3,
+          "maketype": null,
+          "price": 87784.66
+        },
+        {
+          "typeid": 11481,
+          "name": "R.A.M.- Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1014.79
+        },
+        {
+          "typeid": 11690,
+          "name": "Superconductor Rails",
+          "quantity": 1,
+          "maketype": null,
+          "price": 29000.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 21639,
+      "productTypeName": "Vespa II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 21639
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 21640,
+      "productTypeName": "Valkyrie II",
+      "productQuantity": null,
+      "productMakeTypeID": 21641
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 3,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 9834,
+          "name": "Guidance Systems",
+          "quantity": 3,
+          "maketype": null,
+          "price": 84694.09
+        },
+        {
+          "typeid": 11691,
+          "name": "Thermonuclear Trigger Unit",
+          "quantity": 1,
+          "maketype": null,
+          "price": 30038.12
+        },
+        {
+          "typeid": 15510,
+          "name": "Valkyrie I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9848,
+          "name": "Robotics",
+          "quantity": 3,
+          "maketype": null,
+          "price": 87784.66
+        },
+        {
+          "typeid": 11481,
+          "name": "R.A.M.- Robotics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 1014.79
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 21641,
+      "productTypeName": "Valkyrie II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 21641
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20419,
+          "name": "Datacore - Graviton Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 102833.31
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 25266,
+      "productTypeName": "Gas Cloud Scoop I",
+      "productQuantity": null,
+      "productMakeTypeID": 25266
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 40,
+          "name": "Megacyte",
+          "quantity": 482,
+          "maketype": null,
+          "price": 4196.0
+        },
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 23402,
+          "maketype": null,
+          "price": 3.85
+        },
+        {
+          "typeid": 35,
+          "name": "Pyerite",
+          "quantity": 15333,
+          "maketype": null,
+          "price": 20.0
+        },
+        {
+          "typeid": 36,
+          "name": "Mexallon",
+          "quantity": 6699,
+          "maketype": null,
+          "price": 65.0
+        },
+        {
+          "typeid": 38,
+          "name": "Nocxium",
+          "quantity": 1507,
+          "maketype": null,
+          "price": 1578.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 25812,
+      "productTypeName": "Gas Cloud Scoop II",
+      "productQuantity": null,
+      "productMakeTypeID": 25813
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 3689,
+          "name": "Mechanical Parts",
+          "quantity": 23,
+          "maketype": null,
+          "price": 10850.0
+        },
+        {
+          "typeid": 25266,
+          "name": "Gas Cloud Scoop I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11541,
+          "name": "Photon Microprocessor",
+          "quantity": 18,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11689,
+          "name": "Laser Focusing Crystals",
+          "quantity": 18,
+          "maketype": null,
+          "price": 23201.16
+        },
+        {
+          "typeid": 11482,
+          "name": "R.A.M.- Energy Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 25813,
+      "productTypeName": "Gas Cloud Scoop II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 25813
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20417,
+          "name": "Datacore - Electromagnetic Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20413,
+          "name": "Datacore - Laser Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 28576,
+      "productTypeName": "Mining Laser Upgrade II",
+      "productQuantity": null,
+      "productMakeTypeID": 28577
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 3689,
+          "name": "Mechanical Parts",
+          "quantity": 8,
+          "maketype": null,
+          "price": 10850.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 5,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 22542,
+          "name": "Mining Laser Upgrade I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9842,
+          "name": "Miniature Electronics",
+          "quantity": 3,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11689,
+          "name": "Laser Focusing Crystals",
+          "quantity": 8,
+          "maketype": null,
+          "price": 23201.16
+        },
+        {
+          "typeid": 11483,
+          "name": "R.A.M.- Electronics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 28577,
+      "productTypeName": "Mining Laser Upgrade II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 28577
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20424,
+          "name": "Datacore - Mechanical Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20413,
+          "name": "Datacore - Laser Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 30832,
+      "productTypeName": "Relic Analyzer II",
+      "productQuantity": null,
+      "productMakeTypeID": 30833
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 22177,
+          "name": "Relic Analyzer I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11536,
+          "name": "Ladar Sensor Cluster",
+          "quantity": 5,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9840,
+          "name": "Transmitter",
+          "quantity": 12,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9842,
+          "name": "Miniature Electronics",
+          "quantity": 9,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11539,
+          "name": "Nanoelectrical Microprocessor",
+          "quantity": 5,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11483,
+          "name": "R.A.M.- Electronics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 30833,
+      "productTypeName": "Relic Analyzer II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 30833
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20417,
+          "name": "Datacore - Electromagnetic Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 33197,
+      "productTypeName": "Scan Acquisition Array II",
+      "productQuantity": null,
+      "productMakeTypeID": 33198
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 33195,
+          "name": "Spatial Attunement Unit",
+          "quantity": 8,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9840,
+          "name": "Transmitter",
+          "quantity": 9,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 9842,
+          "name": "Miniature Electronics",
+          "quantity": 6,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11540,
+          "name": "Quantum Microprocessor",
+          "quantity": 3,
+          "maketype": null,
+          "price": 75763.05
+        },
+        {
+          "typeid": 33176,
+          "name": "Scan Acquisition Array I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11483,
+          "name": "R.A.M.- Electronics",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 33198,
+      "productTypeName": "Scan Acquisition Array II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 33198
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20417,
+          "name": "Datacore - Electromagnetic Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 33697,
+      "productTypeName": "Prospect",
+      "productQuantity": null,
+      "productMakeTypeID": 33698
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 3828,
+          "name": "Construction Blocks",
+          "quantity": 20,
+          "maketype": null,
+          "price": 10858.13
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 35,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 11478,
+          "name": "R.A.M.- Starship Tech",
+          "quantity": 4,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11531,
+          "name": "Ion Thruster",
+          "quantity": 18,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11535,
+          "name": "Magnetometric Sensor Cluster",
+          "quantity": 15,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11541,
+          "name": "Photon Microprocessor",
+          "quantity": 170,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11545,
+          "name": "Crystalline Carbonide Armor Plate",
+          "quantity": 200,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11547,
+          "name": "Fusion Reactor Unit",
+          "quantity": 3,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11553,
+          "name": "Oscillator Capacitor Unit",
+          "quantity": 42,
+          "maketype": null,
+          "price": 61728.44
+        },
+        {
+          "typeid": 11556,
+          "name": "Pulse Shield Emitter",
+          "quantity": 22,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 32880,
+          "name": "Venture",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 33698,
+      "productTypeName": "Prospect Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 33698
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20410,
+          "name": "Datacore - Gallentean Starship Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20413,
+          "name": "Datacore - Laser Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 37135,
+      "productTypeName": "Endurance",
+      "productQuantity": null,
+      "productMakeTypeID": 39583
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 3828,
+          "name": "Construction Blocks",
+          "quantity": 20,
+          "maketype": null,
+          "price": 10858.13
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 35,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 11478,
+          "name": "R.A.M.- Starship Tech",
+          "quantity": 4,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11531,
+          "name": "Ion Thruster",
+          "quantity": 18,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11535,
+          "name": "Magnetometric Sensor Cluster",
+          "quantity": 15,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11541,
+          "name": "Photon Microprocessor",
+          "quantity": 170,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11545,
+          "name": "Crystalline Carbonide Armor Plate",
+          "quantity": 200,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11547,
+          "name": "Fusion Reactor Unit",
+          "quantity": 3,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11553,
+          "name": "Oscillator Capacitor Unit",
+          "quantity": 42,
+          "maketype": null,
+          "price": 61728.44
+        },
+        {
+          "typeid": 11556,
+          "name": "Pulse Shield Emitter",
+          "quantity": 22,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 32880,
+          "name": "Venture",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 37451,
+      "productTypeName": "Ice Mining Laser II",
+      "productQuantity": null,
+      "productMakeTypeID": 38661
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 11482,
+          "name": "R.A.M.- Energy Tech",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 37450,
+          "name": "Ice Mining Laser I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11541,
+          "name": "Photon Microprocessor",
+          "quantity": 4,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11689,
+          "name": "Laser Focusing Crystals",
+          "quantity": 5,
+          "maketype": null,
+          "price": 23201.16
+        },
+        {
+          "typeid": 3689,
+          "name": "Mechanical Parts",
+          "quantity": 8,
+          "maketype": null,
+          "price": 10850.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 15,
+          "maketype": null,
+          "price": 50779.55
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 38661,
+      "productTypeName": "Ice Mining Laser II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 38661
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20413,
+          "name": "Datacore - Laser Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20424,
+          "name": "Datacore - Mechanical Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 39583,
+      "productTypeName": "Endurance Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 39583
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20410,
+          "name": "Datacore - Gallentean Starship Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20413,
+          "name": "Datacore - Laser Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 58972,
+      "productTypeName": "Interdiction Nullifier II",
+      "productQuantity": null,
+      "productMakeTypeID": 58975
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 58919,
+          "name": "Interdiction Nullifier I",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11483,
+          "name": "R.A.M.- Electronics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 11399,
+          "name": "Morphite",
+          "quantity": 5,
+          "maketype": null,
+          "price": 50779.55
+        },
+        {
+          "typeid": 11538,
+          "name": "Nanomechanical Microprocessor",
+          "quantity": 6,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 10,
+      "productTypeID": 58975,
+      "productTypeName": "Interdiction Nullifier II Blueprint",
+      "productQuantity": null,
+      "productMakeTypeID": 58975
+    },
+    "activityMaterials": {
+      "manufacturing": [],
+      "invention": [
+        {
+          "typeid": 20414,
+          "name": "Datacore - Quantum Physics",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 20418,
+          "name": "Datacore - Electronic Engineering",
+          "quantity": 2,
+          "maketype": null,
+          "price": 106879.59
+        }
+      ],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 81008,
+      "productTypeName": "Squall",
+      "productQuantity": null,
+      "productMakeTypeID": 81008
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 57486,
+          "name": "Life Support Backup Unit",
+          "quantity": 20,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 57478,
+          "name": "Auto-Integrity Preservation Seal",
+          "quantity": 40,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 40,
+          "name": "Megacyte",
+          "quantity": 140,
+          "maketype": null,
+          "price": 4196.0
+        },
+        {
+          "typeid": 39,
+          "name": "Zydrine",
+          "quantity": 350,
+          "maketype": null,
+          "price": 2749.0
+        },
+        {
+          "typeid": 38,
+          "name": "Nocxium",
+          "quantity": 1500,
+          "maketype": null,
+          "price": 1578.0
+        },
+        {
+          "typeid": 37,
+          "name": "Isogen",
+          "quantity": 10000,
+          "maketype": null,
+          "price": 280.0
+        },
+        {
+          "typeid": 36,
+          "name": "Mexallon",
+          "quantity": 36000,
+          "maketype": null,
+          "price": 65.0
+        },
+        {
+          "typeid": 35,
+          "name": "Pyerite",
+          "quantity": 180000,
+          "maketype": null,
+          "price": 20.0
+        },
+        {
+          "typeid": 34,
+          "name": "Tritanium",
+          "quantity": 540000,
+          "maketype": null,
+          "price": 3.85
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 81063,
+      "productTypeName": "Fission Thruster",
+      "productQuantity": null,
+      "productMakeTypeID": 81063
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16683,
+          "name": "Ferrogel",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16670,
+          "name": "Crystalline Carbonide",
+          "quantity": 3,
+          "maketype": null,
+          "price": 133.5
+        },
+        {
+          "typeid": 16671,
+          "name": "Titanium Carbide",
+          "quantity": 3,
+          "maketype": null,
+          "price": 119.0
+        },
+        {
+          "typeid": 16672,
+          "name": "Tungsten Carbide",
+          "quantity": 3,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16673,
+          "name": "Fernite Carbide",
+          "quantity": 3,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16680,
+          "name": "Phenolic Composites",
+          "quantity": 3,
+          "maketype": null,
+          "price": 1567.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 81064,
+      "productTypeName": "Hyperconductive Gravimetric Sensor Cluster",
+      "productQuantity": null,
+      "productMakeTypeID": 81064
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16681,
+          "name": "Nanotransistors",
+          "quantity": 1,
+          "maketype": null,
+          "price": 5070.0
+        },
+        {
+          "typeid": 16682,
+          "name": "Hypersynaptic Fibers",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16670,
+          "name": "Crystalline Carbonide",
+          "quantity": 5,
+          "maketype": null,
+          "price": 133.5
+        },
+        {
+          "typeid": 16671,
+          "name": "Titanium Carbide",
+          "quantity": 5,
+          "maketype": null,
+          "price": 119.0
+        },
+        {
+          "typeid": 16672,
+          "name": "Tungsten Carbide",
+          "quantity": 5,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16673,
+          "name": "Fernite Carbide",
+          "quantity": 5,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 81065,
+      "productTypeName": "Electromechanical Microprocessor",
+      "productQuantity": null,
+      "productMakeTypeID": 81065
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 33359,
+          "name": "Photonic Metamaterials",
+          "quantity": 1,
+          "maketype": null,
+          "price": 19700.0
+        },
+        {
+          "typeid": 33360,
+          "name": "Terahertz Metamaterials",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 33361,
+          "name": "Plasmonic Metamaterials",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 33362,
+          "name": "Nonlinear Metamaterials",
+          "quantity": 1,
+          "maketype": null,
+          "price": 24880.0
+        },
+        {
+          "typeid": 16681,
+          "name": "Nanotransistors",
+          "quantity": 2,
+          "maketype": null,
+          "price": 5070.0
+        },
+        {
+          "typeid": 16670,
+          "name": "Crystalline Carbonide",
+          "quantity": 4,
+          "maketype": null,
+          "price": 133.5
+        },
+        {
+          "typeid": 16671,
+          "name": "Titanium Carbide",
+          "quantity": 4,
+          "maketype": null,
+          "price": 119.0
+        },
+        {
+          "typeid": 16672,
+          "name": "Tungsten Carbide",
+          "quantity": 4,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16673,
+          "name": "Fernite Carbide",
+          "quantity": 4,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16680,
+          "name": "Phenolic Composites",
+          "quantity": 6,
+          "maketype": null,
+          "price": 1567.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 81066,
+      "productTypeName": "Metaprismatic Armor Plate",
+      "productQuantity": null,
+      "productMakeTypeID": 81066
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16670,
+          "name": "Crystalline Carbonide",
+          "quantity": 11,
+          "maketype": null,
+          "price": 133.5
+        },
+        {
+          "typeid": 16671,
+          "name": "Titanium Carbide",
+          "quantity": 11,
+          "maketype": null,
+          "price": 119.0
+        },
+        {
+          "typeid": 16672,
+          "name": "Tungsten Carbide",
+          "quantity": 11,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16673,
+          "name": "Fernite Carbide",
+          "quantity": 11,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16678,
+          "name": "Sylramic Fibers",
+          "quantity": 11,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 81067,
+      "productTypeName": "Repelling Shield Emitter",
+      "productQuantity": null,
+      "productMakeTypeID": 81067
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16683,
+          "name": "Ferrogel",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16670,
+          "name": "Crystalline Carbonide",
+          "quantity": 5,
+          "maketype": null,
+          "price": 133.5
+        },
+        {
+          "typeid": 16671,
+          "name": "Titanium Carbide",
+          "quantity": 5,
+          "maketype": null,
+          "price": 119.0
+        },
+        {
+          "typeid": 16672,
+          "name": "Tungsten Carbide",
+          "quantity": 5,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16673,
+          "name": "Fernite Carbide",
+          "quantity": 5,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16678,
+          "name": "Sylramic Fibers",
+          "quantity": 9,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 81068,
+      "productTypeName": "Fission Reactor Unit",
+      "productQuantity": null,
+      "productMakeTypeID": 81068
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16670,
+          "name": "Crystalline Carbonide",
+          "quantity": 2,
+          "maketype": null,
+          "price": 133.5
+        },
+        {
+          "typeid": 16671,
+          "name": "Titanium Carbide",
+          "quantity": 2,
+          "maketype": null,
+          "price": 119.0
+        },
+        {
+          "typeid": 16672,
+          "name": "Tungsten Carbide",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16673,
+          "name": "Fernite Carbide",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 17317,
+          "name": "Fermionic Condensates",
+          "quantity": 2,
+          "maketype": null,
+          "price": 0.0
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  },
+  {
+    "blueprintDetails": {
+      "maxProductionLimit": 1,
+      "productTypeID": 81069,
+      "productTypeName": "Pentachoron Capacitor Unit",
+      "productQuantity": null,
+      "productMakeTypeID": 81069
+    },
+    "activityMaterials": {
+      "manufacturing": [
+        {
+          "typeid": 16681,
+          "name": "Nanotransistors",
+          "quantity": 1,
+          "maketype": null,
+          "price": 5070.0
+        },
+        {
+          "typeid": 33359,
+          "name": "Photonic Metamaterials",
+          "quantity": 1,
+          "maketype": null,
+          "price": 19700.0
+        },
+        {
+          "typeid": 33360,
+          "name": "Terahertz Metamaterials",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 33361,
+          "name": "Plasmonic Metamaterials",
+          "quantity": 1,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 33362,
+          "name": "Nonlinear Metamaterials",
+          "quantity": 1,
+          "maketype": null,
+          "price": 24880.0
+        },
+        {
+          "typeid": 16670,
+          "name": "Crystalline Carbonide",
+          "quantity": 6,
+          "maketype": null,
+          "price": 133.5
+        },
+        {
+          "typeid": 16671,
+          "name": "Titanium Carbide",
+          "quantity": 6,
+          "maketype": null,
+          "price": 119.0
+        },
+        {
+          "typeid": 16672,
+          "name": "Tungsten Carbide",
+          "quantity": 6,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16673,
+          "name": "Fernite Carbide",
+          "quantity": 6,
+          "maketype": null,
+          "price": 0.0
+        },
+        {
+          "typeid": 16679,
+          "name": "Fullerides",
+          "quantity": 11,
+          "maketype": null,
+          "price": 949.8
+        }
+      ],
+      "invention": [],
+      "copying": []
+    }
+  }
+]
