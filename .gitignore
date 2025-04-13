@@ -32,3 +32,9 @@ build/
 
 ### VS Code ###
 .vscode/
+*.tar.gz
+*.bz2
+reporting_queries.sql
+sde-laetst.sqlite
+vsindustry/*
+*.db*

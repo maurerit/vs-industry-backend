@@ -6,3 +6,7 @@ spring:
                     eve:
                         client-id: <CLIENT ID FROM developers.eveonline.com>
                         client-secret: <CLIENT SECRET FROM developers.eveonline.com>
+
+vsindustry:
+    client:
+        corporationId: <CORPORATION ID>

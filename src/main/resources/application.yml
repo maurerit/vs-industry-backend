@@ -42,8 +42,3 @@ logging:
       github:
         vaporsea:
           eve: DEBUG
-
-vsindustry:
-  client:
-    characterName: Marq Aideron
-    corporationId: 98588687
