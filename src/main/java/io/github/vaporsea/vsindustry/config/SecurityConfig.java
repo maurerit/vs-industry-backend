@@ -1,6 +1,7 @@
 package io.github.vaporsea.vsindustry.config;
 
 import io.github.vaporsea.vsindustry.controllers.JwtTokenFilter;
+import io.github.vaporsea.vsindustry.security.CustomAccessDeniedHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +37,9 @@ public class SecurityConfig {
                 UsernamePasswordAuthenticationFilter.class
         );
         
+        http.exceptionHandling()
+            .accessDeniedHandler(new CustomAccessDeniedHandler());
+        
         return http.build();
     }
     
@@ -43,15 +47,17 @@ public class SecurityConfig {
     @ConditionalOnProperty(name = "oauth2.enabled", havingValue = "false")
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, JwtTokenFilter jwtTokenFilter)
             throws Exception {
-        http
-                .authorizeHttpRequests(
-                        authorizer -> authorizer.anyRequest().authenticated())
-                .csrf().disable();
+        http.authorizeHttpRequests(
+                    authorizer -> authorizer.anyRequest().authenticated())
+            .csrf().disable();
         
         http.addFilterBefore(
                 jwtTokenFilter,
                 UsernamePasswordAuthenticationFilter.class
         );
+        
+        http.exceptionHandling()
+            .accessDeniedHandler(new CustomAccessDeniedHandler());
         
         return http.build();
     }

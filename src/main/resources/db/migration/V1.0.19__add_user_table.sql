@@ -28,5 +28,5 @@ alter table user_roles add constraint user_roles_FK1 foreign key (character_id) 
 alter table user_roles add constraint user_roles_FK2 foreign key (role_id) references roles (role_id);
 
 insert into roles (role_id, role_name) values
-(1, 'ADMIN'),
-(2, 'USER');
+(1, 'ROLE_ADMIN'),
+(2, 'ROLE_USER');
