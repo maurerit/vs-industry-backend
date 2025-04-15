@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,5 +44,27 @@ public class UserService {
                                                            .collect(Collectors.toList());
         
         return new org.springframework.security.core.userdetails.User(foundUser.getCharacterName(), "", authorities);
+    }
+    
+    public UserDTO saveUser(UserDTO userDto) {
+        User user = userRepository.findByCharacterId(userDto.getCharacterId()).orElse(
+                User.builder()
+                    .createdAt(ZonedDateTime.now())
+                    .build()
+        );
+        
+        user.setCharacterId(userDto.getCharacterId());
+        user.setCharacterName(userDto.getCharacterName());
+        user.setUpdatedAt(ZonedDateTime.now());
+        userRepository.save(user);
+        
+        return modelMapper.map(user, UserDTO.class);
+    }
+    
+    public UserDTO getUser(Long characterId) {
+        return userRepository.findById(characterId)
+                             .map(user -> modelMapper.map(user, UserDTO.class))
+                             .orElseThrow(
+                                     () -> new UsernameNotFoundException("User not found with id: " + characterId));
     }
 }
