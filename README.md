@@ -50,3 +50,22 @@ To add a new controller:
 - Refer to the `config/application-template.yml` for endpoint-specific configurations.
 - OAuth2 is actually disabled as the new frontend app handles that along with token refreshes
   - I could never get spring-boot to do the refresh for me and I didn't feel like implementing that RestClient logic myself...
+
+## If you're just here to run it
+
+I recommend using docker to run this, but if you must know how to build from scratch:
+
+Prerequisites:
+- Java 17 or higher
+- Maven 3.6 or higher
+
+1. Clone the repository.
+2. Package the application using Maven: `mvn clean package`.
+3. Copy config/application-template.yml to config/application.yml and edit it to your liking. 
+4. Run the application: `java -jar target/vapor-sea-industry-0.0.1-SNAPSHOT.jar`. 
+5. This will create a data and vsindustry directories
+6. Grab Squirrel SQL and setup the H2 driver inside there.
+7. Configure the connection to point to the H2 database.
+8. Update the users table and add your character.
+9. Edit the user_roles and add a record with your character id and 1 (for the admin role)
+10. Run the application again and grab the frontend.
