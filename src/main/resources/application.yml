@@ -21,6 +21,8 @@ spring:
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/eve
             client-name: Vapor Sea Industry
+            client-id: ${EVE_CLIENT_ID:ENTER YOUR VALUE}
+            client-secret: ${EVE_CLIENT_SECRET:ENTER YOUR VALUE}
             scope:
               - esi-wallet.read_corporation_wallet.v1
               - esi-wallet.read_corporation_wallets.v1
@@ -42,3 +44,7 @@ logging:
       github:
         vaporsea:
           eve: DEBUG
+
+vsindustry:
+  client:
+    corporationId: ${CORPORATION_ID:ENTER YOUR VALUE}

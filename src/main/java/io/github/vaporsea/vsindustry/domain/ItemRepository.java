@@ -1,6 +1,7 @@
 package io.github.vaporsea.vsindustry.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -8,5 +9,6 @@ import org.springframework.stereotype.Repository;
  * @since 6/9/2024
  */
 @Repository
-public interface ItemRepository extends JpaRepository<Item, Long> {
+public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificationExecutor<Item> {
+
 }
