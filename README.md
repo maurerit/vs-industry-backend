@@ -2,6 +2,10 @@
 
 This project was born out of the always unseen value tied up in Tech 2 Bluprints.  if you've ever done any amount of invention you know you end up with hundreds of bpc copies that have value but nowhere can you see this value.  This is the frustration this app serves to alleviate.  By tracking how much is paid on datacres, how much was paid at the lab and how much was lost due to probabiliies we can easily come to a good average value of our bpc library.
 
+## Don't look too deep
+
+This is cobbled together quickly and with little forethought :D.  I just want things to work but I do try to follow best practices... normally...
+
 ## To run it
 
 I recommend using docker to run this, but if you must know how to build from scratch:
