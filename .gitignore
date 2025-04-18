@@ -38,3 +38,10 @@ reporting_queries.sql
 sde-laetst.sqlite
 vsindustry/*
 *.db*
+/industryActivity.sql
+/industryActivityMaterials.sql
+/industryActivityProbabilities.sql
+/industryActivityProducts.sql
+/industryBlueprints.sql
+*.tgz
+*.tar

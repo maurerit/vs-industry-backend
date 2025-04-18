@@ -26,7 +26,7 @@ public class SecurityConfig {
     
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().requestMatchers("/data/type/**");
+        return web -> web.ignoring().requestMatchers("/data/type/**", "/has-users", "/create-first-user");
     }
     
     @Bean

@@ -85,11 +85,6 @@ public class ProductSetupService {
                                                                               .build())
                                                   .toList();
         
-        itemRepository.save(Item.builder()
-                                .itemId(blueprintDTO.getBlueprintDetails().getProductTypeID())
-                                .name(blueprintDTO.getBlueprintDetails().getProductTypeName())
-                                .build());
-        
         Product product = Product.builder()
                                  .name(blueprintDTO.getBlueprintDetails().getProductTypeName())
                                  .itemId(blueprintDTO.getBlueprintDetails().getProductTypeID())

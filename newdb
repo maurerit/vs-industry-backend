@@ -1,0 +1,2 @@
+tar -cvzf $1.tar.gz data/*
+rm data/*

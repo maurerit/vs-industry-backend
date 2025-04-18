@@ -1,11 +1,17 @@
 package io.github.vaporsea.vsindustry.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "user_roles")
 public class UserRole {
@@ -19,6 +25,9 @@ public class UserRole {
     
     @Embeddable
     @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class UserRoleId {
         
         private Long characterId;

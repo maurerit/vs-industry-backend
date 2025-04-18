@@ -2,9 +2,13 @@ package io.github.vaporsea.vsindustry.service;
 
 import io.github.vaporsea.vsindustry.contract.Page;
 import io.github.vaporsea.vsindustry.contract.UserDTO;
+import io.github.vaporsea.vsindustry.domain.Role;
 import io.github.vaporsea.vsindustry.domain.RoleRepository;
 import io.github.vaporsea.vsindustry.domain.User;
 import io.github.vaporsea.vsindustry.domain.UserRepository;
+import io.github.vaporsea.vsindustry.domain.UserRole;
+import io.github.vaporsea.vsindustry.domain.UserRoleRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +28,29 @@ public class UserService {
     
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final UserRoleRepository userRoleRepository;
     private final ModelMapper modelMapper;
+    
+    public boolean hasUsers() {
+        return userRepository.count() > 0;
+    }
+    
+    public void addRoleToUser(UserDTO user, String role) {
+        userRepository.findByCharacterId(user.getCharacterId())
+                      .orElseThrow(() -> new UsernameNotFoundException(
+                              "User not found with id: " + user.getCharacterId()));
+        
+        Role foundRole = roleRepository.findByRoleName(role)
+                                       .orElseThrow(
+                                               () -> new EntityNotFoundException("Role not found with name: " + role));
+        
+        userRoleRepository.save(UserRole.builder()
+                                        .id(UserRole.UserRoleId.builder()
+                                                               .roleId(foundRole.getRoleId())
+                                                               .characterId(user.getCharacterId())
+                                                               .build())
+                                        .build());
+    }
     
     public Page<UserDTO> getUsers(PageRequest pageRequest) {
         org.springframework.data.domain.Page<User> users = userRepository.findAll(pageRequest);
@@ -47,11 +73,8 @@ public class UserService {
     }
     
     public UserDTO saveUser(UserDTO userDto) {
-        User user = userRepository.findByCharacterId(userDto.getCharacterId()).orElse(
-                User.builder()
-                    .createdAt(ZonedDateTime.now())
-                    .build()
-        );
+        User user = userRepository.findByCharacterId(userDto.getCharacterId())
+                                  .orElse(User.builder().createdAt(ZonedDateTime.now()).build());
         
         user.setCharacterId(userDto.getCharacterId());
         user.setCharacterName(userDto.getCharacterName());
