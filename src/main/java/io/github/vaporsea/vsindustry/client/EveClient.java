@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import io.github.vaporsea.vsindustry.domain.Item;
+import io.github.vaporsea.vsindustry.domain.ItemRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
@@ -35,6 +37,7 @@ public class EveClient {
     private static final String MARKET_ORDERS_URL = "/latest/corporations/{corporationId}/orders/";
     
     private final RestClient restClient;
+    private final ItemRepository itemRepository;
     
     @Value("${vsindustry.client.corporationId}")
     private String corporationId;
@@ -60,8 +63,8 @@ public class EveClient {
                                                                       .toEntity(new ParameterizedTypeReference<>() {
                                                                       });
         
-        return new Page<>(Integer.parseInt(page), Integer.parseInt(industryJobs.getHeaders().get("x-pages").get(0)),
-                0, industryJobs.getBody());
+        return new Page<>(Integer.parseInt(page), Integer.parseInt(industryJobs.getHeaders().get("x-pages").get(0)), 0,
+                industryJobs.getBody());
     }
     
     /**
@@ -71,7 +74,9 @@ public class EveClient {
      */
     @Cacheable(value = "wallets", key = "'1'")
     public List<WalletDTO> getWallets() {
-        return restClient.get().uri(uriBuilder -> uriBuilder.path(WALLETS_URL).build(corporationId)).retrieve()
+        return restClient.get()
+                         .uri(uriBuilder -> uriBuilder.path(WALLETS_URL).build(corporationId))
+                         .retrieve()
                          .body(new ParameterizedTypeReference<>() {
                          });
     }
@@ -148,6 +153,9 @@ public class EveClient {
             
             orders.addAll(Objects.requireNonNull(marketOrders.getBody()));
         }
+        
+        orders.forEach(
+                order -> order.setTypeName(itemRepository.findById(order.getTypeId()).orElse(new Item()).getName()));
         
         return orders;
     }

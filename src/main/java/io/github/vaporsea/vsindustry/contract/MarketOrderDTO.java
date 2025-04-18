@@ -35,6 +35,9 @@ public class MarketOrderDTO implements Serializable {
     @JsonProperty("type_id")
     private Long typeId;
     
+    @JsonProperty("type_name")
+    private String typeName;
+    
     @JsonProperty("volume_remain")
     private Integer volumeRemain;
     
