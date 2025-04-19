@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class ProductToIgnoreDTO {
     
     private Long productId;
-    private String productDescription;
+    private String productName;
     private String reason;
 }

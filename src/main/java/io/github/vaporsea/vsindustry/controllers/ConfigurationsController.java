@@ -1,7 +1,6 @@
 package io.github.vaporsea.vsindustry.controllers;
 
 import io.github.vaporsea.vsindustry.contract.ExtraCostDTO;
-import io.github.vaporsea.vsindustry.contract.ItemDTO;
 import io.github.vaporsea.vsindustry.contract.Page;
 import io.github.vaporsea.vsindustry.contract.ProductToIgnoreDTO;
 import io.github.vaporsea.vsindustry.service.ExtraCostService;
@@ -9,6 +8,7 @@ import io.github.vaporsea.vsindustry.service.TypeService;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +48,12 @@ public class ConfigurationsController {
     @PostMapping("/ignoredproduct")
     public ResponseEntity<Void> saveIgnoredProduct(@RequestBody ProductToIgnoreDTO ptiDto) {
         typeService.save(ptiDto);
+        return ResponseEntity.ok().build();
+    }
+    
+    @DeleteMapping("/ignoredproduct/{productId}")
+    public ResponseEntity<Void> deleteIgnoredProduct(@PathVariable long productId) {
+        typeService.delete(ProductToIgnoreDTO.builder().productId(productId).build());
         return ResponseEntity.ok().build();
     }
 }

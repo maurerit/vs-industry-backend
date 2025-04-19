@@ -53,7 +53,7 @@ public class TypeService {
                             var type = typeRepository.findById(pti.getProductId()).orElse(new Item());
                             return ProductToIgnoreDTO.builder()
                                                      .productId(pti.getProductId())
-                                                     .productDescription(type.getDescription())
+                                                     .productName(type.getName())
                                                      .reason(pti.getReason())
                                                      .build();
                         })
@@ -73,5 +73,10 @@ public class TypeService {
         productToIgnore.setProductId(productToIgnoreDTO.getProductId());
         productToIgnore.setReason(productToIgnoreDTO.getReason());
         productToIgnoreRepository.save(productToIgnore);
+    }
+    
+    public void delete(ProductToIgnoreDTO ptiDto) {
+        var productToIgnore = productToIgnoreRepository.findById(ptiDto.getProductId());
+        productToIgnore.ifPresent(productToIgnoreRepository::delete);
     }
 }
