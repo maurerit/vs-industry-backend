@@ -17,6 +17,7 @@ import java.util.List;
 public class MarketGroupTypeSearch extends AbstractSearch<Item> {
     
     private String search;
+    private boolean marketGroupSearch = true;
     
     @Override
     protected Predicate toPredicateInternal(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -26,7 +27,9 @@ public class MarketGroupTypeSearch extends AbstractSearch<Item> {
             predicates.add(criteriaBuilder.like(root.get("name"), "%" + search + "%"));
         }
         
-        predicates.add(criteriaBuilder.isNotNull(root.get("marketGroupId")));
+        if (marketGroupSearch) {
+            predicates.add(criteriaBuilder.isNotNull(root.get("marketGroupId")));
+        }
         
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     }

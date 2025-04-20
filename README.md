@@ -4,11 +4,11 @@ This project was born out of the always unseen value tied up in Tech 2 Bluprints
 
 ## Don't look too deep
 
-This is cobbled together quickly and with little forethought :D.  I just want things to work but I do try to follow best practices... normally...
+This is cobbled together quickly and with little forethought :D.  I just want things to work but I do try to follow best practices... normally...  What you're looking at is a warehouse implementation with bolted on requirements.  I need the industry and market data, I need the blueprint data for manufacturing and invention, I need authentication so that I can fetch the data, etc.  What I really wanted though was a warehouse, plain and simple.  Show me what I have, what I can build and how much it would cost me.
 
 ## To run it
 
-I recommend using docker to run this, but if you must know how to build from scratch:
+I recommend using docker-compose to run https://github.com/maurerit/vs-industry-frontend/blob/develop/docker-compose.yml, but if you must know how to build from scratch:
 
 Prerequisites:
 - Java 17 or higher
@@ -20,4 +20,8 @@ Prerequisites:
 5. Set the environment variables `CORPORATION_ID`, `EVE_CLIENT_ID` and `EVE_CLIENT_SECRET`
 6. Run the application: `java -jar target/vapor-sea-industry-${VERSION}.jar`. 
 7. This will create a data(the db) and vsindustry(the cache) directories with data in them.
-8. Grab the frontend over at https://github.com/maurerit/vs-industry-frontend
+8. Grab the frontend over at https://github.com/maurerit/vs-industry-frontend and run from there
+
+## Additional Notes
+
+For the more technically minded.  Go get yourself a copy of [SQuirrel SQL Client](https://squirrel-sql.sourceforge.io/) and download the [h2 driver](https://github.com/h2database/h2database/releases) into squirrels lib directory.  You can then connect to the database using the following connection string: jdbc:h2:{path to data dir}/data/vaporseaindustry with username sa and password of... you guessed it... password.  In here you'll have all historical industry job and market transaction along with journal entries.  Report to your hearts content.
