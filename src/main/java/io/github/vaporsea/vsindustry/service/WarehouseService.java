@@ -161,6 +161,11 @@ public class WarehouseService {
     public void processIndustryJob(IndustryJobDTO industryJob) {
         Optional<ProductToIgnore> productToIgnore = productToIgnoreRepository.findById(industryJob.getProductTypeId());
         if (productToIgnore.isPresent()) {
+            lastProcessedRepository.save(LastProcessed.builder()
+                                                      .id(LastProcessedKey.builder()
+                                                                          .objectId(industryJob.getJobId())
+                                                                          .objectType(INDUSTRY_JOB_NAME)
+                                                                          .build()).build());
             return;
         }
         
