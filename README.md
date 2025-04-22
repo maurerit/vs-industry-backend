@@ -6,6 +6,8 @@ This project was born out of the always unseen value tied up in Tech 2 Bluprints
 
 This is cobbled together quickly and with little forethought :D.  I just want things to work but I do try to follow best practices... normally...  What you're looking at is a warehouse implementation with bolted on requirements.  I need the industry and market data, I need the blueprint data for manufacturing and invention, I need authentication so that I can fetch the data, etc.  What I really wanted though was a warehouse, plain and simple.  Show me what I have, what I can build and how much it would cost me.
 
+I do try to keep develop in a runnable state.  I'm better here than I am over at the frontend.  I try to keep the frontend and backend in sync with each other.
+
 ## To run it
 
 I recommend using docker-compose to run https://github.com/maurerit/vs-industry-frontend/blob/develop/docker-compose.yml, but if you must know how to build from scratch:
