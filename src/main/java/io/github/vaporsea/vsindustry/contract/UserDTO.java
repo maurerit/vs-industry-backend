@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -16,6 +17,8 @@ public class UserDTO {
     private Long characterId;
     
     private String characterName;
+    
+    private List<String> roles;
     
     private ZonedDateTime createdAt;
     
