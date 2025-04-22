@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/config")
-@RolesAllowed("ROLE_ADMIN")
+@RolesAllowed("ADMIN")
 public class ConfigurationsController {
     
     private final ExtraCostService extraCostService;

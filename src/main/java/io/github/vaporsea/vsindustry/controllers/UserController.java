@@ -25,19 +25,19 @@ public class UserController {
     
     private final UserService userService;
     
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ADMIN")
     @GetMapping
     public Page<UserDTO> getUsers(int page, int pageSize) {
         return userService.getUsers(PageRequest.of(page, pageSize));
     }
     
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ADMIN")
     @PostMapping
     public UserDTO saveUser(@RequestBody UserDTO userDto) {
         return userService.saveUser(userDto);
     }
     
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ADMIN")
     @GetMapping("/{characterId}")
     public UserDTO getUser(@PathVariable Long characterId) {
         return userService.getUser(characterId);
