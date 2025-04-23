@@ -2,6 +2,7 @@ package io.github.vaporsea.vsindustry.service;
 
 import io.github.vaporsea.vsindustry.contract.Page;
 import io.github.vaporsea.vsindustry.contract.UserDTO;
+import io.github.vaporsea.vsindustry.controllers.JwtTokenUtil;
 import io.github.vaporsea.vsindustry.domain.Role;
 import io.github.vaporsea.vsindustry.domain.RoleRepository;
 import io.github.vaporsea.vsindustry.domain.User;
@@ -29,6 +30,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
+    private final JwtTokenUtil jwtTokenUtil;
     private final ModelMapper modelMapper;
     
     public boolean hasUsers() {
@@ -89,5 +91,22 @@ public class UserService {
                              .map(user -> modelMapper.map(user, UserDTO.class))
                              .orElseThrow(
                                      () -> new UsernameNotFoundException("User not found with id: " + characterId));
+    }
+    
+    public UserDTO me(String jwtToken) {
+        String username = jwtTokenUtil.getUsername(jwtToken);
+        
+        User user = userRepository.findByCharacterName(username)
+                                  .orElseThrow(() -> new UsernameNotFoundException(
+                                          "User not found with username: " + username));
+        List<Role> roles = roleRepository.findByCharacterName(username);
+        
+        return UserDTO.builder()
+                      .characterId(user.getCharacterId())
+                      .characterName(username)
+                      .roles(roles.stream().map(Role::getRoleName).toList())
+                      .createdAt(user.getCreatedAt())
+                      .updatedAt(user.getUpdatedAt())
+                      .build();
     }
 }
