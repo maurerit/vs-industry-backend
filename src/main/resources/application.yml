@@ -48,3 +48,5 @@ logging:
 vsindustry:
   client:
     corporationId: ${CORPORATION_ID:ENTER YOUR VALUE}
+  default:
+    principal: ${DEFAULT_PRINCIPAL:Marq Aideron}
