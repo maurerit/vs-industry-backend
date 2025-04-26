@@ -7,5 +7,6 @@ public class ExtraCostDTO {
     
     private Long itemId;
     private String name;
+    private String costType;
     private Double cost;
 }
