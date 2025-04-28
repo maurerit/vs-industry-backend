@@ -6,11 +6,14 @@ import io.github.vaporsea.vsindustry.contract.JournalEntryDTO;
 import io.github.vaporsea.vsindustry.contract.MarketOrderDTO;
 import io.github.vaporsea.vsindustry.contract.MarketTransactionDTO;
 import io.github.vaporsea.vsindustry.contract.WalletDTO;
-import io.github.vaporsea.vsindustry.domain.IndustryJobRepository;
 import io.github.vaporsea.vsindustry.domain.JournalEntryRepository;
 import io.github.vaporsea.vsindustry.domain.MarketTransactionRepository;
+import io.github.vaporsea.vsindustry.service.CorpDataService;
+import io.github.vaporsea.vsindustry.service.IndustryJobStatusSearch;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,8 +25,8 @@ import java.util.List;
 @RequestMapping("/corp")
 public class CorpDataController {
     
+    private final CorpDataService corpDataService;
     private final MarketTransactionRepository marketTransactionRepository;
-    private final IndustryJobRepository industryJobRepository;
     private final JournalEntryRepository journalEntryRepository;
     private final EveClient eveClient;
     private final ModelMapper modelMapper;
@@ -45,11 +48,8 @@ public class CorpDataController {
     }
     
     @GetMapping("/industry-jobs")
-    public List<IndustryJobDTO> getIndustryJobs() {
-        return industryJobRepository.findAll()
-                                    .stream()
-                                    .map(model -> modelMapper.map(model, IndustryJobDTO.class))
-                                    .toList();
+    public Page<IndustryJobDTO> getIndustryJobs(IndustryJobStatusSearch search, Pageable pageable) {
+        return corpDataService.getIndustryJobs(search, pageable);
     }
     
     @GetMapping("/market-orders")

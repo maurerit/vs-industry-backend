@@ -25,7 +25,7 @@ public class DataSyncScheduler {
      * Scheduled task to fetch all data every 30 minutes. The initial delay is set to 1 minute to allow the application
      * to start up.
      */
-    @Scheduled(fixedRate = 1800000, initialDelay = 60000)
+    @Scheduled(fixedRate = 2_100_000, initialDelay = 60_000)
     public void scheduledDataFetch() {
         if (isFetching.get()) {
             log.warn("Data fetch already in progress, skipping scheduled fetch");
