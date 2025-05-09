@@ -58,4 +58,12 @@ public class IndustryJobDTO implements Serializable {
     
     @JsonProperty("installer_id")
     private Long installerId;
+    
+    //Does not come from CCP
+    //It's driving me nuts seeing the two naming standards
+    @JsonProperty("item_name")
+    private String itemName;
+    
+    @JsonProperty("installer_name")
+    private String installerName;
 }

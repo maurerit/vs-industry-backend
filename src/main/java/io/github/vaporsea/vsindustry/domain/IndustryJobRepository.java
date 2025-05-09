@@ -1,6 +1,7 @@
 package io.github.vaporsea.vsindustry.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @since 6/9/2024
  */
 @Repository
-public interface IndustryJobRepository extends JpaRepository<IndustryJob, Long> {
+public interface IndustryJobRepository extends JpaRepository<IndustryJob, Long>, JpaSpecificationExecutor<IndustryJob> {
     
     @Query(value = """
             select *
