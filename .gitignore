@@ -43,6 +43,8 @@ vsindustry/*
 /industryActivityProbabilities.sql
 /industryActivityProducts.sql
 /industryBlueprints.sql
+/invMetaTypes.sql
+/invMetaGroups.sql
 *.tgz
 *.tar
 src/test/resources/decodedToken.json
