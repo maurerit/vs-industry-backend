@@ -40,7 +40,7 @@ import java.util.List;
 @Data
 public class IndustryJobStatusSearch extends AbstractSearch<IndustryJob> {
     
-    private Boolean finished;
+    private Boolean finished = false;
     
     @Override
     protected Predicate toPredicateInternal(Root<IndustryJob> root, CriteriaQuery<?> query,
