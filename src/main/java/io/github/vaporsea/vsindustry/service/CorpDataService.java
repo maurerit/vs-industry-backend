@@ -24,25 +24,37 @@
 
 package io.github.vaporsea.vsindustry.service;
 
-import io.github.vaporsea.vsindustry.contract.ContractHeaderDTO;
 import io.github.vaporsea.vsindustry.contract.IndustryJobDTO;
-import io.github.vaporsea.vsindustry.contract.MarketTransactionDTO;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import io.github.vaporsea.vsindustry.domain.IndustryJob;
+import io.github.vaporsea.vsindustry.domain.IndustryJobRepository;
+import io.github.vaporsea.vsindustry.domain.Item;
+import io.github.vaporsea.vsindustry.domain.ItemRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
-@Slf4j
-@Component
-public class WarehouseListener {
+@RequiredArgsConstructor
+@Service
+public class CorpDataService {
     
-    public void marketTransactionProcessed(MarketTransactionDTO marketTransaction) {
-        log.debug("Market transaction processed {}", marketTransaction);
+    private final IndustryJobRepository industryJobRepository;
+    private final ItemRepository itemRepository;
+    private final ModelMapper modelMapper;
+    
+    public Page<IndustryJobDTO> getIndustryJobs(IndustryJobStatusSearch search, Pageable pageable) {
+        var data = industryJobRepository.findAll(search, pageable);
+        
+        return data.map(this::mapIndustryJob);
     }
     
-    public void industryJobProcessed(IndustryJobDTO industryJob) {
-        log.debug("Industry job processed {}", industryJob);
-    }
-    
-    public void contractProcessed(ContractHeaderDTO contractHeader) {
-        log.debug("Contract processed {}", contractHeader);
+    private IndustryJobDTO mapIndustryJob(IndustryJob industryJob) {
+        IndustryJobDTO industryJobMapped = modelMapper.map(industryJob, IndustryJobDTO.class);
+        
+        industryJobMapped.setItemName(
+                itemRepository.findById(industryJob.getProductTypeId()).orElse(new Item()).getName());
+        
+        return industryJobMapped;
     }
 }

@@ -45,3 +45,6 @@ vsindustry/*
 /industryBlueprints.sql
 *.tgz
 *.tar
+src/test/resources/decodedToken.json
+src/test/resources/jwks.json
+users-service-users-url.txt

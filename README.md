@@ -27,3 +27,7 @@ Prerequisites:
 ## Additional Notes
 
 For the more technically minded.  Go get yourself a copy of [SQuirrel SQL Client](https://squirrel-sql.sourceforge.io/) and download the [h2 driver](https://github.com/h2database/h2database/releases) into squirrels lib directory.  You can then connect to the database using the following connection string: jdbc:h2:{path to data dir}/data/vaporseaindustry with username sa and password of... you guessed it... password.  In here you'll have all historical industry job and market transaction along with journal entries.  Report to your hearts content.
+
+## Changelog
+
+All notable changes to this project are documented in the [CHANGELOG.md](CHANGELOG.md) file. Please refer to this file for information about new features, changes, and bug fixes.
