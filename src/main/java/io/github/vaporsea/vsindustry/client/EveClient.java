@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -74,6 +75,7 @@ public class EveClient {
      * @return A page of industry jobs
      */
     @Cacheable("industryJobs")
+    @Retryable
     public Page<IndustryJobDTO> getIndustryJobs(String page) {
         ResponseEntity<List<IndustryJobDTO>> industryJobs = restClient.get()
                                                                       .uri(uriBuilder -> uriBuilder.path(INDUSTRY_URL)
@@ -97,6 +99,7 @@ public class EveClient {
      * @return A list of wallets and their balances
      */
     @Cacheable(value = "wallets", key = "'1'")
+    @Retryable
     public List<WalletDTO> getWallets() {
         return restClient.get()
                          .uri(uriBuilder -> uriBuilder.path(WALLETS_URL).build(corporationId))
@@ -114,6 +117,7 @@ public class EveClient {
      * @return A page of journal entries
      */
     @Cacheable(value = "journalEntries", key = "#division + #page")
+    @Retryable
     public Page<JournalEntryDTO> getJournalEntries(String division, String page) {
         ResponseEntity<List<JournalEntryDTO>> journalEntries = restClient.get()
                                                                          .uri(uriBuilder -> uriBuilder.path(JOURNAL_URL)
@@ -138,6 +142,7 @@ public class EveClient {
      * @return A list of market transactions
      */
     @Cacheable("marketTransactions")
+    @Retryable
     public List<MarketTransactionDTO> getMarketTransactions(String division) {
         return restClient.get()
                          .uri(uriBuilder -> uriBuilder.path(MARKET_TRANSACTIONS_URL).build(corporationId, division))
@@ -152,6 +157,7 @@ public class EveClient {
      * @return A list of market orders
      */
     @Cacheable(value = "marketOrders", key = "'1'")
+    @Retryable
     public List<MarketOrderDTO> getMarketOrders() {
         List<MarketOrderDTO> orders = new ArrayList<>();
         
