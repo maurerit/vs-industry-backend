@@ -27,11 +27,13 @@ package io.github.vaporsea.vsindustry.config;
 import java.time.Duration;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.ClientHttpRequestFactories;
 import org.springframework.boot.web.client.ClientHttpRequestFactorySettings;
 import org.springframework.boot.web.client.RestClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
 
@@ -45,6 +47,18 @@ import io.github.vaporsea.vsindustry.client.LoggingInterceptor;
  */
 @Configuration
 public class RestClientConfig {
+    
+    @Value("${vsindustry.userAgent.appName}")
+    private String appName;
+    
+    @Value("${vsindustry.userAgent.gitRepoLocation}")
+    private String gitRepoLocation;
+    
+    @Value("${vsindustry.userAgent.userEmail}")
+    private String userEmail;
+    
+    @Value("${vsindustry.default.principal}")
+    private String characterName;
     
     @Bean
     RestClient restClient(RestClient.Builder builder) {
@@ -63,6 +77,9 @@ public class RestClientConfig {
             
             builder.requestFactory(new BufferingClientHttpRequestFactory(ClientHttpRequestFactories.get(settings)))
                    .baseUrl("https://esi.evetech.net/")
+                   .defaultHeader(HttpHeaders.USER_AGENT,
+                           String.format("%s/1.0.0 (%s; +%s) eve:%s", appName, userEmail, gitRepoLocation,
+                                   characterName))
                    .requestInterceptor(new LoggingInterceptor(LoggerFactory.getLogger("io.github.vaporsea.eve"),
                            new DefaultLogFormatter()))
                    .requestInterceptor(oAuth2HeaderInterceptor);
@@ -77,7 +94,7 @@ public class RestClientConfig {
                                  ClientHttpRequestFactorySettings.DEFAULTS.withConnectTimeout(Duration.ofMillis(10000))
                                                                           .withReadTimeout(Duration.ofMillis(30000)))))
                          .requestInterceptor(
-                                 new LoggingInterceptor(LoggerFactory.getLogger("io.github.vaporsea.eve.login"),
+                                 new LoggingInterceptor(LoggerFactory.getLogger("io.github.vaporsea.login"),
                                          new DefaultLogFormatter()))
                          .build();
     }
