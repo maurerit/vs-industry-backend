@@ -35,6 +35,7 @@ import io.github.vaporsea.vsindustry.domain.InventionItem;
 import io.github.vaporsea.vsindustry.domain.Product;
 import io.github.vaporsea.vsindustry.domain.ProductItem;
 import io.github.vaporsea.vsindustry.domain.ProductRepository;
+import io.github.vaporsea.vsindustry.domain.ProductSearch;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -49,8 +50,8 @@ public class ProductFetchService {
     private final ProductRepository productRepository;
     private final Warehouse warehouse;
     
-    public Page<ProductDTO> getProducts(Pageable pageable) {
-        org.springframework.data.domain.Page<Product> products = productRepository.findAll(pageable);
+    public Page<ProductDTO> getProducts(Pageable pageable, ProductSearch search) {
+        org.springframework.data.domain.Page<Product> products = productRepository.findAll(search, pageable);
         List<ProductDTO> productDTOs = products.stream()
                                                .map(product -> ProductDTO.builder()
                                                                          .itemId(product.getItemId())
@@ -59,11 +60,11 @@ public class ProductFetchService {
                                                                          .build())
                                                .toList();
         
-        //Hydrate the product to get it's build cost
+        //Hydrate the product to get its build cost
         for (ProductDTO productDTO : productDTOs) {
             Product product = productRepository.findById(productDTO.getItemId()).orElse(null);
             if (product == null) {
-                productDTO.setCost(warehouse.getWarehouseItem(product.getItemId()).getCostPerItem());
+                productDTO.setCost(warehouse.getWarehouseItem(productDTO.getItemId()).getCostPerItem());
             }
             else {
                 //Sum up all the Matherial Costs or Invention Costs
