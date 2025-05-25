@@ -57,6 +57,9 @@ public class RestClientConfig {
     @Value("${vsindustry.userAgent.userEmail}")
     private String userEmail;
     
+    @Value("${vsindustry.default.principal}")
+    private String characterName;
+    
     @Bean
     RestClient restClient(RestClient.Builder builder) {
         return builder.build();
@@ -74,7 +77,9 @@ public class RestClientConfig {
             
             builder.requestFactory(new BufferingClientHttpRequestFactory(ClientHttpRequestFactories.get(settings)))
                    .baseUrl("https://esi.evetech.net/")
-                   .defaultHeader(HttpHeaders.USER_AGENT, appName + "/1.0.0 " + gitRepoLocation + " " + userEmail)
+                   .defaultHeader(HttpHeaders.USER_AGENT,
+                           String.format("%s/1.0.0 (%s; +%s) eve:%s", appName, userEmail, gitRepoLocation,
+                                   characterName))
                    .requestInterceptor(new LoggingInterceptor(LoggerFactory.getLogger("io.github.vaporsea.eve"),
                            new DefaultLogFormatter()))
                    .requestInterceptor(oAuth2HeaderInterceptor);
@@ -89,7 +94,7 @@ public class RestClientConfig {
                                  ClientHttpRequestFactorySettings.DEFAULTS.withConnectTimeout(Duration.ofMillis(10000))
                                                                           .withReadTimeout(Duration.ofMillis(30000)))))
                          .requestInterceptor(
-                                 new LoggingInterceptor(LoggerFactory.getLogger("io.github.vaporsea.eve.login"),
+                                 new LoggingInterceptor(LoggerFactory.getLogger("io.github.vaporsea.login"),
                                          new DefaultLogFormatter()))
                          .build();
     }
