@@ -24,8 +24,11 @@
 
 package io.github.vaporsea.vsindustry.controllers;
 
+import io.github.vaporsea.vsindustry.contract.IdLabelValue;
 import io.github.vaporsea.vsindustry.contract.Page;
 import io.github.vaporsea.vsindustry.contract.ItemDTO;
+import io.github.vaporsea.vsindustry.contract.fuzzwork.BlueprintDTO;
+import io.github.vaporsea.vsindustry.service.BlueprintService;
 import io.github.vaporsea.vsindustry.service.MarketGroupTypeSearch;
 import io.github.vaporsea.vsindustry.service.TypeService;
 import lombok.RequiredArgsConstructor;
@@ -34,12 +37,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/data")
 public class BasicDataController {
     
     private final TypeService typeService;
+    private final BlueprintService blueprintService;
     
     @GetMapping("/type")
     public Page<ItemDTO> getTypes(int page, int pageSize, MarketGroupTypeSearch search) {
@@ -49,5 +55,15 @@ public class BasicDataController {
     @GetMapping("/type/{id}")
     public ItemDTO getTypeById(@PathVariable Long id) {
         return typeService.getTypeById(id);
+    }
+    
+    @GetMapping("/blueprintName/{search}")
+    public List<IdLabelValue> getNamesForTypesThatHaveBlueprints(@PathVariable String search) {
+        return blueprintService.getNamesForTypesThatHaveBlueprints(search);
+    }
+    
+    @GetMapping("/blueprint/{itemId}")
+    public BlueprintDTO getBlueprintDetails(@PathVariable Long itemId) {
+        return blueprintService.getBlueprintDetails(itemId);
     }
 }
