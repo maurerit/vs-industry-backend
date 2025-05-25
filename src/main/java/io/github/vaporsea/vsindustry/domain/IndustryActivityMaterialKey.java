@@ -24,42 +24,24 @@
 
 package io.github.vaporsea.vsindustry.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author Matt Maurer <br>
- * @since 6/9/2024
- */
+import java.io.Serializable;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "inv_types")
-public class Item {
+@Embeddable
+public class IndustryActivityMaterialKey implements Serializable {
     
-    @Id
-    @Column(name = "type_id")
-    private Long itemId;
+    private Long typeId;
     
-    @Column(name = "type_name")
-    private String name;
+    private Long activityId;
     
-    private String description;
-    
-    private Long marketGroupId;
-    
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "type_id", referencedColumnName = "type_id")
-    private MetaType metaType;
+    private Long materialTypeId;
 }

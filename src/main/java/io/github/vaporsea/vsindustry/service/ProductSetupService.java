@@ -61,7 +61,8 @@ public class ProductSetupService {
         //Check the tech level and create a product for the blueprint if it's tech level 2
         if (blueprintDTO.getBlueprintDetails().getTechLevel() == 2) {
             IndustryActivityProduct industryActivityProduct =
-                    industryActivityProductRepository.findById_ProductTypeId((long) blueprintDTO.getRequestedid());
+                    industryActivityProductRepository.findById_ProductTypeId((long) blueprintDTO.getRequestedid())
+                                                     .orElseThrow();
             
             //T2 Build the Blueprint as a product
             List<InventionItem> inventionItems = blueprintDTO.getActivityMaterials().get("8").stream()

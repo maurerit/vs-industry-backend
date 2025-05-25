@@ -26,7 +26,10 @@ package io.github.vaporsea.vsindustry.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author Matt Maurer <br>
@@ -34,5 +37,13 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificationExecutor<Item> {
-
+    
+    @Query(nativeQuery = true, value = """
+            select it.*
+              from inv_types it
+             inner join industry_activity_products iap on it.type_id = iap.product_type_id
+             where it.type_name like :name
+               and it.type_name not like '%Blueprint'
+            """)
+    List<Item> findByNameWithBlueprint(String name);
 }

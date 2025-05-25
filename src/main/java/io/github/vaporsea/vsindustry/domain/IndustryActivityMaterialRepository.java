@@ -24,42 +24,12 @@
 
 package io.github.vaporsea.vsindustry.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-/**
- * @author Matt Maurer <br>
- * @since 6/9/2024
- */
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "inv_types")
-public class Item {
+import java.util.List;
+
+public interface IndustryActivityMaterialRepository
+        extends JpaRepository<IndustryActivityMaterial, IndustryActivityMaterialKey> {
     
-    @Id
-    @Column(name = "type_id")
-    private Long itemId;
-    
-    @Column(name = "type_name")
-    private String name;
-    
-    private String description;
-    
-    private Long marketGroupId;
-    
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "type_id", referencedColumnName = "type_id")
-    private MetaType metaType;
+    List<IndustryActivityMaterial> findById_TypeIdAndId_ActivityId(Long typeId, Long activityId);
 }
