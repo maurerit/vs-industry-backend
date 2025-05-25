@@ -27,6 +27,7 @@ package io.github.vaporsea.vsindustry.controllers;
 import io.github.vaporsea.vsindustry.contract.BlueprintDataDTO;
 import io.github.vaporsea.vsindustry.contract.Page;
 import io.github.vaporsea.vsindustry.contract.ProductDTO;
+import io.github.vaporsea.vsindustry.domain.ProductSearch;
 import io.github.vaporsea.vsindustry.service.ProductFetchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -43,8 +44,8 @@ public class ProductController {
     private final ProductFetchService productFetchService;
     
     @GetMapping
-    public Page<ProductDTO> getProducts(Integer page, Integer pageSize) {
-        return productFetchService.getProducts(PageRequest.of(page, pageSize));
+    public Page<ProductDTO> getProducts(Integer page, Integer pageSize, ProductSearch productSearch) {
+        return productFetchService.getProducts(PageRequest.of(page, pageSize), productSearch);
     }
     
     @GetMapping("/{itemId}")
