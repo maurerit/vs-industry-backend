@@ -63,11 +63,13 @@ public class MarketTransaction implements Timestamped, Identified {
     private Integer divisionId;
 
     private Boolean isBuy;
-    
+
+    private Double profitMargin;
+
     public ZonedDateTime getTimestamp() {
         return date;
     }
-    
+
     public Long getId() {
         return transactionId;
     }
