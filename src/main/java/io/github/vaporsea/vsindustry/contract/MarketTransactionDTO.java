@@ -66,4 +66,7 @@ public class MarketTransactionDTO implements Serializable {
 
     @JsonProperty("is_buy")
     private Boolean isBuy;
+
+    @JsonProperty("profit_margin")
+    private Double profitMargin;
 }
