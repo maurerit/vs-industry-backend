@@ -33,9 +33,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Component
 public class Warehouse {
-    
+
     private final WarehouseItemRepository warehouseItemRepository;
-    
+
     public WarehouseItem getWarehouseItem(Long itemId) {
         return warehouseItemRepository.findById(itemId).orElse(
                 WarehouseItem.builder()
@@ -45,7 +45,7 @@ public class Warehouse {
                              .build()
         );
     }
-    
+
     @Transactional
     public double removeItem(Long itemId, Long quantity) {
         return warehouseItemRepository.findById(itemId)
@@ -63,19 +63,21 @@ public class Warehouse {
                                               warehouseItem.setQuantity(newQuantity);
                                               warehouseItemRepository.save(warehouseItem);
                                           }
-                                          
+
                                           return warehouseItem.getCostPerItem() == null ? 0D :
                                                   (double) warehouseItem.getCostPerItem() * quantity;
                                       })
                                       .orElse(0D);
     }
-    
+
     @Transactional
     public void addItem(Long itemId, Long quantity, Double costPerItem) {
         warehouseItemRepository.findById(itemId)
                                .ifPresentOrElse(warehouseItem -> {
+                                           Double newCost = rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(),
+                                                   costPerItem == null ? 0D : costPerItem, quantity);
                                            warehouseItem.setQuantity(warehouseItem.getQuantity() + quantity);
-                                           warehouseItem.setCostPerItem(costPerItem == null ? 0D : costPerItem);
+                                           warehouseItem.setCostPerItem(newCost);
                                            warehouseItemRepository.save(warehouseItem);
                                        }, () ->
                                                warehouseItemRepository.save(WarehouseItem.builder()
@@ -85,5 +87,19 @@ public class Warehouse {
                                                                                                  costPerItem)
                                                                                          .build())
                                );
+    }
+
+    /**
+     * Calculate the rolling average of a cost
+     *
+     * @param oldAverage The old cost per item... or old average
+     * @param oldQuantity The old quantity
+     * @param newCost The new cost per item
+     * @param newQuantity The new quantity
+     *
+     * @return The new average
+     */
+    private Double rollingAverage(Double oldAverage, Long oldQuantity, Double newCost, Long newQuantity) {
+        return (oldAverage * oldQuantity + newCost * newQuantity) / (oldQuantity + newQuantity);
     }
 }
