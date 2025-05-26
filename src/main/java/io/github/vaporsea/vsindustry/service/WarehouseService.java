@@ -147,22 +147,14 @@ public class WarehouseService {
             return;
         }
 
-        WarehouseItem warehouseItem = warehouse.getWarehouseItem(marketTransaction.getTypeId());
-        if (warehouseItem != null) {
-            if (marketTransaction.getIsBuy()) {
-                Double newCost = rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(),
-                        marketTransaction.getUnitPrice(), marketTransaction.getQuantity());
-
-                warehouse.addItem(marketTransaction.getTypeId(), marketTransaction.getQuantity(), newCost);
-            }
-            else {
-                warehouse.removeItem(marketTransaction.getTypeId(), marketTransaction.getQuantity());
-            }
+        if (marketTransaction.getIsBuy()) {
+            warehouse.addItem(marketTransaction.getTypeId(), marketTransaction.getQuantity(),
+                    marketTransaction.getUnitPrice());
         }
         else {
-            if (marketTransaction.getIsBuy()) {
-                warehouse.addItem(marketTransaction.getTypeId(), marketTransaction.getQuantity(),
-                        marketTransaction.getUnitPrice());
+            WarehouseItem warehouseItem = warehouse.getWarehouseItem(marketTransaction.getTypeId());
+            if (warehouseItem != null) {
+                warehouse.removeItem(marketTransaction.getTypeId(), marketTransaction.getQuantity());
             }
             else {
                 log.warn("No warehouse item found for sell order: {}", marketTransaction.getTransactionId());
@@ -253,16 +245,7 @@ public class WarehouseService {
             Long typeId = entry.getKey();
             Long quantity = entry.getValue();
 
-            WarehouseItem warehouseItem = warehouse.getWarehouseItem(typeId);
-            if (warehouseItem != null) {
-                Double newCost = rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(),
-                        contractHeader.getPrice() / quantity, quantity);
-
-                warehouse.addItem(typeId, quantity, newCost);
-            }
-            else {
-                warehouse.addItem(typeId, quantity, contractHeader.getPrice());
-            }
+            warehouse.addItem(typeId, quantity, contractHeader.getPrice() / quantity);
         }
 
         lastProcessedRepository.save(LastProcessed.builder()
@@ -283,19 +266,9 @@ public class WarehouseService {
                                            .orElseThrow(() -> new RuntimeException(
                                                    "Product not found for product type id: " + productTypeId));
 
-        WarehouseItem warehouseItem = warehouse.getWarehouseItem(productTypeId);
         double cost = manufacturingCostForJob(industryJob, product);
         double costPerItem = cost / (double) (industryJob.getRuns() * product.getMakeTypeAmount());
-        if (warehouseItem != null) {
-            double newCostPerItem =
-                    rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(), costPerItem,
-                            industryJob.getRuns());
-
-            warehouse.addItem(productTypeId, industryJob.getRuns(), newCostPerItem);
-        }
-        else {
-            warehouse.addItem(productTypeId, industryJob.getRuns(), costPerItem);
-        }
+        warehouse.addItem(productTypeId, industryJob.getRuns(), costPerItem);
 
         return true;
     }
@@ -306,19 +279,9 @@ public class WarehouseService {
      * @param industryJob The industry job
      */
     private boolean processCopyJob(IndustryJobDTO industryJob) {
-        WarehouseItem warehouseItem = warehouse.getWarehouseItem(industryJob.getJobId());
         long totalBluePrints = industryJob.getRuns() * industryJob.getLicensedRuns();
         double costPerItem = industryJob.getCost() / totalBluePrints;
-
-        if (warehouseItem != null) {
-            Double newCost = rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(), costPerItem,
-                    totalBluePrints);
-
-            warehouse.addItem(industryJob.getProductTypeId(), totalBluePrints, newCost);
-        }
-        else {
-            warehouse.addItem(industryJob.getProductTypeId(), totalBluePrints, costPerItem);
-        }
+        warehouse.addItem(industryJob.getProductTypeId(), totalBluePrints, costPerItem);
 
         return true;
     }
@@ -354,20 +317,10 @@ public class WarehouseService {
         newTotal += warehouse.removeItem(t1BpcId, industryJob.getRuns());
         //        }
 
-        WarehouseItem warehousedBlueprints = warehouse.getWarehouseItem(t2BpcId);
         long successfulRuns = industryJob.getSuccessfulRuns() == 0 ? 1L :
                 industryJob.getSuccessfulRuns() * product.getMakeTypeAmount();
-        if (warehousedBlueprints != null) {
-            double newCostPerItem = newTotal / successfulRuns;
-            double newCost = rollingAverage(warehousedBlueprints.getCostPerItem(), warehousedBlueprints.getQuantity(),
-                    newCostPerItem, successfulRuns);
-
-            warehouse.addItem(t2BpcId, industryJob.getSuccessfulRuns() * product.getMakeTypeAmount(), newCost);
-        }
-        else {
-            double newCostPerItem = newTotal / successfulRuns;
-            warehouse.addItem(t2BpcId, industryJob.getSuccessfulRuns() * product.getMakeTypeAmount(), newCostPerItem);
-        }
+        double newCostPerItem = newTotal / successfulRuns;
+        warehouse.addItem(t2BpcId, industryJob.getSuccessfulRuns() * product.getMakeTypeAmount(), newCostPerItem);
 
         return true;
     }
@@ -396,17 +349,4 @@ public class WarehouseService {
         return result;
     }
 
-    /**
-     * Calculate the rolling average of a cost
-     *
-     * @param oldAverage The old cost per item... or old average
-     * @param oldQuantity The old quantity
-     * @param newCost The new cost per item
-     * @param newQuantity The new quantity
-     *
-     * @return The new average
-     */
-    private static Double rollingAverage(Double oldAverage, Long oldQuantity, Double newCost, Long newQuantity) {
-        return (oldAverage * oldQuantity + newCost * newQuantity) / (oldQuantity + newQuantity);
-    }
 }
