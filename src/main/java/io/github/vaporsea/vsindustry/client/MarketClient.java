@@ -60,17 +60,19 @@ public class MarketClient {
      * @param typeId The type ID to fetch orders for
      * @param systemId The system ID to filter orders by
      * @param regionId The region ID to fetch orders from
+     * @param orderType The type of orders to fetch ("buy", "sell", or "all")
      * @return A list of market orders for the specified type in the specified system
      */
-    @Cacheable(value = "marketOrders", key = "#typeId + '-' + #systemId + '-' + #regionId")
+    @Cacheable(value = "marketOrders", key = "#typeId + '-' + #systemId + '-' + #regionId + '-' + #orderType")
     @Retryable
-    public List<MarketOrderDTO> getOrders(Long typeId, Long systemId, Long regionId) {
+    public List<MarketOrderDTO> getOrders(Long typeId, Long systemId, Long regionId, String orderType) {
         List<MarketOrderDTO> allOrders = new ArrayList<>();
 
         // Get the first page of results
         ResponseEntity<List<MarketOrderDTO>> response = restClient.get()
                 .uri(uriBuilder -> uriBuilder.path(MARKET_ORDERS_URL)
                         .queryParam("type_id", typeId)
+                        .queryParam("order_type", orderType)
                         .build(regionId))
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
@@ -91,7 +93,7 @@ public class MarketClient {
                         .uri(uriBuilder -> uriBuilder.path(MARKET_ORDERS_URL)
                                 .queryParam("type_id", typeId)
                                 .queryParam("page", currentPage)
-                                .queryParam("order_type", "sell")
+                                .queryParam("order_type", orderType)
                                 .build(regionId))
                         .retrieve()
                         .toEntity(new ParameterizedTypeReference<>() {});
@@ -114,11 +116,27 @@ public class MarketClient {
      *
      * @param typeId The type ID to fetch orders for
      * @param tradeHub The trade hub to fetch orders from
+     * @param orderType The type of orders to fetch ("buy", "sell", or "all")
      * @return A list of market orders for the specified type in the specified trade hub
      */
-    @Cacheable(value = "marketOrders", key = "#typeId + '-' + #tradeHub.name()")
+    @Cacheable(value = "marketOrders", key = "#typeId + '-' + #tradeHub.name() + '-' + #orderType")
+    @Retryable
+    public List<MarketOrderDTO> getOrders(Long typeId, TradeHub tradeHub, String orderType) {
+        return getOrders(typeId, tradeHub.getSystemId(), tradeHub.getRegionId(), orderType);
+    }
+
+    /**
+     * Fetch market orders for a specific type ID in a trade hub.
+     * This is a convenience method that uses the region and system IDs from the TradeHub enum.
+     * Defaults to fetching all order types.
+     *
+     * @param typeId The type ID to fetch orders for
+     * @param tradeHub The trade hub to fetch orders from
+     * @return A list of market orders for the specified type in the specified trade hub
+     */
+    @Cacheable(value = "marketOrders", key = "#typeId + '-' + #tradeHub.name() + '-all'")
     @Retryable
     public List<MarketOrderDTO> getOrders(Long typeId, TradeHub tradeHub) {
-        return getOrders(typeId, tradeHub.getSystemId(), tradeHub.getRegionId());
+        return getOrders(typeId, tradeHub.getSystemId(), tradeHub.getRegionId(), "all");
     }
 }

@@ -63,6 +63,9 @@ public class MarketStat {
     @Column(name = "sell_minimum")
     private BigDecimal sellMinimum;
 
+    @Column(name = "buy_maximum")
+    private BigDecimal buyMaximum;
+
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
 }

@@ -260,8 +260,8 @@ public class DataFetchService {
     /**
      * Fetches market statistics for all product and invention items.
      * This method queries all configured product and invention items,
-     * fetches their market prices from all trade hubs, and stores the
-     * minimum sell price for each item in each trade hub.
+     * fetches their market prices from all trade hubs, and stores both
+     * the minimum sell price and maximum buy price for each item in each trade hub.
      */
     public void fetchMarketStats() {
         log.info("Fetching market statistics for product and invention items");
@@ -288,30 +288,59 @@ public class DataFetchService {
             // Process each item
             for (Long itemId : allItemIds) {
                 try {
-                    // Fetch market orders for this item in this trade hub
-                    List<MarketOrderDTO> orders = marketClient.getOrders(itemId, tradeHub);
+                    // Fetch market orders for this item in this trade hub (both buy and sell orders)
+                    List<MarketOrderDTO> orders = marketClient.getOrders(itemId, tradeHub, "all");
 
                     // Filter for sell orders
-                    //TODO: Keeping this in for now but it's actually already being done.  The market client interaction will change in the future to spell this out
                     List<MarketOrderDTO> sellOrders = orders.stream()
                             .filter(order -> !order.isBuyOrder())
                             .toList();
 
+                    // Filter for buy orders
+                    List<MarketOrderDTO> buyOrders = orders.stream()
+                            .filter(MarketOrderDTO::isBuyOrder)
+                            .toList();
+
+                    // Initialize variables for market stats
+                    BigDecimal sellMinimum = null;
+                    BigDecimal buyMaximum = null;
+
+                    // Calculate minimum sell price if sell orders exist
                     if (!sellOrders.isEmpty()) {
                         Double minPrice = sellOrders.stream()
-                                                    .min(Comparator.comparing(MarketOrderDTO::getPrice)).get().getPrice();
-
-                        marketStatRepository.save(MarketStat.builder()
-                                                            .itemId(itemId)
-                                                            .systemId(tradeHub.getSystemId())
-                                                            .sellMinimum(BigDecimal.valueOf(minPrice))
-                                                            .timestamp(LocalDateTime.now())
-                                                            .build());
-
-                        log.debug("Saved market stat for item {} in system {}: {}",
+                                .min(Comparator.comparing(MarketOrderDTO::getPrice))
+                                .get()
+                                .getPrice();
+                        sellMinimum = BigDecimal.valueOf(minPrice);
+                        log.debug("Found minimum sell price for item {} in system {}: {}",
                                 itemId, tradeHub.getSystemId(), minPrice);
+                    }
+
+                    // Calculate maximum buy price if buy orders exist
+                    if (!buyOrders.isEmpty()) {
+                        Double maxPrice = buyOrders.stream()
+                                .max(Comparator.comparing(MarketOrderDTO::getPrice))
+                                .get()
+                                .getPrice();
+                        buyMaximum = BigDecimal.valueOf(maxPrice);
+                        log.debug("Found maximum buy price for item {} in system {}: {}",
+                                itemId, tradeHub.getSystemId(), maxPrice);
+                    }
+
+                    // Save market stats if we have either sell or buy data
+                    if (sellMinimum != null || buyMaximum != null) {
+                        marketStatRepository.save(MarketStat.builder()
+                                .itemId(itemId)
+                                .systemId(tradeHub.getSystemId())
+                                .sellMinimum(sellMinimum)
+                                .buyMaximum(buyMaximum)
+                                .timestamp(LocalDateTime.now())
+                                .build());
+
+                        log.debug("Saved market stat for item {} in system {}", 
+                                itemId, tradeHub.getSystemId());
                     } else {
-                        log.debug("No sell orders found for item {} in trade hub {}", itemId, tradeHub.name());
+                        log.debug("No buy or sell orders found for item {} in trade hub {}", itemId, tradeHub.name());
                     }
                 } catch (Exception e) {
                     log.error("Error fetching market stats for item {} in trade hub {}: {}",
