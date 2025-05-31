@@ -103,9 +103,11 @@ public class DataFetchService {
 
                 journalEntries.content()
                               .forEach(entry -> {
-                                  JournalEntry journalEntry = modelMapper.map(entry, JournalEntry.class);
-                                  journalEntry.setDivisionId(finalDivision);
-                                  journalEntryRepository.save(journalEntry);
+                                  if(!journalEntryRepository.existsById(entry.getId())) {
+                                      JournalEntry journalEntry = modelMapper.map(entry, JournalEntry.class);
+                                      journalEntry.setDivisionId(finalDivision);
+                                      journalEntryRepository.save(journalEntry);
+                                  }
                               });
             }
         }
@@ -117,9 +119,11 @@ public class DataFetchService {
 
             int finalDivision = division;
             marketTransactions.forEach(transaction -> {
-                MarketTransaction marketTransaction = modelMapper.map(transaction, MarketTransaction.class);
-                marketTransaction.setDivisionId(finalDivision);
-                marketTransactionRepository.save(marketTransaction);
+                if(!marketTransactionRepository.existsById(transaction.getTransactionId())) {
+                    MarketTransaction marketTransaction = modelMapper.map(transaction, MarketTransaction.class);
+                    marketTransaction.setDivisionId(finalDivision);
+                    marketTransactionRepository.save(marketTransaction);
+                }
             });
         }
     }

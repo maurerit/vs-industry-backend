@@ -112,7 +112,7 @@ public class WarehouseService {
         allEvents.forEach(t -> {
             if (t instanceof MarketTransaction) {
                 MarketTransactionDTO marketTransaction = modelMapper.map(t, MarketTransactionDTO.class);
-                processMarketTransaction(marketTransaction);
+                processMarketTransaction((MarketTransaction) t);
                 warehouseListener.marketTransactionProcessed(marketTransaction);
             }
             else if (t instanceof IndustryJob) {
@@ -135,7 +135,7 @@ public class WarehouseService {
      *
      * @param marketTransaction The market transaction
      */
-    public void processMarketTransaction(MarketTransactionDTO marketTransaction) {
+    public void processMarketTransaction(MarketTransaction marketTransaction) {
         LastProcessedKey key = LastProcessedKey.builder()
                                                .objectId(marketTransaction.getTransactionId())
                                                .objectType(MARKET_TRANSACTION_NAME)
@@ -150,13 +150,14 @@ public class WarehouseService {
         Double itemValue = 0.0;
         
         if (marketTransaction.getIsBuy()) {
-            warehouse.addItem(marketTransaction.getTypeId(), marketTransaction.getQuantity(),
+            warehouse.addItem(marketTransaction.getTypeId(), marketTransaction.getQuantity().longValue(),
                     marketTransaction.getUnitPrice());
         }
         else {
             WarehouseItem warehouseItem = warehouse.getWarehouseItem(marketTransaction.getTypeId());
             if (warehouseItem != null) {
-                warehouse.removeItem(marketTransaction.getTypeId(), marketTransaction.getQuantity());
+                warehouse.removeItem(marketTransaction.getTypeId(), marketTransaction.getQuantity().longValue());
+                itemValue = warehouseItem.getCostPerItem();
             }
             else {
                 log.warn("No warehouse item found for sell order: {}", marketTransaction.getTransactionId());
@@ -167,10 +168,10 @@ public class WarehouseService {
         if (!marketTransaction.getIsBuy()) {
             Double transactionAmount = marketTransaction.getUnitPrice();
             Double profitMargin = transactionAmount - itemValue;
-            marketTransaction.setProfitMargin(profitMargin * marketTransaction.getQuantity());
+            marketTransaction.setProfitMargin(profitMargin);
         }
 
-        marketTransactionRepository.save(modelMapper.map(marketTransaction, MarketTransaction.class));
+        marketTransactionRepository.save(marketTransaction);
 
         LastProcessed lastProcessed = LastProcessed.builder()
                                                    .id(key)
