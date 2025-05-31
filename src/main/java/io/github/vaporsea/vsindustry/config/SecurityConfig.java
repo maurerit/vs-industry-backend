@@ -24,7 +24,7 @@
 
 package io.github.vaporsea.vsindustry.config;
 
-import io.github.vaporsea.vsindustry.controllers.JwtTokenFilter;
+import io.github.vaporsea.vsindustry.filter.JwtTokenFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -26,7 +26,7 @@ package io.github.vaporsea.vsindustry.service;
 
 import io.github.vaporsea.vsindustry.contract.Page;
 import io.github.vaporsea.vsindustry.contract.UserDTO;
-import io.github.vaporsea.vsindustry.controllers.JwtTokenUtil;
+import io.github.vaporsea.vsindustry.util.JwtTokenUtil;
 import io.github.vaporsea.vsindustry.domain.Role;
 import io.github.vaporsea.vsindustry.domain.RoleRepository;
 import io.github.vaporsea.vsindustry.domain.User;

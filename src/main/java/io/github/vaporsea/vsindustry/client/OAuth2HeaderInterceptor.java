@@ -45,7 +45,7 @@ import org.springframework.web.client.RestClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.github.vaporsea.vsindustry.controllers.JwtTokenUtil;
+import io.github.vaporsea.vsindustry.util.JwtTokenUtil;
 import io.github.vaporsea.vsindustry.domain.AuthToken;
 import io.github.vaporsea.vsindustry.domain.AuthTokenRepository;
 import lombok.RequiredArgsConstructor;

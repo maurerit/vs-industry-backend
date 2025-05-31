@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package io.github.vaporsea.vsindustry.controllers;
+package io.github.vaporsea.vsindustry.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.vaporsea.vsindustry.contract.EveJwtDTO;

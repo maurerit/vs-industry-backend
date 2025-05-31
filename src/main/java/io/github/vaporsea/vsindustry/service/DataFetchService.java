@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.vaporsea.vsindustry.client.EveContractClient;
 import io.github.vaporsea.vsindustry.contract.*;
-import io.github.vaporsea.vsindustry.controllers.JwtTokenUtil;
+import io.github.vaporsea.vsindustry.util.JwtTokenUtil;
 import io.github.vaporsea.vsindustry.domain.AuthToken;
 import io.github.vaporsea.vsindustry.domain.AuthTokenRepository;
 import io.github.vaporsea.vsindustry.domain.ContractDetail;
