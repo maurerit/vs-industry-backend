@@ -73,4 +73,10 @@ public class MarketOrderDTO implements Serializable {
     
     @JsonProperty("is_buy_order")
     private boolean buyOrder;
+    
+    @JsonProperty("location_id")
+    private Long locationId;
+    
+    @JsonProperty("system_id")
+    private Long systemId;
 }
