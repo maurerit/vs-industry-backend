@@ -24,40 +24,26 @@
 
 package io.github.vaporsea.vsindustry.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
+ * Repository for accessing InventionItem entities.
+ *
  * @author Matt Maurer <br>
  * @since 6/9/2024
  */
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "product_invention_items")
-@IdClass(InventionItemId.class)
-public class InventionItem {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    @ToString.Exclude
-    private Product product;
-
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "item_id")
-    private Item item;
-
-    private Long quantity;
+@Repository
+public interface InventionItemRepository extends JpaRepository<InventionItem, InventionItemId> {
+    
+    /**
+     * Find all unique items used as invention inputs.
+     * 
+     * @return a list of all unique Item entities used as invention inputs
+     */
+    @Query("SELECT DISTINCT ii.item FROM InventionItem ii")
+    List<Item> findAllUniqueItems();
 }

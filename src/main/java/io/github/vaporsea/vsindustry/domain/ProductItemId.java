@@ -24,40 +24,42 @@
 
 package io.github.vaporsea.vsindustry.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Objects;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
+ * Composite primary key for ProductItem entity.
+ *
  * @author Matt Maurer <br>
  * @since 6/9/2024
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "product_invention_items")
-@IdClass(InventionItemId.class)
-public class InventionItem {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    @ToString.Exclude
-    private Product product;
-
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "item_id")
-    private Item item;
-
-    private Long quantity;
+public class ProductItemId implements Serializable {
+    
+    @Serial
+    private static final long serialVersionUID = 1L;
+    
+    private Long product; // Matches the product_id column
+    private Long item;    // Matches the item_id column
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductItemId that = (ProductItemId) o;
+        return Objects.equals(product, that.product) && 
+               Objects.equals(item, that.item);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(product, item);
+    }
 }

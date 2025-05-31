@@ -24,19 +24,22 @@
 
 package io.github.vaporsea.vsindustry.domain;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
+ * Entity representing market statistics for items.
+ *
  * @author Matt Maurer <br>
  * @since 6/9/2024
  */
@@ -45,19 +48,21 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "product_invention_items")
-@IdClass(InventionItemId.class)
-public class InventionItem {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    @ToString.Exclude
-    private Product product;
+@Table(name = "market_stats")
+@IdClass(MarketStatId.class)
+public class MarketStat {
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "item_id")
-    private Item item;
+    @Column(name = "item_id")
+    private Long itemId;
 
-    private Long quantity;
+    @Id
+    @Column(name = "system_id")
+    private Long systemId;
+
+    @Column(name = "sell_minimum")
+    private BigDecimal sellMinimum;
+
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;
 }

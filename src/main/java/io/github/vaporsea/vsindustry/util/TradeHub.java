@@ -1,5 +1,10 @@
 package io.github.vaporsea.vsindustry.util;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import lombok.Getter;
 
 /**
@@ -13,11 +18,24 @@ public enum TradeHub {
     HEK(10000042L, 30002053L),
     DODIXIE(10000032L, 30002659L);
 
+    private static final Map<Long, TradeHub> SYSTEM_ID_MAP = Arrays.stream(values())
+            .collect(Collectors.toMap(TradeHub::getSystemId, Function.identity()));
+
     private final Long regionId;
     private final Long systemId;
 
     TradeHub(Long regionId, Long systemId) {
         this.regionId = regionId;
         this.systemId = systemId;
+    }
+
+    /**
+     * Get a TradeHub by its system ID.
+     *
+     * @param systemId the system ID to look up
+     * @return the TradeHub for the given system ID, or null if not found
+     */
+    public static TradeHub fromSystemId(Long systemId) {
+        return SYSTEM_ID_MAP.get(systemId);
     }
 }
