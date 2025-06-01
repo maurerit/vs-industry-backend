@@ -60,6 +60,7 @@ public class BlueprintService {
         
         return BlueprintDTO.builder()
                            .requestedid(itemId.intValue())
+                           .blueprintTypeID(activityProduct.getId().getTypeId())
                            .blueprintDetails(BlueprintDetailsDTO.builder()
                                                                 .productTypeID(itemId)
                                                                 .productTypeName(item.getName())

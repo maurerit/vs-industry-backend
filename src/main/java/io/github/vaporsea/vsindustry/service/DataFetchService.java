@@ -25,22 +25,36 @@
 package io.github.vaporsea.vsindustry.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.vaporsea.vsindustry.client.EveContractClient;
+import io.github.vaporsea.vsindustry.client.MarketClient;
 import io.github.vaporsea.vsindustry.contract.*;
+import io.github.vaporsea.vsindustry.domain.Item;
 import io.github.vaporsea.vsindustry.util.JwtTokenUtil;
+import io.github.vaporsea.vsindustry.util.TradeHub;
 import io.github.vaporsea.vsindustry.domain.AuthToken;
 import io.github.vaporsea.vsindustry.domain.AuthTokenRepository;
 import io.github.vaporsea.vsindustry.domain.ContractDetail;
 import io.github.vaporsea.vsindustry.domain.ContractDetailRepository;
 import io.github.vaporsea.vsindustry.domain.ContractHeader;
 import io.github.vaporsea.vsindustry.domain.ContractHeaderRepository;
+import io.github.vaporsea.vsindustry.domain.InventionItemRepository;
+import io.github.vaporsea.vsindustry.domain.MarketStat;
+import io.github.vaporsea.vsindustry.domain.MarketStatRepository;
+import io.github.vaporsea.vsindustry.domain.ProductItemRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -61,14 +75,20 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class DataFetchService {
 
+    private static final Logger log = LoggerFactory.getLogger(DataFetchService.class);
+
     private final EveClient eveClient;
     private final EveContractClient eveContractClient;
+    private final MarketClient marketClient;
     private final IndustryJobRepository industryJobRepository;
     private final JournalEntryRepository journalEntryRepository;
     private final MarketTransactionRepository marketTransactionRepository;
     private final ContractHeaderRepository contractHeaderRepository;
     private final ContractDetailRepository contractDetailRepository;
     private final AuthTokenRepository authTokenRepository;
+    private final ProductItemRepository productItemRepository;
+    private final InventionItemRepository inventionItemRepository;
+    private final MarketStatRepository marketStatRepository;
     private final JwtTokenUtil jwtTokenUtil;
     private final ModelMapper modelMapper = new ModelMapper();
 
@@ -237,5 +257,104 @@ public class DataFetchService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to store tokens", e);
         }
+    }
+
+    /**
+     * Fetches market statistics for all product and invention items.
+     * This method queries all configured product and invention items,
+     * fetches their market prices from all trade hubs, and stores both
+     * the minimum sell price and maximum buy price for each item in each trade hub.
+     */
+    @Transactional
+    public void fetchMarketStats() {
+        log.info("Fetching market statistics for product and invention items");
+
+        // Get all unique items from product items
+        Stream<Long> productItemIds = productItemRepository.findAllUniqueItems().stream()
+                .map(Item::getItemId);
+
+        // Get all unique items from invention items
+        Stream<Long> inventionItemIds = inventionItemRepository.findAllUniqueItems().stream()
+                .map(Item::getItemId);
+
+        // Combine and deduplicate the lists
+        List<Long> allItemIds = Stream.concat(productItemIds, inventionItemIds)
+                .distinct()
+                .toList();
+
+        log.info("Processing {} unique items in total", allItemIds.size());
+
+        List<MarketStat> marketStats = new LinkedList<>();
+        
+        // Process each trade hub
+        for (TradeHub tradeHub : TradeHub.values()) {
+            log.info("Processing trade hub: {}", tradeHub.name());
+
+            // Process each item
+            for (Long itemId : allItemIds) {
+                try {
+                    // Fetch market orders for this item in this trade hub (both buy and sell orders)
+                    List<MarketOrderDTO> orders = marketClient.getOrders(itemId, tradeHub, "all");
+
+                    // Filter for sell orders
+                    List<MarketOrderDTO> sellOrders = orders.stream()
+                            .filter(order -> !order.isBuyOrder())
+                            .toList();
+
+                    // Filter for buy orders
+                    List<MarketOrderDTO> buyOrders = orders.stream()
+                            .filter(MarketOrderDTO::isBuyOrder)
+                            .toList();
+
+                    // Initialize variables for market stats
+                    BigDecimal sellMinimum = null;
+                    BigDecimal buyMaximum = null;
+
+                    // Calculate minimum sell price if sell orders exist
+                    if (!sellOrders.isEmpty()) {
+                        Double minPrice = sellOrders.stream()
+                                .min(Comparator.comparing(MarketOrderDTO::getPrice))
+                                .get()
+                                .getPrice();
+                        sellMinimum = BigDecimal.valueOf(minPrice);
+                        log.debug("Found minimum sell price for item {} in system {}: {}",
+                                itemId, tradeHub.getSystemId(), minPrice);
+                    }
+
+                    // Calculate maximum buy price if buy orders exist
+                    if (!buyOrders.isEmpty()) {
+                        Double maxPrice = buyOrders.stream()
+                                .max(Comparator.comparing(MarketOrderDTO::getPrice))
+                                .get()
+                                .getPrice();
+                        buyMaximum = BigDecimal.valueOf(maxPrice);
+                        log.debug("Found maximum buy price for item {} in system {}: {}",
+                                itemId, tradeHub.getSystemId(), maxPrice);
+                    }
+
+                    // Save market stats if we have either sell or buy data
+                    if (sellMinimum != null || buyMaximum != null) {
+                        marketStats.add(MarketStat.builder()
+                                .itemId(itemId)
+                                .systemId(tradeHub.getSystemId())
+                                .sellMinimum(sellMinimum)
+                                .buyMaximum(buyMaximum)
+                                .timestamp(LocalDateTime.now())
+                                .build());
+
+                        log.debug("Saved market stat for item {} in system {}", 
+                                itemId, tradeHub.getSystemId());
+                    } else {
+                        log.debug("No buy or sell orders found for item {} in trade hub {}", itemId, tradeHub.name());
+                    }
+                } catch (Exception e) {
+                    log.error("Error fetching market stats for item {} in trade hub {}: {}",
+                            itemId, tradeHub.name(), e.getMessage(), e);
+                }
+            }
+        }
+        
+        marketStatRepository.saveAll(marketStats);
+        log.info("Finished fetching market statistics");
     }
 }
