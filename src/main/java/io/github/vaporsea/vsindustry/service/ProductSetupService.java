@@ -113,7 +113,7 @@ public class ProductSetupService {
         Product product = Product.builder()
                                  .name(blueprintDTO.getBlueprintDetails().getProductTypeName())
                                  .itemId(blueprintDTO.getBlueprintDetails().getProductTypeID())
-                                 .makeType((long) blueprintDTO.getRequestedid())
+                                 .makeType(blueprintDTO.getBlueprintTypeID())
                                  .makeTypeAmount(blueprintDTO.getBlueprintDetails().getProductQuantity())
                                  .productItems(materials)
                                  .build();
