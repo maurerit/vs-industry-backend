@@ -69,13 +69,7 @@ public class MarketClient {
         List<MarketOrderDTO> allOrders = new ArrayList<>();
 
         // Get the first page of results
-        ResponseEntity<List<MarketOrderDTO>> response = restClient.get()
-                .uri(uriBuilder -> uriBuilder.path(MARKET_ORDERS_URL)
-                        .queryParam("type_id", typeId)
-                        .queryParam("order_type", orderType)
-                        .build(regionId))
-                .retrieve()
-                .toEntity(new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<MarketOrderDTO>> response = getOrdersResponse(typeId, regionId, orderType, 1);
 
         if (response.getBody() != null) {
             allOrders.addAll(response.getBody());
@@ -88,15 +82,7 @@ public class MarketClient {
 
             // Fetch remaining pages
             for (int page = 2; page <= totalPages; page++) {
-                int currentPage = page;
-                ResponseEntity<List<MarketOrderDTO>> pageResponse = restClient.get()
-                        .uri(uriBuilder -> uriBuilder.path(MARKET_ORDERS_URL)
-                                .queryParam("type_id", typeId)
-                                .queryParam("page", currentPage)
-                                .queryParam("order_type", orderType)
-                                .build(regionId))
-                        .retrieve()
-                        .toEntity(new ParameterizedTypeReference<>() {});
+                ResponseEntity<List<MarketOrderDTO>> pageResponse = getOrdersResponse(typeId, regionId, orderType, page);
 
                 if (pageResponse.getBody() != null) {
                     allOrders.addAll(pageResponse.getBody());
@@ -108,6 +94,17 @@ public class MarketClient {
         return allOrders.stream()
                 .filter(order -> Objects.equals(order.getSystemId(), systemId))
                 .collect(Collectors.toList());
+    }
+    
+    private ResponseEntity<List<MarketOrderDTO>> getOrdersResponse(Long typeId, Long regionId, String orderType, int page) {
+        return restClient.get()
+                .uri(uriBuilder -> uriBuilder.path(MARKET_ORDERS_URL)
+                        .queryParam("type_id", typeId)
+                        .queryParam("order_type", orderType)
+                        .queryParam("page", page)
+                        .build(regionId))
+                .retrieve()
+                .toEntity(new ParameterizedTypeReference<>() {});
     }
 
     /**
