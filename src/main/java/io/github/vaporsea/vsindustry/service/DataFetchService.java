@@ -51,6 +51,7 @@ import io.github.vaporsea.vsindustry.domain.InventionItemRepository;
 import io.github.vaporsea.vsindustry.domain.MarketStat;
 import io.github.vaporsea.vsindustry.domain.MarketStatRepository;
 import io.github.vaporsea.vsindustry.domain.ProductItemRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -264,6 +265,7 @@ public class DataFetchService {
      * fetches their market prices from all trade hubs, and stores both
      * the minimum sell price and maximum buy price for each item in each trade hub.
      */
+    @Transactional
     public void fetchMarketStats() {
         log.info("Fetching market statistics for product and invention items");
 
