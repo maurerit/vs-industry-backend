@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -281,6 +282,8 @@ public class DataFetchService {
 
         log.info("Processing {} unique items in total", allItemIds.size());
 
+        List<MarketStat> marketStats = new LinkedList<>();
+        
         // Process each trade hub
         for (TradeHub tradeHub : TradeHub.values()) {
             log.info("Processing trade hub: {}", tradeHub.name());
@@ -329,7 +332,7 @@ public class DataFetchService {
 
                     // Save market stats if we have either sell or buy data
                     if (sellMinimum != null || buyMaximum != null) {
-                        marketStatRepository.save(MarketStat.builder()
+                        marketStats.add(MarketStat.builder()
                                 .itemId(itemId)
                                 .systemId(tradeHub.getSystemId())
                                 .sellMinimum(sellMinimum)
@@ -348,7 +351,8 @@ public class DataFetchService {
                 }
             }
         }
-
+        
+        marketStatRepository.saveAll(marketStats);
         log.info("Finished fetching market statistics");
     }
 }
