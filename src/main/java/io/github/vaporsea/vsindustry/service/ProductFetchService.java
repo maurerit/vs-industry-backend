@@ -132,7 +132,7 @@ public class ProductFetchService {
         MarketStat marketStat = marketStatRepository.findById(
                 MarketStatId.builder()
                             .itemId(product.getItemId())
-                            .systemId(TradeHub.AMARR.getSystemId())
+                            .systemId(TradeHub.AMARR.getSystemId()) // TODO: Make this configurable
                             .build()
         ).orElse(MarketStat.builder().build());
         
@@ -209,7 +209,7 @@ public class ProductFetchService {
         MarketStat marketStat = marketStatRepository.findById(
                 MarketStatId.builder()
                             .itemId(itemId)
-                            .systemId(TradeHub.AMARR.getSystemId())
+                            .systemId(TradeHub.AMARR.getSystemId())  // TODO: Make this configurable
                             .build()
         ).orElse(MarketStat.builder().build());
         
