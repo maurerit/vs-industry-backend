@@ -39,6 +39,8 @@ import io.github.vaporsea.vsindustry.client.EveContractClient;
 import io.github.vaporsea.vsindustry.client.MarketClient;
 import io.github.vaporsea.vsindustry.contract.*;
 import io.github.vaporsea.vsindustry.domain.Item;
+import io.github.vaporsea.vsindustry.domain.Product;
+import io.github.vaporsea.vsindustry.domain.ProductRepository;
 import io.github.vaporsea.vsindustry.util.JwtTokenUtil;
 import io.github.vaporsea.vsindustry.util.TradeHub;
 import io.github.vaporsea.vsindustry.domain.AuthToken;
@@ -91,7 +93,8 @@ public class DataFetchService {
     private final MarketStatRepository marketStatRepository;
     private final JwtTokenUtil jwtTokenUtil;
     private final ModelMapper modelMapper = new ModelMapper();
-
+    private final ProductRepository productRepository;
+    
     @Value("${vsindustry.client.corporationId}")
     private String corporationId;
 
@@ -276,9 +279,13 @@ public class DataFetchService {
         // Get all unique items from invention items
         Stream<Long> inventionItemIds = inventionItemRepository.findAllUniqueItems().stream()
                 .map(Item::getItemId);
+        
+        Stream<Long> productIds = productRepository.findAll().stream()
+                .map(Product::getItemId);
 
         // Combine and deduplicate the lists
-        List<Long> allItemIds = Stream.concat(productItemIds, inventionItemIds)
+        Stream<Long> itemIds = Stream.concat(productItemIds, inventionItemIds);
+        List<Long> allItemIds = Stream.concat(itemIds, productIds)
                 .distinct()
                 .toList();
 

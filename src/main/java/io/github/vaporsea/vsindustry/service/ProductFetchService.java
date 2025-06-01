@@ -29,18 +29,30 @@ import io.github.vaporsea.vsindustry.contract.ActivityMaterialDTO;
 import io.github.vaporsea.vsindustry.contract.ActivityMaterialsDTO;
 import io.github.vaporsea.vsindustry.contract.BlueprintDataDTO;
 import io.github.vaporsea.vsindustry.contract.BlueprintDetailsDTO;
+import io.github.vaporsea.vsindustry.contract.ExtraCostDTO;
 import io.github.vaporsea.vsindustry.contract.Page;
 import io.github.vaporsea.vsindustry.contract.ProductDTO;
+import io.github.vaporsea.vsindustry.contract.TransactionCostsDTO;
+import io.github.vaporsea.vsindustry.domain.ExtraCost;
 import io.github.vaporsea.vsindustry.domain.InventionItem;
+import io.github.vaporsea.vsindustry.domain.Item;
+import io.github.vaporsea.vsindustry.domain.ItemRepository;
+import io.github.vaporsea.vsindustry.domain.MarketStat;
+import io.github.vaporsea.vsindustry.domain.MarketStatId;
+import io.github.vaporsea.vsindustry.domain.MarketStatRepository;
 import io.github.vaporsea.vsindustry.domain.Product;
 import io.github.vaporsea.vsindustry.domain.ProductItem;
 import io.github.vaporsea.vsindustry.domain.ProductRepository;
 import io.github.vaporsea.vsindustry.domain.ProductSearch;
+import io.github.vaporsea.vsindustry.domain.WarehouseItem;
+import io.github.vaporsea.vsindustry.util.TradeHub;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -49,6 +61,10 @@ public class ProductFetchService {
     
     private final ProductRepository productRepository;
     private final Warehouse warehouse;
+    private final MarketStatRepository marketStatRepository;
+    private final ExtraCostService extraCostService;
+    private final ItemRepository itemRepository;
+    private final ModelMapper modelMapper;
     
     public Page<ProductDTO> getProducts(Pageable pageable, ProductSearch search) {
         org.springframework.data.domain.Page<Product> products = productRepository.findAll(search, pageable);
@@ -103,10 +119,49 @@ public class ProductFetchService {
                                                           .productTypeID(product.getItemId())
                                                           .productTypeName(product.getName())
                                                           .productMakeTypeID(product.getMakeType())
+                                                          .cost(warehouse.getWarehouseItem(product.getMakeType()).getCostPerItem())
                                                           .build()
                                )
+                .transactionCosts(buildTransactionCosts(product))
                                .activityMaterials(buildActivityMaterials(product))
                                .build();
+    }
+    
+    private TransactionCostsDTO buildTransactionCosts(Product product) {
+        WarehouseItem warehouseItem = warehouse.getWarehouseItem(product.getItemId());
+        MarketStat marketStat = marketStatRepository.findById(
+                MarketStatId.builder()
+                            .itemId(product.getItemId())
+                            .systemId(TradeHub.AMARR.getSystemId())
+                            .build()
+        ).orElse(MarketStat.builder().build());
+        
+        Double brokersFee = marketStat.getSellMinimum() != null ?
+                marketStat.getSellMinimum().doubleValue() * 0.0137 : // Assuming 1.37% broker fee
+                (warehouseItem.getCostPerItem() + warehouseItem.getCostPerItem() * .3) * 0.0137; // Fallback to warehouse item cost + 30% if no market stat
+        
+        Double salesTax = marketStat.getSellMinimum() != null ?
+                marketStat.getSellMinimum().doubleValue() * 0.03375 : // Assuming 3.375% sales tax
+                (warehouseItem.getCostPerItem() + warehouseItem.getCostPerItem() * .3) * 0.03375; // Fallback to warehouse item cost + 30% if no market stat
+
+        return TransactionCostsDTO.builder()
+                                  .brokersFee(brokersFee) // TODO: Assuming 1.37% broker fee
+                                  .salesTax(salesTax) // TODO: Assuming 5% sales tax
+                                  .extraCosts(getExtraCosts(product))
+                                  .build();
+    }
+    
+    private List<ExtraCostDTO> getExtraCosts(Product product) {
+        List<ExtraCostDTO> result = new ArrayList<>();
+        
+        List<ExtraCost> extraCosts = extraCostService.getExtraCosts(product.getItemId());
+        for (ExtraCost extraCost : extraCosts) {
+            ExtraCostDTO extraCostDTO = modelMapper.map(extraCost, ExtraCostDTO.class);
+            extraCostDTO.setName(itemRepository.findById(extraCost.getItemId()).orElse(new Item()).getName());
+            result.add(extraCostDTO);
+        }
+        
+        return result;
     }
     
     private ActivityMaterialsDTO buildActivityMaterials(Product product) {
@@ -136,6 +191,7 @@ public class ProductFetchService {
                                   .quantity(inventionItem.getQuantity())
                                   .price(warehouse.getWarehouseItem(inventionItem.getItem().getItemId())
                                                   .getCostPerItem())
+                                  .marketPrice(getSellMinimum(inventionItem.getItem().getItemId()))
                                   .build();
     }
     
@@ -145,6 +201,21 @@ public class ProductFetchService {
                                   .name(productItem.getItem().getName())
                                   .quantity(productItem.getQuantity())
                                   .price(warehouse.getWarehouseItem(productItem.getItem().getItemId()).getCostPerItem())
+                                  .marketPrice(getSellMinimum(productItem.getItem().getItemId()))
                                   .build();
+    }
+    
+    private Double getSellMinimum(Long itemId) {
+        MarketStat marketStat = marketStatRepository.findById(
+                MarketStatId.builder()
+                            .itemId(itemId)
+                            .systemId(TradeHub.AMARR.getSystemId())
+                            .build()
+        ).orElse(MarketStat.builder().build());
+        
+        return marketStat.getSellMinimum() != null ?
+                marketStat.getSellMinimum().doubleValue() :
+                (warehouse.getWarehouseItem(itemId).getCostPerItem() +
+                         warehouse.getWarehouseItem(itemId).getCostPerItem() * .3);
     }
 }

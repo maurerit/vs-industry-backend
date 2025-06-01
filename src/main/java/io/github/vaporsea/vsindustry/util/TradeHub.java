@@ -38,4 +38,11 @@ public enum TradeHub {
     public static TradeHub fromSystemId(Long systemId) {
         return SYSTEM_ID_MAP.get(systemId);
     }
+    
+    public static TradeHub fromName(String name) {
+        return Arrays.stream(values())
+                     .filter(tradeHub -> tradeHub.name().equalsIgnoreCase(name))
+                     .findFirst()
+                     .orElse(null);
+    }
 }

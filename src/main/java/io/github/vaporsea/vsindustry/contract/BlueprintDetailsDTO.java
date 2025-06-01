@@ -42,4 +42,5 @@ public class BlueprintDetailsDTO implements Serializable {
     private String productTypeName;
     private Long productQuantity;
     private Long productMakeTypeID;
+    private Double cost;
 }
