@@ -145,8 +145,8 @@ public class ProductFetchService {
                 (warehouseItem.getCostPerItem() + warehouseItem.getCostPerItem() * .3) * 0.03375; // Fallback to warehouse item cost + 30% if no market stat
 
         return TransactionCostsDTO.builder()
-                                  .brokersFee(brokersFee) // TODO: Assuming 1.37% broker fee
-                                  .salesTax(salesTax) // TODO: Assuming 5% sales tax
+                                  .brokersFee(brokersFee) // TODO: Assuming hard coded broker fee
+                                  .salesTax(salesTax) // TODO: Assuming hard coded sales tax
                                   .extraCosts(getExtraCosts(product))
                                   .build();
     }
@@ -213,9 +213,11 @@ public class ProductFetchService {
                             .build()
         ).orElse(MarketStat.builder().build());
         
+        WarehouseItem warehouseItem = warehouse.getWarehouseItem(itemId);
+        
         return marketStat.getSellMinimum() != null ?
                 marketStat.getSellMinimum().doubleValue() :
-                (warehouse.getWarehouseItem(itemId).getCostPerItem() +
-                         warehouse.getWarehouseItem(itemId).getCostPerItem() * .3);
+                (warehouseItem.getCostPerItem() +
+                         warehouseItem.getCostPerItem() * .3);
     }
 }
