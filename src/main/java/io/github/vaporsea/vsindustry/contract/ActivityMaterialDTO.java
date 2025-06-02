@@ -40,4 +40,5 @@ public class ActivityMaterialDTO {
     Long quantity;
     Long maketype;
     Double price;
+    Double marketPrice;
 }

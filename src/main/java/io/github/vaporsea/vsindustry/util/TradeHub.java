@@ -20,6 +20,8 @@ public enum TradeHub {
 
     private static final Map<Long, TradeHub> SYSTEM_ID_MAP = Arrays.stream(values())
             .collect(Collectors.toMap(TradeHub::getSystemId, Function.identity()));
+    private static final Map<String, TradeHub> SYSTEM_NAME_MAP = Arrays.stream(values())
+            .collect(Collectors.toMap(Enum::name, Function.identity()));
 
     private final Long regionId;
     private final Long systemId;
@@ -37,5 +39,9 @@ public enum TradeHub {
      */
     public static TradeHub fromSystemId(Long systemId) {
         return SYSTEM_ID_MAP.get(systemId);
+    }
+    
+    public static TradeHub fromName(String name) {
+        return SYSTEM_NAME_MAP.get(name);
     }
 }

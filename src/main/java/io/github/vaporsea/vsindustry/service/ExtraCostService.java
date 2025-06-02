@@ -102,6 +102,10 @@ public class ExtraCostService {
                              .toList()
         );
     }
+    
+    public List<ExtraCost> getExtraCosts(Long itemId) {
+        return extraCostRepository.findByItemId(itemId);
+    }
 
     /**
      * Save an extra cost If cost type is not specified, 'default' will be used

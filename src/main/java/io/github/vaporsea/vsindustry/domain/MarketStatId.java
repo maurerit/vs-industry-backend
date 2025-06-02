@@ -25,6 +25,9 @@
 package io.github.vaporsea.vsindustry.domain;
 
 import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -35,7 +38,9 @@ import lombok.NoArgsConstructor;
  * @since 6/9/2024
  */
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class MarketStatId implements Serializable {
     private Long itemId;
     private Long systemId;
