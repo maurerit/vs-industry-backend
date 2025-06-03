@@ -55,6 +55,13 @@ public class BlueprintService {
         
         List<IndustryActivityMaterial> copyMaterials = iamRepository.findById_TypeIdAndId_ActivityId(blueprintId, 5L);
         
+        // Invention materials are only applicable for Tech II and III blueprints
+        // and are not present for Tech I blueprints.
+        int techLevel = 1;
+        if(item.getMetaType() != null && TECH_LEVEL_MAP.getOrDefault(item.getMetaType().getMetaGroup().getMetaGroupName(), 1) == 2) {
+            blueprintId = iapRepository.findById_ProductTypeId(blueprintId).map(product -> product.getId().getTypeId()).orElse(blueprintId);
+            techLevel = 2;
+        }
         List<IndustryActivityMaterial> inventionMaterials =
                 iamRepository.findById_TypeIdAndId_ActivityId(blueprintId, 8L);
         
@@ -65,9 +72,7 @@ public class BlueprintService {
                                                                 .productTypeID(itemId)
                                                                 .productTypeName(item.getName())
                                                                 .productQuantity(activityProduct.getQuantity())
-                                                                .techLevel(TECH_LEVEL_MAP.get(item.getMetaType()
-                                                                                                  .getMetaGroup()
-                                                                                                  .getMetaGroupName()))
+                                                                .techLevel(techLevel)
                                                                 .build())
                            .activityMaterials(
                                    mapActivityMaterials(productionMaterials, copyMaterials, inventionMaterials))
