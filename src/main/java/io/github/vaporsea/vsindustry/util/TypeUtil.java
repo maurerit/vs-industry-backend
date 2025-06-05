@@ -16,8 +16,9 @@ public class TypeUtil {
     
     public static int techLevel(Item item) {
         int techLevel = 1;
-        if(item.getMetaType() != null && TECH_LEVEL_MAP.getOrDefault(item.getMetaType().getMetaGroup().getMetaGroupName(), 1) == 2) {
-            techLevel = 2;
+        if(item.getMetaType() != null) {
+            //Account for tech 2 and tech 3 items
+            techLevel = TECH_LEVEL_MAP.getOrDefault(item.getMetaType().getMetaGroup().getMetaGroupName(), 1);
         }
         
         return techLevel;
