@@ -10,6 +10,7 @@ import io.github.vaporsea.vsindustry.domain.IndustryActivityProduct;
 import io.github.vaporsea.vsindustry.domain.IndustryActivityProductRepository;
 import io.github.vaporsea.vsindustry.domain.Item;
 import io.github.vaporsea.vsindustry.domain.ItemRepository;
+import io.github.vaporsea.vsindustry.util.TypeUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,6 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 @Service
 public class BlueprintService {
-    
-    private static final Map<String, Integer> TECH_LEVEL_MAP = Map.of(
-            "Tech I", 1,
-            "Tech II", 2,
-            "Tech III", 3
-    );
     
     private final ItemRepository itemRepository;
     private final IndustryActivityProductRepository iapRepository;
@@ -57,10 +52,9 @@ public class BlueprintService {
         
         // Invention materials are only applicable for Tech II and III blueprints
         // and are not present for Tech I blueprints.
-        int techLevel = 1;
-        if(item.getMetaType() != null && TECH_LEVEL_MAP.getOrDefault(item.getMetaType().getMetaGroup().getMetaGroupName(), 1) == 2) {
+        int techLevel = TypeUtil.techLevel(item);
+        if(techLevel == 2) {
             blueprintId = iapRepository.findById_ProductTypeId(blueprintId).map(product -> product.getId().getTypeId()).orElse(blueprintId);
-            techLevel = 2;
         }
         List<IndustryActivityMaterial> inventionMaterials =
                 iamRepository.findById_TypeIdAndId_ActivityId(blueprintId, 8L);
