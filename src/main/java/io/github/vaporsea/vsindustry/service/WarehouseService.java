@@ -35,6 +35,7 @@ import io.github.vaporsea.vsindustry.component.Warehouse;
 import io.github.vaporsea.vsindustry.contract.ContractHeaderDTO;
 import io.github.vaporsea.vsindustry.contract.WarehouseItemDTO;
 import io.github.vaporsea.vsindustry.domain.*;
+import io.github.vaporsea.vsindustry.util.TypeUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,8 @@ import io.github.vaporsea.vsindustry.contract.IndustryJobDTO;
 import io.github.vaporsea.vsindustry.contract.MarketTransactionDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import static io.github.vaporsea.vsindustry.util.MaterialCost.calculate;
 
 /**
  * @author Matt Maurer <br>
@@ -342,12 +345,29 @@ public class WarehouseService {
     private double manufacturingCostForJob(IndustryJobDTO industryJob, Product product) {
         double result = 0.0;
         
-        for (ProductItem productItem : product.getProductItems()) {
-            result += warehouse.removeItem(productItem.getItem().getItemId(),
-                    productItem.getQuantity() * industryJob.getRuns());
+        Item item = itemRepository.findById(product.getItemId())
+                                  .orElseThrow(() -> new RuntimeException(
+                                          "Item not found for make type id: " + product.getMakeType()));
+        
+        int techLevel = TypeUtil.techLevel(item);
+        int bpMe = 10;
+        if(techLevel == 2) {
+            bpMe = 2;
         }
         
-        double bpcCost = warehouse.removeItem(product.getMakeType(), industryJob.getRuns());
+        List<ProductItem> productItems = calculate(product.getProductItems(), bpMe,
+                Math.toIntExact(industryJob.getRuns()));
+        
+        for (ProductItem productItem : productItems) {
+            result += warehouse.removeItem(productItem.getItem().getItemId(),
+                    productItem.getQuantity());
+        }
+        
+        double bpcCost = 0;
+        if(techLevel == 2) {
+            bpcCost = warehouse.removeItem(product.getMakeType(), industryJob.getRuns());
+        }
+        
         result += bpcCost;
         result += industryJob.getCost();
         result += extraCostService.extraCost(product) * industryJob.getRuns();

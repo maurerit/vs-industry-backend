@@ -166,29 +166,31 @@ public class DataFetchService {
         contractHeaders.content().forEach(header -> {
             contractHeaderRepository.save(modelMapper.map(header, ContractHeader.class));
 
-            List<ContractDetailDTO> contractDetails =
-                    eveContractClient.getContractDetails(corporationId, String.valueOf(header.getContractId()));
-            contractDetails.forEach(detail -> {
-                //Not using model mapper here because I keep getting this error:
-                /*
-                1) The destination property io.github.vaporsea.vsindustry.domain.ContractDetail.setContractId()
-                matches multiple source property hierarchies:
-
-                    io.github.vaporsea.vsindustry.contract.ContractDetailDTO.getTypeId()
-                    io.github.vaporsea.vsindustry.contract.ContractDetailDTO.getRecordId()
-
-                1 error
-                 */
-                contractDetailRepository.save(ContractDetail.builder()
-                                                            .contractId(header.getContractId())
-                                                            .isIncluded(detail.getIsIncluded())
-                                                            .isSingleton(detail.getIsSingleton())
-                                                            .quantity(detail.getQuantity())
-                                                            .rawQuantity(detail.getRawQuantity())
-                                                            .recordId(detail.getRecordId())
-                                                            .typeId(detail.getTypeId())
-                                                            .build());
-            });
+            if(!header.getStatus().equals("deleted")) {
+                List<ContractDetailDTO> contractDetails =
+                        eveContractClient.getContractDetails(corporationId, String.valueOf(header.getContractId()));
+                contractDetails.forEach(detail -> {
+                    //Not using model mapper here because I keep getting this error:
+                    /*
+                    1) The destination property io.github.vaporsea.vsindustry.domain.ContractDetail.setContractId()
+                    matches multiple source property hierarchies:
+    
+                        io.github.vaporsea.vsindustry.contract.ContractDetailDTO.getTypeId()
+                        io.github.vaporsea.vsindustry.contract.ContractDetailDTO.getRecordId()
+    
+                    1 error
+                     */
+                    contractDetailRepository.save(ContractDetail.builder()
+                                                                .contractId(header.getContractId())
+                                                                .isIncluded(detail.getIsIncluded())
+                                                                .isSingleton(detail.getIsSingleton())
+                                                                .quantity(detail.getQuantity())
+                                                                .rawQuantity(detail.getRawQuantity())
+                                                                .recordId(detail.getRecordId())
+                                                                .typeId(detail.getTypeId())
+                                                                .build());
+                });
+            }
         });
     }
 
