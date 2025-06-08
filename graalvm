@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker run  -it -v $PWD:/mnt/myproject:rw -w /mnt/myproject vegardit/graalvm-maven:latest-java17 bash
+docker container prune
