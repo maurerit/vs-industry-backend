@@ -41,4 +41,7 @@
     
     <cache alias="contractDetails" uses-template="default">
     </cache>
+    
+    <cache alias="marketPrices" uses-template="default">
+    </cache>
 </config>

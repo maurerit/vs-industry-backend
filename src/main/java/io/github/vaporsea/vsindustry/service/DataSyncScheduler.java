@@ -64,6 +64,7 @@ public class DataSyncScheduler {
             dataFetchService.fetchIndustryJobs();
             dataFetchService.fetchContracts();
             dataFetchService.fetchMarketStats();
+            dataFetchService.fetchMarketPrices();
             log.info("Completed scheduled data fetch");
         }
         catch (Exception e) {

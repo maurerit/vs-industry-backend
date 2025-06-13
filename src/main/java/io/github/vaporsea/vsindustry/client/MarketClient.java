@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import io.github.vaporsea.vsindustry.contract.MarketPriceDTO;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,7 @@ import lombok.RequiredArgsConstructor;
 public class MarketClient {
 
     private static final String MARKET_ORDERS_URL = "/v1/markets/{region_id}/orders/";
+    private static final String MARKET_PRICES_URL = "/v1/markets/prices/";
 
     private final RestClient restClient;
 
@@ -135,5 +137,14 @@ public class MarketClient {
     @Retryable
     public List<MarketOrderDTO> getOrders(Long typeId, TradeHub tradeHub) {
         return getOrders(typeId, tradeHub.getSystemId(), tradeHub.getRegionId(), "all");
+    }
+    
+    @Cacheable(value = "marketPrices", key = "'1'")
+    @Retryable
+    public List<MarketPriceDTO> getMarketPrices() {
+        return restClient.get()
+                .uri(MARKET_PRICES_URL)
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
     }
 }

@@ -39,6 +39,8 @@ import io.github.vaporsea.vsindustry.client.EveContractClient;
 import io.github.vaporsea.vsindustry.client.MarketClient;
 import io.github.vaporsea.vsindustry.contract.*;
 import io.github.vaporsea.vsindustry.domain.Item;
+import io.github.vaporsea.vsindustry.domain.MarketPrice;
+import io.github.vaporsea.vsindustry.domain.MarketPriceRepository;
 import io.github.vaporsea.vsindustry.domain.Product;
 import io.github.vaporsea.vsindustry.domain.ProductRepository;
 import io.github.vaporsea.vsindustry.util.JwtTokenUtil;
@@ -94,6 +96,7 @@ public class DataFetchService {
     private final JwtTokenUtil jwtTokenUtil;
     private final ModelMapper modelMapper = new ModelMapper();
     private final ProductRepository productRepository;
+    private final MarketPriceRepository marketPriceRepository;
     
     @Value("${vsindustry.client.corporationId}")
     private String corporationId;
@@ -365,5 +368,20 @@ public class DataFetchService {
         
         marketStatRepository.saveAll(marketStats);
         log.info("Finished fetching market statistics");
+    }
+    
+    public void fetchMarketPrices() {
+        log.info("Fetching market prices");
+        
+        List<MarketPriceDTO> marketPrices = marketClient.getMarketPrices();
+        
+        if (marketPrices != null && !marketPrices.isEmpty()) {
+            List<MarketPrice> newPrices = marketPrices.stream().map(price -> modelMapper.map(price, MarketPrice.class)).toList();
+            marketPriceRepository.saveAll(newPrices);
+        } else {
+            log.warn("No market prices found");
+        }
+        
+        log.info("Finished fetching market prices");
     }
 }
