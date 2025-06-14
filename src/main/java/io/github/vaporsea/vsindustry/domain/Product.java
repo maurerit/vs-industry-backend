@@ -65,9 +65,12 @@ public class Product {
 
     private ZonedDateTime updatedAt;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductItem> productItems;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<InventionItem> inventionItems;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ReactionItem> reactionItems;
 }

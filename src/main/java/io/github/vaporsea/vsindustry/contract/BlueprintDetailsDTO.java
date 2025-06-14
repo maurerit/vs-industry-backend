@@ -43,4 +43,5 @@ public class BlueprintDetailsDTO implements Serializable {
     private Long productQuantity;
     private Long productMakeTypeID;
     private Double cost;
+    private Integer techLevel;
 }

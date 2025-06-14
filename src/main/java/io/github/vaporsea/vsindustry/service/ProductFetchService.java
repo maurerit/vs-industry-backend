@@ -42,6 +42,7 @@ import io.github.vaporsea.vsindustry.domain.MarketStatId;
 import io.github.vaporsea.vsindustry.domain.MarketStatRepository;
 import io.github.vaporsea.vsindustry.domain.Product;
 import io.github.vaporsea.vsindustry.domain.ProductItem;
+import io.github.vaporsea.vsindustry.domain.ReactionItem;
 import io.github.vaporsea.vsindustry.domain.ProductRepository;
 import io.github.vaporsea.vsindustry.domain.ProductSearch;
 import io.github.vaporsea.vsindustry.domain.WarehouseItem;
@@ -55,17 +56,19 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.vaporsea.vsindustry.util.TypeUtil.techLevel;
+
 @RequiredArgsConstructor
 @Service
 public class ProductFetchService {
-    
+
     private final ProductRepository productRepository;
     private final Warehouse warehouse;
     private final MarketStatRepository marketStatRepository;
     private final ExtraCostService extraCostService;
     private final ItemRepository itemRepository;
     private final ModelMapper modelMapper;
-    
+
     public Page<ProductDTO> getProducts(Pageable pageable, ProductSearch search) {
         org.springframework.data.domain.Page<Product> products = productRepository.findAll(search, pageable);
         List<ProductDTO> productDTOs = products.stream()
@@ -75,7 +78,7 @@ public class ProductFetchService {
                                                                          .description(product.getDescription())
                                                                          .build())
                                                .toList();
-        
+
         //Hydrate the product to get its build cost
         for (ProductDTO productDTO : productDTOs) {
             Product product = productRepository.findById(productDTO.getItemId()).orElse(null);
@@ -83,7 +86,7 @@ public class ProductFetchService {
                 productDTO.setCost(warehouse.getWarehouseItem(productDTO.getItemId()).getCostPerItem());
             }
             else {
-                //Sum up all the Matherial Costs or Invention Costs
+                //Sum up all the Material Costs, Invention Costs, and Reaction Costs
                 double cost = product.getProductItems().stream()
                                      .mapToDouble(productItem ->
                                              warehouse.getWarehouseItem(productItem.getItem().getItemId())
@@ -96,13 +99,22 @@ public class ProductFetchService {
                                                                  .getCostPerItem() * inventionItem.getQuantity() /
                                                product.getMakeTypeAmount())
                                .sum();
+                // Add reaction costs if there are any
+                if (product.getReactionItems() != null) {
+                    cost += product.getReactionItems().stream()
+                                   .mapToDouble(
+                                           reactionItem -> warehouse.getWarehouseItem(reactionItem.getItem().getItemId())
+                                                                    .getCostPerItem() * reactionItem.getQuantity() /
+                                                   product.getMakeTypeAmount())
+                                   .sum();
+                }
                 productDTO.setCost(cost);
             }
         }
-        
+
         return new Page<>(pageable.getPageNumber(), products.getTotalPages(), products.getTotalElements(), productDTOs);
     }
-    
+
     public BlueprintDataDTO getProduct(Long itemId) {
         Product product = productRepository.findById(itemId).orElse(null);
         if (product != null) {
@@ -110,7 +122,7 @@ public class ProductFetchService {
         }
         throw new EntityNotFoundException("Product with id " + itemId + " not found");
     }
-    
+
     private BlueprintDataDTO getBlueprintDataDTO(Product product) {
         return BlueprintDataDTO.builder()
                                .blueprintDetails(
@@ -120,13 +132,15 @@ public class ProductFetchService {
                                                           .productTypeName(product.getName())
                                                           .productMakeTypeID(product.getMakeType())
                                                           .cost(warehouse.getWarehouseItem(product.getMakeType()).getCostPerItem())
+                                                          .techLevel(techLevel(itemRepository.findById(product.getItemId())
+                                                                                             .orElse(new Item())))
                                                           .build()
                                )
-                .transactionCosts(buildTransactionCosts(product))
+                               .transactionCosts(buildTransactionCosts(product))
                                .activityMaterials(buildActivityMaterials(product))
                                .build();
     }
-    
+
     private TransactionCostsDTO buildTransactionCosts(Product product) {
         WarehouseItem warehouseItem = warehouse.getWarehouseItem(product.getItemId());
         MarketStat marketStat = marketStatRepository.findById(
@@ -135,11 +149,11 @@ public class ProductFetchService {
                             .systemId(TradeHub.AMARR.getSystemId()) // TODO: Make this configurable
                             .build()
         ).orElse(MarketStat.builder().build());
-        
+
         Double brokersFee = marketStat.getSellMinimum() != null ?
                 marketStat.getSellMinimum().doubleValue() * 0.0137 : // Assuming 1.37% broker fee
                 (warehouseItem.getCostPerItem() + warehouseItem.getCostPerItem() * .3) * 0.0137; // Fallback to warehouse item cost + 30% if no market stat
-        
+
         Double salesTax = marketStat.getSellMinimum() != null ?
                 marketStat.getSellMinimum().doubleValue() * 0.03375 : // Assuming 3.375% sales tax
                 (warehouseItem.getCostPerItem() + warehouseItem.getCostPerItem() * .3) * 0.03375; // Fallback to warehouse item cost + 30% if no market stat
@@ -150,40 +164,50 @@ public class ProductFetchService {
                                   .extraCosts(getExtraCosts(product))
                                   .build();
     }
-    
+
     private List<ExtraCostDTO> getExtraCosts(Product product) {
         List<ExtraCostDTO> result = new ArrayList<>();
-        
+
         List<ExtraCost> extraCosts = extraCostService.getExtraCosts(product.getItemId());
         for (ExtraCost extraCost : extraCosts) {
             ExtraCostDTO extraCostDTO = modelMapper.map(extraCost, ExtraCostDTO.class);
             extraCostDTO.setName(itemRepository.findById(extraCost.getItemId()).orElse(new Item()).getName());
             result.add(extraCostDTO);
         }
-        
+
         return result;
     }
-    
+
     private ActivityMaterialsDTO buildActivityMaterials(Product product) {
         return ActivityMaterialsDTO.builder()
                                    .invention(buildInventionActivityMaterials(product))
                                    .manufacturing(buildManufacturingActivityMaterials(product))
                                    .copying(List.of())
+                                   .reaction(buildReactionActivityMaterials(product))
                                    .build();
     }
-    
+
+    private List<ActivityMaterialDTO> buildReactionActivityMaterials(Product product) {
+        if (product.getReactionItems() == null) {
+            return List.of();
+        }
+        return product.getReactionItems().stream()
+                      .map(this::buildActivityMaterial)
+                      .toList();
+    }
+
     private List<ActivityMaterialDTO> buildInventionActivityMaterials(Product product) {
         return product.getInventionItems().stream()
                       .map(this::buildActivityMaterial)
                       .toList();
     }
-    
+
     private List<ActivityMaterialDTO> buildManufacturingActivityMaterials(Product product) {
         return product.getProductItems().stream()
                       .map(this::buildActivityMaterial)
                       .toList();
     }
-    
+
     private ActivityMaterialDTO buildActivityMaterial(InventionItem inventionItem) {
         return ActivityMaterialDTO.builder()
                                   .typeid(inventionItem.getItem().getItemId())
@@ -194,7 +218,7 @@ public class ProductFetchService {
                                   .marketPrice(getSellMinimum(inventionItem.getItem().getItemId()))
                                   .build();
     }
-    
+
     private ActivityMaterialDTO buildActivityMaterial(ProductItem productItem) {
         return ActivityMaterialDTO.builder()
                                   .typeid(productItem.getItem().getItemId())
@@ -204,7 +228,17 @@ public class ProductFetchService {
                                   .marketPrice(getSellMinimum(productItem.getItem().getItemId()))
                                   .build();
     }
-    
+
+    private ActivityMaterialDTO buildActivityMaterial(ReactionItem reactionItem) {
+        return ActivityMaterialDTO.builder()
+                                  .typeid(reactionItem.getItem().getItemId())
+                                  .name(reactionItem.getItem().getName())
+                                  .quantity(reactionItem.getQuantity())
+                                  .price(warehouse.getWarehouseItem(reactionItem.getItem().getItemId()).getCostPerItem())
+                                  .marketPrice(getSellMinimum(reactionItem.getItem().getItemId()))
+                                  .build();
+    }
+
     private Double getSellMinimum(Long itemId) {
         MarketStat marketStat = marketStatRepository.findById(
                 MarketStatId.builder()
@@ -212,9 +246,9 @@ public class ProductFetchService {
                             .systemId(TradeHub.AMARR.getSystemId())  // TODO: Make this configurable
                             .build()
         ).orElse(MarketStat.builder().build());
-        
+
         WarehouseItem warehouseItem = warehouse.getWarehouseItem(itemId);
-        
+
         return marketStat.getSellMinimum() != null ?
                 marketStat.getSellMinimum().doubleValue() :
                 (warehouseItem.getCostPerItem() +
