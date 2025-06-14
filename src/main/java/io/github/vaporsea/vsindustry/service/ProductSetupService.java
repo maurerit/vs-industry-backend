@@ -121,9 +121,9 @@ public class ProductSetupService {
                                  .productItems(materials)
                                  .build();
 
-//        for (ProductItem productItem : product.getProductItems()) {
-//            productItem.setProduct(product);
-//        }
+        for (ProductItem productItem : product.getProductItems()) {
+            productItem.setProduct(product);
+        }
 
         productRepository.save(product);
     }
