@@ -28,6 +28,7 @@ import java.util.List;
 
 import io.github.vaporsea.vsindustry.domain.IndustryActivityProduct;
 import io.github.vaporsea.vsindustry.domain.IndustryActivityProductRepository;
+import io.github.vaporsea.vsindustry.domain.ReactionItem;
 import org.springframework.stereotype.Service;
 
 import io.github.vaporsea.vsindustry.contract.fuzzwork.BlueprintDTO;
@@ -46,24 +47,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class ProductSetupService {
-    
+
     private final ProductRepository productRepository;
     private final ItemRepository itemRepository;
     private final IndustryActivityProductRepository industryActivityProductRepository;
-    
+
     public void setupProduct(BlueprintDTO blueprintDTO) {
         checkT2AndCreateInventionitemsForBlueprint(blueprintDTO);
-        
+
         createProductItemsForBlueprint(blueprintDTO);
+
+        createReactionItemsForBlueprint(blueprintDTO);
     }
-    
+
     private void checkT2AndCreateInventionitemsForBlueprint(BlueprintDTO blueprintDTO) {
         //Check the tech level and create a product for the blueprint if it's tech level 2
         if (blueprintDTO.getBlueprintDetails().getTechLevel() == 2) {
             IndustryActivityProduct industryActivityProduct =
                     industryActivityProductRepository.findById_ProductTypeId((long) blueprintDTO.getRequestedid())
                                                      .orElseThrow();
-            
+
             //T2 Build the Blueprint as a product
             List<InventionItem> inventionItems = blueprintDTO.getActivityMaterials().get("8").stream()
                                                              .map(material -> InventionItem.builder()
@@ -76,12 +79,12 @@ public class ProductSetupService {
                                                                                                    material.getQuantity())
                                                                                            .build())
                                                              .toList();
-            
+
             itemRepository.save(Item.builder()
                                     .itemId(blueprintDTO.getBlueprintTypeID())
                                     .name(blueprintDTO.getBlueprintDetails().getProductTypeName() + " Blueprint")
                                     .build());
-            
+
             Product t2BluePrint = Product.builder()
                                          .name(blueprintDTO.getBlueprintDetails().getProductTypeName() + " Blueprint")
                                          .itemId(industryActivityProduct.getId().getTypeId())
@@ -89,15 +92,15 @@ public class ProductSetupService {
                                          .makeType(blueprintDTO.getBlueprintTypeID())
                                          .inventionItems(inventionItems)
                                          .build();
-            
+
             for (InventionItem inventionItem : t2BluePrint.getInventionItems()) {
                 inventionItem.setProduct(t2BluePrint);
             }
-            
+
             productRepository.save(t2BluePrint);
         }
     }
-    
+
     private void createProductItemsForBlueprint(BlueprintDTO blueprintDTO) {
         //Build the Blueprint as a product
         List<ProductItem> materials = blueprintDTO.getActivityMaterials().get("1").stream()
@@ -109,7 +112,7 @@ public class ProductSetupService {
                                                                               .quantity(material.getQuantity())
                                                                               .build())
                                                   .toList();
-        
+
         Product product = Product.builder()
                                  .name(blueprintDTO.getBlueprintDetails().getProductTypeName())
                                  .itemId(blueprintDTO.getBlueprintDetails().getProductTypeID())
@@ -117,11 +120,45 @@ public class ProductSetupService {
                                  .makeTypeAmount(blueprintDTO.getBlueprintDetails().getProductQuantity())
                                  .productItems(materials)
                                  .build();
-        
-        for (ProductItem productItem : product.getProductItems()) {
-            productItem.setProduct(product);
+
+//        for (ProductItem productItem : product.getProductItems()) {
+//            productItem.setProduct(product);
+//        }
+
+        productRepository.save(product);
+    }
+
+    private void createReactionItemsForBlueprint(BlueprintDTO blueprintDTO) {
+        // Check if there are reaction materials
+        if (blueprintDTO.getActivityMaterials().get("11") == null || blueprintDTO.getActivityMaterials().get("11").isEmpty()) {
+            return; // No reaction materials, so return
         }
+
+        // Create reaction items
+        List<ReactionItem> reactionItems = blueprintDTO.getActivityMaterials().get("11").stream()
+                                                       .map(material -> ReactionItem.builder()
+                                                                                    .item(Item.builder()
+                                                                                                        .itemId(material.getTypeid())
+                                                                                                        .name(material.getName())
+                                                                                                        .build())
+                                                                                    .quantity(material.getQuantity())
+                                                                                    .build())
+                                                       .toList();
+
+        Product product = Product.builder()
+                                 .name(blueprintDTO.getBlueprintDetails().getProductTypeName())
+                                 .itemId(blueprintDTO.getBlueprintDetails().getProductTypeID())
+                                 .makeType(blueprintDTO.getBlueprintTypeID())
+                                 .makeTypeAmount(blueprintDTO.getBlueprintDetails().getProductQuantity())
+                                 .reactionItems(reactionItems)
+                                 .build();
         
+        // Set the product for each reaction item
+        for (ReactionItem reactionItem : reactionItems) {
+            reactionItem.setProduct(product);
+        }
+
+        // Save the updated product
         productRepository.save(product);
     }
 }

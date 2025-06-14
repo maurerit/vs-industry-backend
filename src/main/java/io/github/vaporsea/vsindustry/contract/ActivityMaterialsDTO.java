@@ -39,4 +39,5 @@ public class ActivityMaterialsDTO {
     private List<ActivityMaterialDTO> manufacturing;
     private List<ActivityMaterialDTO> invention;
     private List<ActivityMaterialDTO> copying;
+    private List<ActivityMaterialDTO> reaction;
 }
