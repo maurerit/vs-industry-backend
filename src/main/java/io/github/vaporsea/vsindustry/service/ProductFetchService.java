@@ -56,6 +56,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.vaporsea.vsindustry.util.TypeUtil.techLevel;
+
 @RequiredArgsConstructor
 @Service
 public class ProductFetchService {
@@ -130,6 +132,8 @@ public class ProductFetchService {
                                                           .productTypeName(product.getName())
                                                           .productMakeTypeID(product.getMakeType())
                                                           .cost(warehouse.getWarehouseItem(product.getMakeType()).getCostPerItem())
+                                                          .techLevel(techLevel(itemRepository.findById(product.getItemId())
+                                                                                             .orElse(new Item())))
                                                           .build()
                                )
                                .transactionCosts(buildTransactionCosts(product))
