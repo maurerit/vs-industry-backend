@@ -358,9 +358,11 @@ public class WarehouseService {
         List<ProductItem> productItems = calculate(product.getProductItems(), bpMe,
                 Math.toIntExact(industryJob.getRuns()));
         
+        log.debug("Manufacturing Cost for {} with {} runs", product.getName(), industryJob.getRuns());
         for (ProductItem productItem : productItems) {
             result += warehouse.removeItem(productItem.getItem().getItemId(),
                     productItem.getQuantity());
+            log.debug("Removed {} of product item {} with cost {}", productItem.getQuantity(), productItem.getItem().getName(), result);
         }
         
         double bpcCost = 0;

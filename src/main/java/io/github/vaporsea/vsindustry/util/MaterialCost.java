@@ -34,7 +34,7 @@ public class MaterialCost {
 
             // Calculate adjusted quantity using ME formula
             long baseQuantity = originalItem.getQuantity() * runs;
-            long adjustedQuantity = Math.max(1, Math.round(baseQuantity * (1 - (meLevel / 100.0))));
+            long adjustedQuantity = (long) Math.max(1, Math.ceil(baseQuantity * (1 - (meLevel / 100.0))));
             adjustedItem.setQuantity(adjustedQuantity);
 
             adjustedItems.add(adjustedItem);
