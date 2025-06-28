@@ -60,6 +60,7 @@ public class WarehouseService {
     private static final String INDUSTRY_JOB_NAME = "industry_job";
 
     private final LastProcessedRepository lastProcessedRepository;
+    private final InventionFirstSeenRepository inventionFirstSeenRepository;
     private final ProductToIgnoreRepository productToIgnoreRepository;
     private final MarketTransactionRepository marketTransactionRepository;
     private final IndustryJobRepository industryJobRepository;
@@ -301,6 +302,10 @@ public class WarehouseService {
      * Process an invention job.  We need to find the old cost per item, multiply it by the quantity, add the new total
      * cost and then divide all that by the totalQuantity + totalSuccessfulRuns.
      *
+     * This method implements a two-phase processing for invention jobs:
+     * 1. First phase (first time seen): Decrement stocks from the warehouse and add the job ID to the invention_first_seen table
+     * 2. Second phase (when job is in delivered status): Inspect successful runs and increment BPC stock
+     *
      * @param industryJob The industry job
      */
     private boolean processInventionJob(IndustryJobDTO industryJob) {
@@ -316,23 +321,58 @@ public class WarehouseService {
                                            .orElseThrow(() -> new RuntimeException(
                                                    "Product not found for product type id: " + t2BpcId));
 
-        double newTotal = 0d;
-        //        for(int idx = 0; idx < industryJob.getRuns(); idx++) {
-        for (InventionItem inventionItem : product.getInventionItems()) {
-            double cost = warehouse.removeItem(
-                    inventionItem.getItem().getItemId(), inventionItem.getQuantity() * industryJob.getRuns());
-            newTotal += cost;
-            log.debug("Removed {} of product item {} with cost {}", inventionItem.getQuantity() * industryJob.getRuns(),
-                    inventionItem.getItem().getName(), cost);
-        }
-        newTotal += warehouse.removeItem(t1BpcId, industryJob.getRuns());
-        //        }
-        long successfulRuns = industryJob.getSuccessfulRuns() == 0 ? 1L :
-                industryJob.getSuccessfulRuns() * product.getMakeTypeAmount();
-        double newCostPerItem = newTotal / successfulRuns;
-        warehouse.addItem(t2BpcId, industryJob.getSuccessfulRuns() * product.getMakeTypeAmount(), newCostPerItem);
+        // Create the key for the invention_first_seen table
+        InventionFirstSeenKey key = InventionFirstSeenKey.builder()
+                                                        .objectId(industryJob.getJobId())
+                                                        .objectType(INDUSTRY_JOB_NAME)
+                                                        .build();
 
-        return true;
+        // Check if this job has been seen before
+        Optional<InventionFirstSeen> firstSeen = inventionFirstSeenRepository.findById(key);
+
+        if (firstSeen.isEmpty()) {
+            // First phase: First time seeing this job
+            log.debug("First time seeing invention job: {}", industryJob.getJobId());
+
+            // Decrement stocks from the warehouse
+            double newTotal = 0d;
+            for (InventionItem inventionItem : product.getInventionItems()) {
+                double cost = warehouse.removeItem(
+                        inventionItem.getItem().getItemId(), inventionItem.getQuantity() * industryJob.getRuns());
+                newTotal += cost;
+                log.debug("Removed {} of product item {} with cost {}", inventionItem.getQuantity() * industryJob.getRuns(),
+                        inventionItem.getItem().getName(), cost);
+            }
+            newTotal += warehouse.removeItem(t1BpcId, industryJob.getRuns());
+
+            // Add the job ID and cost to the invention_first_seen table
+            inventionFirstSeenRepository.save(InventionFirstSeen.builder()
+                                                              .id(key)
+                                                              .cost(newTotal)
+                                                              .build());
+
+            // Don't mark as processed in the last_processed table yet
+            return false;
+        } else if ("delivered".equalsIgnoreCase(industryJob.getStatus())) {
+            // Second phase: Job has been seen before and is now in delivered status
+            log.debug("Processing delivered invention job: {}", industryJob.getJobId());
+
+            // Get the cost from the first phase
+            double storedCost = firstSeen.get().getCost();
+
+            // Calculate the cost per item based on the successful runs
+            long successfulRuns = industryJob.getSuccessfulRuns() == 0 ? 1L :
+                    industryJob.getSuccessfulRuns() * product.getMakeTypeAmount();
+            double newCostPerItem = storedCost / successfulRuns;
+
+            // Add the resulting BPCs to the warehouse using the stored cost
+            warehouse.addItem(t2BpcId, industryJob.getSuccessfulRuns() * product.getMakeTypeAmount(), newCostPerItem);
+
+            return true;
+        }
+
+        // Job has been seen before but is not in delivered status yet
+        return false;
     }
 
     /**
