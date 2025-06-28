@@ -55,10 +55,10 @@ import static io.github.vaporsea.vsindustry.util.MaterialCost.calculate;
 @RequiredArgsConstructor
 @Service
 public class WarehouseService {
-    
+
     private static final String MARKET_TRANSACTION_NAME = "market_transaction";
     private static final String INDUSTRY_JOB_NAME = "industry_job";
-    
+
     private final LastProcessedRepository lastProcessedRepository;
     private final ProductToIgnoreRepository productToIgnoreRepository;
     private final MarketTransactionRepository marketTransactionRepository;
@@ -71,35 +71,35 @@ public class WarehouseService {
     private final Warehouse warehouse;
     private final WarehouseListener warehouseListener;
     private final ExtraCostService extraCostService;
-    
+
     private final ModelMapper modelMapper = new ModelMapper();
-    
+
     public void save(WarehouseItemDTO warehouseItemDTO) {
         WarehouseItem warehouseItem = modelMapper.map(warehouseItemDTO, WarehouseItem.class);
-        
+
         warehouseItemRepository.save(warehouseItem);
     }
-    
+
     public List<WarehouseItemDTO> getWarehouse() {
         List<WarehouseItem> warehouseItems = warehouseItemRepository.findAll();
         List<WarehouseItemDTO> warehouseItemDTOs = new LinkedList<>();
-        
+
         for (WarehouseItem warehouseItem : warehouseItems) {
             WarehouseItemDTO warehouseItemDTO = modelMapper.map(warehouseItem, WarehouseItemDTO.class);
-            
+
             String name = itemRepository.findById(warehouseItem.getItemId())
                                         .map(Item::getName)
                                         .orElseThrow(() -> new RuntimeException(
                                                 "Type not found for item id: " + warehouseItem.getItemId()));
-            
+
             warehouseItemDTO.setName(name);
-            
+
             warehouseItemDTOs.add(warehouseItemDTO);
         }
-        
+
         return warehouseItemDTOs;
     }
-    
+
     /**
      * Process all the market transactions, industry jobs and contracts.  This will sort them by timestamp and process
      * them in order.  This is done to ensure that the warehouse is always in a consistent state.
@@ -111,7 +111,7 @@ public class WarehouseService {
         allEvents.addAll(industryJobRepository.findUnprocessed());
         allEvents.addAll(contractHeaderRepository.findProcessable());
         allEvents.sort(Comparator.comparing(Timestamped::getTimestamp));
-        
+
         allEvents.forEach(t -> {
             if (t instanceof MarketTransaction) {
                 MarketTransactionDTO marketTransaction = modelMapper.map(t, MarketTransactionDTO.class);
@@ -130,7 +130,7 @@ public class WarehouseService {
             }
         });
     }
-    
+
     /**
      * Process a market transaction.  This is either a buy or sell order.  If it is a sell order, we need to remove the
      * quantity from the warehouse.  If it is a buy order, we need to add the quantity to the warehouse along with it's
@@ -143,15 +143,15 @@ public class WarehouseService {
                                                .objectId(marketTransaction.getTransactionId())
                                                .objectType(MARKET_TRANSACTION_NAME)
                                                .build();
-        
+
         //TODO: this query should be rendered moot now that we're doing it in the database in the processAll method
         if (lastProcessedRepository.findById(key).isPresent()) {
             log.info("Market transaction {} already processed", marketTransaction.getTransactionId());
             return;
         }
-        
+
         Double itemValue = 0.0;
-        
+
         if (marketTransaction.getIsBuy()) {
             warehouse.addItem(marketTransaction.getTypeId(), marketTransaction.getQuantity().longValue(),
                     marketTransaction.getUnitPrice());
@@ -166,7 +166,7 @@ public class WarehouseService {
                 log.warn("No warehouse item found for sell order: {}", marketTransaction.getTransactionId());
             }
         }
-        
+
         //I want buy orders to have a null profit, not some potentially non-zero value
         if (!marketTransaction.getIsBuy()) {
             Double transactionAmount = marketTransaction.getUnitPrice();
@@ -210,6 +210,7 @@ public class WarehouseService {
                 case 1 -> processManufacturingJob(industryJob);
                 case 5 -> processCopyJob(industryJob);
                 case 8 -> processInventionJob(industryJob);
+                case 9, 11 -> processReactionJob(industryJob);
                 default -> warnAndGiveTrue(industryJob);
             };
 
@@ -260,12 +261,12 @@ public class WarehouseService {
 
             warehouse.addItem(typeId, quantity, contractHeader.getPrice() / quantity);
         }
-        
+
         lastProcessedRepository.save(LastProcessed.builder()
                                                   .id(key)
                                                   .build());
     }
-    
+
     /**
      * Process a manufacturing job.  We need to find the old cost per item, multiply it by the quantity, add the new
      * total cost and then divide all that by the totalQuantity + totalRuns.
@@ -274,7 +275,7 @@ public class WarehouseService {
      */
     private boolean processManufacturingJob(IndustryJobDTO industryJob) {
         Long productTypeId = industryJob.getProductTypeId();
-        
+
         Product product = productRepository.findById(productTypeId)
                                            .orElseThrow(() -> new RuntimeException(
                                                    "Product not found for product type id: " + productTypeId));
@@ -283,7 +284,7 @@ public class WarehouseService {
         warehouse.addItem(productTypeId, industryJob.getRuns(), costPerItem);
         return true;
     }
-    
+
     /**
      * Process a copy job.  This is simply setting the cost of the BPC to that of the industry job cost.
      *
@@ -295,7 +296,7 @@ public class WarehouseService {
         warehouse.addItem(industryJob.getProductTypeId(), totalBluePrints, costPerItem);
         return true;
     }
-    
+
     /**
      * Process an invention job.  We need to find the old cost per item, multiply it by the quantity, add the new total
      * cost and then divide all that by the totalQuantity + totalSuccessfulRuns.
@@ -306,15 +307,15 @@ public class WarehouseService {
         if ("active".equalsIgnoreCase(industryJob.getStatus())) {
             return false;
         }
-        
+
         Long t2BpcId = industryJob.getProductTypeId();
         Long t1BpcId = industryJob.getBlueprintTypeId();
-        
+
         //Get the product, tells us the inputs for the invention job
         Product product = productRepository.findById(t2BpcId)
                                            .orElseThrow(() -> new RuntimeException(
                                                    "Product not found for product type id: " + t2BpcId));
-        
+
         double newTotal = 0d;
         //        for(int idx = 0; idx < industryJob.getRuns(); idx++) {
         for (InventionItem inventionItem : product.getInventionItems()) {
@@ -330,10 +331,41 @@ public class WarehouseService {
                 industryJob.getSuccessfulRuns() * product.getMakeTypeAmount();
         double newCostPerItem = newTotal / successfulRuns;
         warehouse.addItem(t2BpcId, industryJob.getSuccessfulRuns() * product.getMakeTypeAmount(), newCostPerItem);
-        
+
         return true;
     }
-    
+
+    /**
+     * Process a reaction job. We need to subtract the input items from the warehouse
+     * but no blueprint is consumed and no ME calculation is performed.
+     *
+     * @param industryJob The industry job
+     */
+    private boolean processReactionJob(IndustryJobDTO industryJob) {
+        Long productId = industryJob.getProductTypeId();
+
+        //Get the product, tells us the inputs for the reaction job
+        Product product = productRepository.findById(productId)
+                                           .orElseThrow(() -> new RuntimeException(
+                                                   "Product not found for product type id: " + productId));
+
+        double newTotal = industryJob.getCost();
+        for (ReactionItem reactionItem : product.getReactionItems()) {
+            double cost = warehouse.removeItem(
+                    reactionItem.getItem().getItemId(), reactionItem.getQuantity() * industryJob.getRuns());
+            newTotal += cost;
+            log.debug("Removed {} of reaction item {} with cost {}", reactionItem.getQuantity() * industryJob.getRuns(),
+                    reactionItem.getItem().getName(), cost);
+        }
+
+        long builtItems = industryJob.getRuns() == 0 ? 1L :
+                industryJob.getRuns() * product.getMakeTypeAmount();
+        double newCostPerItem = newTotal / builtItems;
+        warehouse.addItem(productId, industryJob.getRuns() * product.getMakeTypeAmount(), newCostPerItem);
+
+        return true;
+    }
+
     /**
      * Calculate the cost of manufacturing a job and pull items out of the warehouse.
      *
@@ -344,36 +376,36 @@ public class WarehouseService {
      */
     private double manufacturingCostForJob(IndustryJobDTO industryJob, Product product) {
         double result = 0.0;
-        
+
         Item item = itemRepository.findById(product.getItemId())
                                   .orElseThrow(() -> new RuntimeException(
                                           "Item not found for make type id: " + product.getMakeType()));
-        
+
         int techLevel = TypeUtil.techLevel(item);
         int bpMe = 10;
         if(techLevel == 2) {
             bpMe = 2;
         }
-        
+
         List<ProductItem> productItems = calculate(product.getProductItems(), bpMe,
                 Math.toIntExact(industryJob.getRuns()));
-        
+
         log.debug("Manufacturing Cost for {} with {} runs", product.getName(), industryJob.getRuns());
         for (ProductItem productItem : productItems) {
             result += warehouse.removeItem(productItem.getItem().getItemId(),
                     productItem.getQuantity());
             log.debug("Removed {} of product item {} with cost {}", productItem.getQuantity(), productItem.getItem().getName(), result);
         }
-        
+
         double bpcCost = 0;
         if(techLevel == 2) {
             bpcCost = warehouse.removeItem(product.getMakeType(), industryJob.getRuns());
         }
-        
+
         result += bpcCost;
         result += industryJob.getCost();
         result += extraCostService.extraCost(product) * industryJob.getRuns();
-        
+
         return result;
     }
 }

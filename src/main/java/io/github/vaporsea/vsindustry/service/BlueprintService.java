@@ -59,6 +59,8 @@ public class BlueprintService {
         List<IndustryActivityMaterial> inventionMaterials =
                 iamRepository.findById_TypeIdAndId_ActivityId(blueprintId, 8L);
         
+        List<IndustryActivityMaterial> reactionMaterials = iamRepository.findById_TypeIdAndId_ActivityId(blueprintId, 11L);
+        
         return BlueprintDTO.builder()
                            .requestedid(itemId.intValue())
                            .blueprintTypeID(activityProduct.getId().getTypeId())
@@ -69,16 +71,17 @@ public class BlueprintService {
                                                                 .techLevel(techLevel)
                                                                 .build())
                            .activityMaterials(
-                                   mapActivityMaterials(productionMaterials, copyMaterials, inventionMaterials))
+                                   mapActivityMaterials(productionMaterials, copyMaterials, inventionMaterials, reactionMaterials))
                            .build();
     }
     
     private Map<String, List<MaterialDTO>> mapActivityMaterials(List<IndustryActivityMaterial> productionMaterials,
-            List<IndustryActivityMaterial> copyMaterials, List<IndustryActivityMaterial> inventionMaterials) {
+            List<IndustryActivityMaterial> copyMaterials, List<IndustryActivityMaterial> inventionMaterials, List<IndustryActivityMaterial> reactionMaterials) {
         return Map.of(
                 "1", productionMaterials.stream().map(mapMaterial()).toList(),
                 "5", copyMaterials.stream().map(mapMaterial()).toList(),
-                "8", inventionMaterials.stream().map(mapMaterial()).toList()
+                "8", inventionMaterials.stream().map(mapMaterial()).toList(),
+                "11", reactionMaterials.stream().map(mapMaterial()).toList()
         );
     }
     
