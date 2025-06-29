@@ -31,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -55,6 +56,7 @@ public class EveContractClient {
      * @return A page of contract headers.
      */
     @Cacheable(value = "contractHeaders", key = "#corporationId + #page")
+    @Retryable
     public Page<ContractHeaderDTO> getContracts(String corporationId, String page) {
         ResponseEntity<List<ContractHeaderDTO>> contracts = restClient.get()
                                                                       .uri(uriBuilder -> uriBuilder.path(
@@ -79,6 +81,7 @@ public class EveContractClient {
      * @return A list of contract details.
      */
     @Cacheable(value = "contractDetails", key = "#corporationId + #contractId")
+    @Retryable
     public List<ContractDetailDTO> getContractDetails(String corporationId, String contractId) {
         return restClient.get()
                          .uri(uriBuilder -> uriBuilder.path(CONTRACT_DETAIL_URL).build(corporationId, contractId))

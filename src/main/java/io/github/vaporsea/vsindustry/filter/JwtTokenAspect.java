@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package io.github.vaporsea.vsindustry.controllers;
+package io.github.vaporsea.vsindustry.filter;
 
 import io.github.vaporsea.vsindustry.client.JwtTokenHolder;
 import jakarta.servlet.http.HttpServletRequest;

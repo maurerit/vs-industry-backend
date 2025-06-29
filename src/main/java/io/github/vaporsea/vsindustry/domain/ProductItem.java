@@ -26,6 +26,7 @@ package io.github.vaporsea.vsindustry.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -45,6 +46,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity
 @Table(name = "product_items")
+@IdClass(ProductItemId.class)
 public class ProductItem {
     @Id
     @ManyToOne

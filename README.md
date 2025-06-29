@@ -19,7 +19,7 @@ Prerequisites:
 2. Make the maven wrapper executable: `chmod +x mvnw`.
 3. Package the application using Maven: `./mvnw clean package`. 
 4. Copy config/application-template.yml to config/application.yml and edit it to your liking.
-5. Set the environment variables `CORPORATION_ID`, `EVE_CLIENT_ID` and `EVE_CLIENT_SECRET`
+5. Set the environment variables `CORPORATION_ID`, `EVE_CLIENT_ID`, `EVE_CLIENT_SECRET`, `CHARACTER_NAME` and `USER_AGENT_EMAIL`
 6. Run the application: `java -jar target/vapor-sea-industry-${VERSION}.jar`. 
 7. This will create a data(the db) and vsindustry(the cache) directories with data in them.
 8. Grab the frontend over at https://github.com/maurerit/vs-industry-frontend and run from there

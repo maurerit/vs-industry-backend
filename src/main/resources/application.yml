@@ -49,4 +49,8 @@ vsindustry:
   client:
     corporationId: ${CORPORATION_ID:ENTER YOUR VALUE}
   default:
-    principal: ${DEFAULT_PRINCIPAL:Marq Aideron}
+    principal: ${CHARACTER_NAME:Marq Aideron}
+  userAgent:
+    appName: Vapor Sea Industry
+    gitRepoLocation: ${USER_AGENT_GIT_REPO_LOCATION:https://github.com/maurerit/vs-industry-backend}
+    userEmail: ${USER_AGENT_EMAIL:maurer.it@gmail.com}

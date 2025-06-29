@@ -22,8 +22,9 @@
  * SOFTWARE.
  */
 
-package io.github.vaporsea.vsindustry.controllers;
+package io.github.vaporsea.vsindustry.filter;
 
+import io.github.vaporsea.vsindustry.util.JwtTokenUtil;
 import io.github.vaporsea.vsindustry.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

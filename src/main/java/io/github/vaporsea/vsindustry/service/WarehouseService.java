@@ -35,6 +35,7 @@ import io.github.vaporsea.vsindustry.component.Warehouse;
 import io.github.vaporsea.vsindustry.contract.ContractHeaderDTO;
 import io.github.vaporsea.vsindustry.contract.WarehouseItemDTO;
 import io.github.vaporsea.vsindustry.domain.*;
+import io.github.vaporsea.vsindustry.util.TypeUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,8 @@ import io.github.vaporsea.vsindustry.contract.IndustryJobDTO;
 import io.github.vaporsea.vsindustry.contract.MarketTransactionDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import static io.github.vaporsea.vsindustry.util.MaterialCost.calculate;
 
 /**
  * @author Matt Maurer <br>
@@ -57,6 +60,7 @@ public class WarehouseService {
     private static final String INDUSTRY_JOB_NAME = "industry_job";
 
     private final LastProcessedRepository lastProcessedRepository;
+    private final InventionFirstSeenRepository inventionFirstSeenRepository;
     private final ProductToIgnoreRepository productToIgnoreRepository;
     private final MarketTransactionRepository marketTransactionRepository;
     private final IndustryJobRepository industryJobRepository;
@@ -75,6 +79,22 @@ public class WarehouseService {
         WarehouseItem warehouseItem = modelMapper.map(warehouseItemDTO, WarehouseItem.class);
 
         warehouseItemRepository.save(warehouseItem);
+    }
+
+    /**
+     * Adds an item to the warehouse as if it were purchased.
+     * This is different from the save method as it uses the warehouse component's addItem method
+     * which handles the rolling average calculation for the cost per item.
+     *
+     * @param warehouseItemDTO The warehouse item to add
+     */
+    @Transactional
+    public void addItem(WarehouseItemDTO warehouseItemDTO) {
+        warehouse.addItem(
+            warehouseItemDTO.getItemId(),
+            warehouseItemDTO.getQuantity(),
+            warehouseItemDTO.getCostPerItem()
+        );
     }
 
     public List<WarehouseItemDTO> getWarehouse() {
@@ -112,7 +132,7 @@ public class WarehouseService {
         allEvents.forEach(t -> {
             if (t instanceof MarketTransaction) {
                 MarketTransactionDTO marketTransaction = modelMapper.map(t, MarketTransactionDTO.class);
-                processMarketTransaction(marketTransaction);
+                processMarketTransaction((MarketTransaction) t);
                 warehouseListener.marketTransactionProcessed(marketTransaction);
             }
             else if (t instanceof IndustryJob) {
@@ -135,7 +155,7 @@ public class WarehouseService {
      *
      * @param marketTransaction The market transaction
      */
-    public void processMarketTransaction(MarketTransactionDTO marketTransaction) {
+    public void processMarketTransaction(MarketTransaction marketTransaction) {
         LastProcessedKey key = LastProcessedKey.builder()
                                                .objectId(marketTransaction.getTransactionId())
                                                .objectType(MARKET_TRANSACTION_NAME)
@@ -147,29 +167,31 @@ public class WarehouseService {
             return;
         }
 
-        WarehouseItem warehouseItem = warehouse.getWarehouseItem(marketTransaction.getTypeId());
-        if (warehouseItem != null) {
-            if (marketTransaction.getIsBuy()) {
-                Double newCost = rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(),
-                        marketTransaction.getUnitPrice(), marketTransaction.getQuantity());
+        Double itemValue = 0.0;
 
-                warehouse.addItem(marketTransaction.getTypeId(), marketTransaction.getQuantity(), newCost);
-            }
-            else {
-                warehouse.removeItem(marketTransaction.getTypeId(), marketTransaction.getQuantity());
-            }
+        if (marketTransaction.getIsBuy()) {
+            warehouse.addItem(marketTransaction.getTypeId(), marketTransaction.getQuantity().longValue(),
+                    marketTransaction.getUnitPrice());
         }
         else {
-            if (marketTransaction.getIsBuy()) {
-                warehouse.addItem(marketTransaction.getTypeId(), marketTransaction.getQuantity(),
-                        marketTransaction.getUnitPrice());
+            WarehouseItem warehouseItem = warehouse.getWarehouseItem(marketTransaction.getTypeId());
+            if (warehouseItem != null) {
+                warehouse.removeItem(marketTransaction.getTypeId(), marketTransaction.getQuantity().longValue());
+                itemValue = warehouseItem.getCostPerItem();
             }
             else {
                 log.warn("No warehouse item found for sell order: {}", marketTransaction.getTransactionId());
             }
         }
 
-        marketTransactionRepository.save(modelMapper.map(marketTransaction, MarketTransaction.class));
+        //I want buy orders to have a null profit, not some potentially non-zero value
+        if (!marketTransaction.getIsBuy()) {
+            Double transactionAmount = marketTransaction.getUnitPrice();
+            Double profitMargin = transactionAmount - itemValue;
+            marketTransaction.setProfitMargin(profitMargin);
+        }
+
+        marketTransactionRepository.save(marketTransaction);
 
         LastProcessed lastProcessed = LastProcessed.builder()
                                                    .id(key)
@@ -205,6 +227,7 @@ public class WarehouseService {
                 case 1 -> processManufacturingJob(industryJob);
                 case 5 -> processCopyJob(industryJob);
                 case 8 -> processInventionJob(industryJob);
+                case 9, 11 -> processReactionJob(industryJob);
                 default -> warnAndGiveTrue(industryJob);
             };
 
@@ -253,16 +276,7 @@ public class WarehouseService {
             Long typeId = entry.getKey();
             Long quantity = entry.getValue();
 
-            WarehouseItem warehouseItem = warehouse.getWarehouseItem(typeId);
-            if (warehouseItem != null) {
-                Double newCost = rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(),
-                        contractHeader.getPrice() / quantity, quantity);
-
-                warehouse.addItem(typeId, quantity, newCost);
-            }
-            else {
-                warehouse.addItem(typeId, quantity, contractHeader.getPrice());
-            }
+            warehouse.addItem(typeId, quantity, contractHeader.getPrice() / quantity);
         }
 
         lastProcessedRepository.save(LastProcessed.builder()
@@ -282,21 +296,9 @@ public class WarehouseService {
         Product product = productRepository.findById(productTypeId)
                                            .orElseThrow(() -> new RuntimeException(
                                                    "Product not found for product type id: " + productTypeId));
-
-        WarehouseItem warehouseItem = warehouse.getWarehouseItem(productTypeId);
         double cost = manufacturingCostForJob(industryJob, product);
         double costPerItem = cost / (double) (industryJob.getRuns() * product.getMakeTypeAmount());
-        if (warehouseItem != null) {
-            double newCostPerItem =
-                    rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(), costPerItem,
-                            industryJob.getRuns());
-
-            warehouse.addItem(productTypeId, industryJob.getRuns(), newCostPerItem);
-        }
-        else {
-            warehouse.addItem(productTypeId, industryJob.getRuns(), costPerItem);
-        }
-
+        warehouse.addItem(productTypeId, industryJob.getRuns(), costPerItem);
         return true;
     }
 
@@ -306,20 +308,9 @@ public class WarehouseService {
      * @param industryJob The industry job
      */
     private boolean processCopyJob(IndustryJobDTO industryJob) {
-        WarehouseItem warehouseItem = warehouse.getWarehouseItem(industryJob.getJobId());
         long totalBluePrints = industryJob.getRuns() * industryJob.getLicensedRuns();
         double costPerItem = industryJob.getCost() / totalBluePrints;
-
-        if (warehouseItem != null) {
-            Double newCost = rollingAverage(warehouseItem.getCostPerItem(), warehouseItem.getQuantity(), costPerItem,
-                    totalBluePrints);
-
-            warehouse.addItem(industryJob.getProductTypeId(), totalBluePrints, newCost);
-        }
-        else {
-            warehouse.addItem(industryJob.getProductTypeId(), totalBluePrints, costPerItem);
-        }
-
+        warehouse.addItem(industryJob.getProductTypeId(), totalBluePrints, costPerItem);
         return true;
     }
 
@@ -327,13 +318,13 @@ public class WarehouseService {
      * Process an invention job.  We need to find the old cost per item, multiply it by the quantity, add the new total
      * cost and then divide all that by the totalQuantity + totalSuccessfulRuns.
      *
+     * This method implements a two-phase processing for invention jobs:
+     * 1. First phase (first time seen): Decrement stocks from the warehouse and add the job ID to the invention_first_seen table
+     * 2. Second phase (when job is in delivered status): Inspect successful runs and increment BPC stock
+     *
      * @param industryJob The industry job
      */
     private boolean processInventionJob(IndustryJobDTO industryJob) {
-        if ("active".equalsIgnoreCase(industryJob.getStatus())) {
-            return false;
-        }
-
         Long t2BpcId = industryJob.getProductTypeId();
         Long t1BpcId = industryJob.getBlueprintTypeId();
 
@@ -342,32 +333,87 @@ public class WarehouseService {
                                            .orElseThrow(() -> new RuntimeException(
                                                    "Product not found for product type id: " + t2BpcId));
 
-        double newTotal = 0d;
-        //        for(int idx = 0; idx < industryJob.getRuns(); idx++) {
-        for (InventionItem inventionItem : product.getInventionItems()) {
-            double cost = warehouse.removeItem(
-                    inventionItem.getItem().getItemId(), inventionItem.getQuantity() * industryJob.getRuns());
-            newTotal += cost;
-            log.debug("Removed {} of product item {} with cost {}", inventionItem.getQuantity() * industryJob.getRuns(),
-                    inventionItem.getItem().getName(), cost);
-        }
-        newTotal += warehouse.removeItem(t1BpcId, industryJob.getRuns());
-        //        }
+        // Create the key for the invention_first_seen table
+        InventionFirstSeenKey key = InventionFirstSeenKey.builder()
+                                                        .objectId(industryJob.getJobId())
+                                                        .objectType(INDUSTRY_JOB_NAME)
+                                                        .build();
 
-        WarehouseItem warehousedBlueprints = warehouse.getWarehouseItem(t2BpcId);
-        long successfulRuns = industryJob.getSuccessfulRuns() == 0 ? 1L :
-                industryJob.getSuccessfulRuns() * product.getMakeTypeAmount();
-        if (warehousedBlueprints != null) {
-            double newCostPerItem = newTotal / successfulRuns;
-            double newCost = rollingAverage(warehousedBlueprints.getCostPerItem(), warehousedBlueprints.getQuantity(),
-                    newCostPerItem, successfulRuns);
+        // Check if this job has been seen before
+        Optional<InventionFirstSeen> firstSeen = inventionFirstSeenRepository.findById(key);
 
-            warehouse.addItem(t2BpcId, industryJob.getSuccessfulRuns() * product.getMakeTypeAmount(), newCost);
-        }
-        else {
-            double newCostPerItem = newTotal / successfulRuns;
+        if (firstSeen.isEmpty()) {
+            // First phase: First time seeing this job
+            log.debug("First time seeing invention job: {}", industryJob.getJobId());
+
+            // Decrement stocks from the warehouse
+            double newTotal = 0d;
+            for (InventionItem inventionItem : product.getInventionItems()) {
+                double cost = warehouse.removeItem(
+                        inventionItem.getItem().getItemId(), inventionItem.getQuantity() * industryJob.getRuns());
+                newTotal += cost;
+                log.debug("Removed {} of product item {} with cost {}", inventionItem.getQuantity() * industryJob.getRuns(),
+                        inventionItem.getItem().getName(), cost);
+            }
+            newTotal += warehouse.removeItem(t1BpcId, industryJob.getRuns());
+
+            // Add the job ID and cost to the invention_first_seen table
+            inventionFirstSeenRepository.save(InventionFirstSeen.builder()
+                                                              .id(key)
+                                                              .cost(newTotal)
+                                                              .build());
+
+            // Don't mark as processed in the last_processed table yet
+            return false;
+        } else if ("delivered".equalsIgnoreCase(industryJob.getStatus())) {
+            // Second phase: Job has been seen before and is now in delivered status
+            log.debug("Processing delivered invention job: {}", industryJob.getJobId());
+
+            // Get the cost from the first phase
+            double storedCost = firstSeen.get().getCost();
+
+            // Calculate the cost per item based on the successful runs
+            long successfulRuns = industryJob.getSuccessfulRuns() == 0 ? 1L :
+                    industryJob.getSuccessfulRuns() * product.getMakeTypeAmount();
+            double newCostPerItem = storedCost / successfulRuns;
+
+            // Add the resulting BPCs to the warehouse using the stored cost
             warehouse.addItem(t2BpcId, industryJob.getSuccessfulRuns() * product.getMakeTypeAmount(), newCostPerItem);
+
+            return true;
         }
+
+        // Job has been seen before but is not in delivered status yet
+        return false;
+    }
+
+    /**
+     * Process a reaction job. We need to subtract the input items from the warehouse
+     * but no blueprint is consumed and no ME calculation is performed.
+     *
+     * @param industryJob The industry job
+     */
+    private boolean processReactionJob(IndustryJobDTO industryJob) {
+        Long productId = industryJob.getProductTypeId();
+
+        //Get the product, tells us the inputs for the reaction job
+        Product product = productRepository.findById(productId)
+                                           .orElseThrow(() -> new RuntimeException(
+                                                   "Product not found for product type id: " + productId));
+
+        double newTotal = industryJob.getCost();
+        for (ReactionItem reactionItem : product.getReactionItems()) {
+            double cost = warehouse.removeItem(
+                    reactionItem.getItem().getItemId(), reactionItem.getQuantity() * industryJob.getRuns());
+            newTotal += cost;
+            log.debug("Removed {} of reaction item {} with cost {}", reactionItem.getQuantity() * industryJob.getRuns(),
+                    reactionItem.getItem().getName(), cost);
+        }
+
+        long builtItems = industryJob.getRuns() == 0 ? 1L :
+                industryJob.getRuns() * product.getMakeTypeAmount();
+        double newCostPerItem = newTotal / builtItems;
+        warehouse.addItem(productId, industryJob.getRuns() * product.getMakeTypeAmount(), newCostPerItem);
 
         return true;
     }
@@ -383,30 +429,35 @@ public class WarehouseService {
     private double manufacturingCostForJob(IndustryJobDTO industryJob, Product product) {
         double result = 0.0;
 
-        for (ProductItem productItem : product.getProductItems()) {
-            result += warehouse.removeItem(productItem.getItem().getItemId(),
-                    productItem.getQuantity() * industryJob.getRuns());
+        Item item = itemRepository.findById(product.getItemId())
+                                  .orElseThrow(() -> new RuntimeException(
+                                          "Item not found for make type id: " + product.getMakeType()));
+
+        int techLevel = TypeUtil.techLevel(item);
+        int bpMe = 10;
+        if(techLevel == 2) {
+            bpMe = 2;
         }
 
-        double bpcCost = warehouse.removeItem(product.getMakeType(), industryJob.getRuns());
+        List<ProductItem> productItems = calculate(product.getProductItems(), bpMe,
+                Math.toIntExact(industryJob.getRuns()));
+
+        log.debug("Manufacturing Cost for {} with {} runs", product.getName(), industryJob.getRuns());
+        for (ProductItem productItem : productItems) {
+            result += warehouse.removeItem(productItem.getItem().getItemId(),
+                    productItem.getQuantity());
+            log.debug("Removed {} of product item {} with cost {}", productItem.getQuantity(), productItem.getItem().getName(), result);
+        }
+
+        double bpcCost = 0;
+        if(techLevel == 2) {
+            bpcCost = warehouse.removeItem(product.getMakeType(), industryJob.getRuns());
+        }
+
         result += bpcCost;
         result += industryJob.getCost();
         result += extraCostService.extraCost(product) * industryJob.getRuns();
 
         return result;
-    }
-
-    /**
-     * Calculate the rolling average of a cost
-     *
-     * @param oldAverage The old cost per item... or old average
-     * @param oldQuantity The old quantity
-     * @param newCost The new cost per item
-     * @param newQuantity The new quantity
-     *
-     * @return The new average
-     */
-    private static Double rollingAverage(Double oldAverage, Long oldQuantity, Double newCost, Long newQuantity) {
-        return (oldAverage * oldQuantity + newCost * newQuantity) / (oldQuantity + newQuantity);
     }
 }

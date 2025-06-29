@@ -39,21 +39,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/warehouse")
 public class WarehouseController {
-    
+
     private final WarehouseService warehouseService;
-    
+
     @GetMapping
     public List<WarehouseItemDTO> getWarehouse() {
         return warehouseService.getWarehouse();
     }
-    
+
     @PostMapping("/processAll")
     public void processAll() {
         warehouseService.processAll();
     }
-    
+
     @PostMapping
     public void save(@RequestBody WarehouseItemDTO warehouseItemDTO) {
         warehouseService.save(warehouseItemDTO);
+    }
+
+    /**
+     * Adds an item to the warehouse as if it were purchased.
+     * This is different from the save endpoint as it uses the warehouse component's addItem method
+     * which handles the rolling average calculation for the cost per item.
+     *
+     * @param warehouseItemDTO The warehouse item to add
+     */
+    @PostMapping("/add-item")
+    public void addItem(@RequestBody WarehouseItemDTO warehouseItemDTO) {
+        warehouseService.addItem(warehouseItemDTO);
     }
 }

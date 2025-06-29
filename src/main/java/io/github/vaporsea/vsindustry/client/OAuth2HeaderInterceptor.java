@@ -30,6 +30,7 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
@@ -44,7 +45,7 @@ import org.springframework.web.client.RestClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.github.vaporsea.vsindustry.controllers.JwtTokenUtil;
+import io.github.vaporsea.vsindustry.util.JwtTokenUtil;
 import io.github.vaporsea.vsindustry.domain.AuthToken;
 import io.github.vaporsea.vsindustry.domain.AuthTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -79,7 +80,7 @@ public class OAuth2HeaderInterceptor implements ClientHttpRequestInterceptor {
             IOException {
         // Try to get token from JwtTokenHolder first (for backward compatibility)
         String token = JwtTokenHolder.getToken();
-        String refreshToken = null;
+        String refreshToken;
         
         // If no token in JwtTokenHolder, get it from AuthTokenRepository
         if (token == null) {
@@ -163,7 +164,8 @@ public class OAuth2HeaderInterceptor implements ClientHttpRequestInterceptor {
             
             // Parse response
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(response, Map.class);
+            return mapper.readValue(response, new TypeReference<>() {
+            });
         }
         catch (Exception e) {
             log.error("Error refreshing token", e);

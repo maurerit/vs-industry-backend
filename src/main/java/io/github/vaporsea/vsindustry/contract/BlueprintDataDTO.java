@@ -37,5 +37,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class BlueprintDataDTO implements Serializable {
     private BlueprintDetailsDTO blueprintDetails;
+    private TransactionCostsDTO transactionCosts;
     private ActivityMaterialsDTO activityMaterials;
 }
