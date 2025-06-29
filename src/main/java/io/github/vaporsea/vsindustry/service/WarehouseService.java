@@ -81,6 +81,22 @@ public class WarehouseService {
         warehouseItemRepository.save(warehouseItem);
     }
 
+    /**
+     * Adds an item to the warehouse as if it were purchased.
+     * This is different from the save method as it uses the warehouse component's addItem method
+     * which handles the rolling average calculation for the cost per item.
+     *
+     * @param warehouseItemDTO The warehouse item to add
+     */
+    @Transactional
+    public void addItem(WarehouseItemDTO warehouseItemDTO) {
+        warehouse.addItem(
+            warehouseItemDTO.getItemId(),
+            warehouseItemDTO.getQuantity(),
+            warehouseItemDTO.getCostPerItem()
+        );
+    }
+
     public List<WarehouseItemDTO> getWarehouse() {
         List<WarehouseItem> warehouseItems = warehouseItemRepository.findAll();
         List<WarehouseItemDTO> warehouseItemDTOs = new LinkedList<>();
@@ -309,10 +325,6 @@ public class WarehouseService {
      * @param industryJob The industry job
      */
     private boolean processInventionJob(IndustryJobDTO industryJob) {
-        if ("active".equalsIgnoreCase(industryJob.getStatus())) {
-            return false;
-        }
-
         Long t2BpcId = industryJob.getProductTypeId();
         Long t1BpcId = industryJob.getBlueprintTypeId();
 
