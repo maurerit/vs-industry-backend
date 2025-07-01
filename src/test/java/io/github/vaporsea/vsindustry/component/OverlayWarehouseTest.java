@@ -3,6 +3,8 @@ package io.github.vaporsea.vsindustry.component;
 import io.github.vaporsea.vsindustry.domain.IndustryActivityProbability;
 import io.github.vaporsea.vsindustry.domain.IndustryActivityProbabilityKey;
 import io.github.vaporsea.vsindustry.domain.IndustryActivityProbabilityRepository;
+import io.github.vaporsea.vsindustry.domain.IndustryActivityProduct;
+import io.github.vaporsea.vsindustry.domain.IndustryActivityProductRepository;
 import io.github.vaporsea.vsindustry.domain.IndustryJob;
 import io.github.vaporsea.vsindustry.domain.IndustryJobRepository;
 import io.github.vaporsea.vsindustry.domain.WarehouseItem;
@@ -30,11 +32,14 @@ public class OverlayWarehouseTest {
     @Mock
     private IndustryActivityProbabilityRepository industryActivityProbabilityRepository;
 
+    @Mock
+    private IndustryActivityProductRepository industryActivityProductRepository;
+
     private OverlayWarehouse overlayWarehouse;
 
     @BeforeEach
     void setUp() {
-        overlayWarehouse = new OverlayWarehouse(warehouse, industryJobRepository, industryActivityProbabilityRepository);
+        overlayWarehouse = new OverlayWarehouse(warehouse, industryJobRepository, industryActivityProbabilityRepository, industryActivityProductRepository);
     }
 
     @Test
@@ -58,6 +63,7 @@ public class OverlayWarehouseTest {
         verify(warehouse).getWarehouseItem(itemId);
         verify(industryJobRepository).findUnprocessed();
         verifyNoInteractions(industryActivityProbabilityRepository);
+        verifyNoInteractions(industryActivityProductRepository);
     }
 
     @Test
@@ -91,7 +97,7 @@ public class OverlayWarehouseTest {
                 .activityId(activityId)
                 .productTypeId(productId)
                 .build();
-        
+
         IndustryActivityProbability probability = IndustryActivityProbability.builder()
                 .id(probabilityKey)
                 .probability(0.3) // 30% probability
@@ -102,20 +108,27 @@ public class OverlayWarehouseTest {
         when(industryActivityProbabilityRepository.findById_TypeIdAndId_ActivityIdAndId_ProductTypeId(
                 blueprintId, activityId, productId)).thenReturn(Optional.of(probability));
 
+        // Mock the IndustryActivityProduct lookup
+        IndustryActivityProduct product = IndustryActivityProduct.builder()
+                .quantity(10L) // Use the same multiplier as before to maintain test expectations
+                .build();
+        when(industryActivityProductRepository.findById_ProductTypeId(productId)).thenReturn(Optional.of(product));
+
         // When
         WarehouseItem result = overlayWarehouse.getWarehouseItem(productId);
 
         // Then
         // Expected: 5 (original) + 6 (estimated BPCs from 20 runs * 0.3 probability)
         assertEquals(35L, result.getQuantity());
-        
+
         // Expected cost per item: (5 * 100 + 1000) / 11 = 136.36...
         assertEquals(42.85, result.getCostPerItem(), 0.01);
-        
+
         verify(warehouse).getWarehouseItem(productId);
         verify(industryJobRepository).findUnprocessed();
         verify(industryActivityProbabilityRepository).findById_TypeIdAndId_ActivityIdAndId_ProductTypeId(
                 blueprintId, activityId, productId);
+        verify(industryActivityProductRepository).findById_ProductTypeId(productId);
     }
 
     @Test
@@ -155,11 +168,13 @@ public class OverlayWarehouseTest {
         // Expected: 5 (original) + 0 (no probability found)
         assertEquals(5L, result.getQuantity());
         assertEquals(100.0, result.getCostPerItem());
-        
+
         verify(warehouse).getWarehouseItem(productId);
         verify(industryJobRepository).findUnprocessed();
         verify(industryActivityProbabilityRepository).findById_TypeIdAndId_ActivityIdAndId_ProductTypeId(
                 blueprintId, activityId, productId);
+        // The code doesn't reach the point where findById_ProductTypeId is called because the probability is not found
+        verifyNoInteractions(industryActivityProductRepository);
     }
 
     @Test
@@ -196,11 +211,11 @@ public class OverlayWarehouseTest {
     void testGettersAndSetters() {
         // Default value should be false
         assertFalse(overlayWarehouse.isAllowNegativeQuantities());
-        
+
         // Set to true
         overlayWarehouse.setAllowNegativeQuantities(true);
         assertTrue(overlayWarehouse.isAllowNegativeQuantities());
-        
+
         // Set back to false
         overlayWarehouse.setAllowNegativeQuantities(false);
         assertFalse(overlayWarehouse.isAllowNegativeQuantities());

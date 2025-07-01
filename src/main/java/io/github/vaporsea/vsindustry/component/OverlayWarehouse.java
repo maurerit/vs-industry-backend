@@ -26,6 +26,8 @@ package io.github.vaporsea.vsindustry.component;
 
 import io.github.vaporsea.vsindustry.domain.IndustryActivityProbability;
 import io.github.vaporsea.vsindustry.domain.IndustryActivityProbabilityRepository;
+import io.github.vaporsea.vsindustry.domain.IndustryActivityProduct;
+import io.github.vaporsea.vsindustry.domain.IndustryActivityProductRepository;
 import io.github.vaporsea.vsindustry.domain.IndustryJob;
 import io.github.vaporsea.vsindustry.domain.IndustryJobRepository;
 import io.github.vaporsea.vsindustry.domain.WarehouseItem;
@@ -51,6 +53,7 @@ public class OverlayWarehouse {
     private final Warehouse warehouse;
     private final IndustryJobRepository industryJobRepository;
     private final IndustryActivityProbabilityRepository industryActivityProbabilityRepository;
+    private final IndustryActivityProductRepository industryActivityProductRepository;
 
     @Setter
     @Getter
@@ -58,12 +61,12 @@ public class OverlayWarehouse {
 
     public List<WarehouseItem> getAllItems() {
         List<WarehouseItem> items = warehouse.getAllItems();
-        
+
         items.forEach(this::updateInventedBpcs);
-        
+
         return items;
     }
-    
+
     /**
      * Get a warehouse item, with additional logic for blueprints.
      * If the item is a blueprint, search for industry jobs for the item
@@ -74,19 +77,19 @@ public class OverlayWarehouse {
      */
     public WarehouseItem getWarehouseItem(Long itemId) {
         WarehouseItem item = warehouse.getWarehouseItem(itemId);
-        
+
         updateInventedBpcs(item);
-        
+
         return item;
     }
-    
+
     private void updateInventedBpcs(WarehouseItem item) {
         // Check if this is a blueprint by looking for industry jobs with this blueprint type ID
         List<IndustryJob> jobs = industryJobRepository.findUnprocessed()
                 .stream()
                 .filter(job -> job.getProductTypeId().equals(item.getItemId()) && job.getActivityId().equals(8L))
                 .toList();
-        
+
         if (!jobs.isEmpty()) {
             // This is a blueprint with active industry jobs
             long totalEstimatedBpcs = 0;
@@ -104,7 +107,12 @@ public class OverlayWarehouse {
                 if (probability != null) {
                     // Calculate estimated BPCs based on probability
                     long runs = job.getRuns();
-                    long estimatedBpcs = Math.round(runs * probability.getProbability()) * 10;
+                    // Look up the quantity from the INDUSTRY_ACTIVITY_PRODUCTS table
+                    long multiplier = industryActivityProductRepository
+                            .findById_ProductTypeId(job.getProductTypeId())
+                            .map(IndustryActivityProduct::getQuantity)
+                            .orElse(1L); // Default to 1 if not found
+                    long estimatedBpcs = Math.round(runs * probability.getProbability()) * multiplier;
                     totalEstimatedBpcs += estimatedBpcs;
 
                     // Calculate cost contribution
@@ -133,7 +141,7 @@ public class OverlayWarehouse {
             }
         }
     }
-    
+
     /**
      * Remove an item from the warehouse.
      * 
