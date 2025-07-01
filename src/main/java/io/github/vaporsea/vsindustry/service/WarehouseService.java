@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import io.github.vaporsea.vsindustry.component.Warehouse;
+import io.github.vaporsea.vsindustry.component.OverlayWarehouse;
 import io.github.vaporsea.vsindustry.contract.ContractHeaderDTO;
 import io.github.vaporsea.vsindustry.contract.WarehouseItemDTO;
 import io.github.vaporsea.vsindustry.domain.*;
@@ -69,7 +69,7 @@ public class WarehouseService {
     private final ItemRepository itemRepository;
     private final ContractHeaderRepository contractHeaderRepository;
     private final ContractDetailRepository contractDetailRepository;
-    private final Warehouse warehouse;
+    private final OverlayWarehouse warehouse;
     private final WarehouseListener warehouseListener;
     private final ExtraCostService extraCostService;
 
@@ -98,7 +98,7 @@ public class WarehouseService {
     }
 
     public List<WarehouseItemDTO> getWarehouse() {
-        List<WarehouseItem> warehouseItems = warehouseItemRepository.findAll();
+        List<WarehouseItem> warehouseItems = warehouse.getAllItems();
         List<WarehouseItemDTO> warehouseItemDTOs = new LinkedList<>();
 
         for (WarehouseItem warehouseItem : warehouseItems) {
@@ -317,7 +317,7 @@ public class WarehouseService {
     /**
      * Process an invention job.  We need to find the old cost per item, multiply it by the quantity, add the new total
      * cost and then divide all that by the totalQuantity + totalSuccessfulRuns.
-     *
+     *<br/>
      * This method implements a two-phase processing for invention jobs:
      * 1. First phase (first time seen): Decrement stocks from the warehouse and add the job ID to the invention_first_seen table
      * 2. Second phase (when job is in delivered status): Inspect successful runs and increment BPC stock
