@@ -26,7 +26,9 @@ package io.github.vaporsea.vsindustry.component;
 
 import io.github.vaporsea.vsindustry.domain.WarehouseItem;
 import io.github.vaporsea.vsindustry.domain.WarehouseItemRepository;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,10 @@ public class Warehouse {
 
     private final WarehouseItemRepository warehouseItemRepository;
 
+    @Setter
+    @Getter
+    private boolean allowNegativeQuantities = false;
+    
     public WarehouseItem getWarehouseItem(Long itemId) {
         return warehouseItemRepository.findById(itemId).orElse(
                 WarehouseItem.builder()
@@ -51,7 +57,8 @@ public class Warehouse {
         return warehouseItemRepository.findById(itemId)
                                       .map(warehouseItem -> {
                                           long newQuantity = warehouseItem.getQuantity() - quantity;
-                                          if (newQuantity <= 0) {
+                                          if (newQuantity <= 0 && !allowNegativeQuantities) {
+                                              // If negative quantities are not allowed, set to 0
                                               warehouseItemRepository.save(WarehouseItem.builder()
                                                                                         .itemId(itemId)
                                                                                         .costPerItem(
@@ -60,6 +67,7 @@ public class Warehouse {
                                                                                         .build());
                                           }
                                           else {
+                                              // Either the quantity is positive or negative quantities are allowed
                                               warehouseItem.setQuantity(newQuantity);
                                               warehouseItemRepository.save(warehouseItem);
                                           }
