@@ -120,9 +120,22 @@ public class ExtraCostService {
             extraCostDTO.setCostType("default");
         }
 
-        ExtraCost extraCost = modelMapper.map(extraCostDTO, ExtraCost.class);
-        extraCost = extraCostRepository.save(extraCost);
-        return mapExtraCost(extraCost);
+        if (extraCostDTO.getOriginalCostType().equals(extraCostDTO.getCostType())) {
+            ExtraCost extraCost = modelMapper.map(extraCostDTO, ExtraCost.class);
+            extraCost = extraCostRepository.save(extraCost);
+            
+            return mapExtraCost(extraCost);
+        }
+        else {
+            ExtraCost extraCost = modelMapper.map(extraCostDTO, ExtraCost.class);
+            extraCost.setCostType(extraCostDTO.getOriginalCostType());
+            extraCostRepository.delete(extraCost);
+            
+            extraCost = modelMapper.map(extraCostDTO, ExtraCost.class);
+            extraCostRepository.save(extraCost);
+            
+            return mapExtraCost(extraCost);
+        }
     }
 
     /**
