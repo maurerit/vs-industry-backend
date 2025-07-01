@@ -32,6 +32,8 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Component
 public class Warehouse {
@@ -41,7 +43,7 @@ public class Warehouse {
     @Setter
     @Getter
     private boolean allowNegativeQuantities = false;
-    
+
     public WarehouseItem getWarehouseItem(Long itemId) {
         return warehouseItemRepository.findById(itemId).orElse(
                 WarehouseItem.builder()
@@ -109,5 +111,14 @@ public class Warehouse {
      */
     private Double rollingAverage(Double oldAverage, Long oldQuantity, Double newCost, Long newQuantity) {
         return (oldAverage * oldQuantity + newCost * newQuantity) / (oldQuantity + newQuantity);
+    }
+
+    /**
+     * Get all warehouse items
+     *
+     * @return List of all warehouse items
+     */
+    public List<WarehouseItem> getAllItems() {
+        return warehouseItemRepository.findAll();
     }
 }

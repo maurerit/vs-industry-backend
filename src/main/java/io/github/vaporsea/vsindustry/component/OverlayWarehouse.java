@@ -56,6 +56,14 @@ public class OverlayWarehouse {
     @Getter
     private boolean allowNegativeQuantities = false;
 
+    public List<WarehouseItem> getAllItems() {
+        List<WarehouseItem> items = warehouse.getAllItems();
+        
+        items.forEach(this::updateInventedBpcs);
+        
+        return items;
+    }
+    
     /**
      * Get a warehouse item, with additional logic for blueprints.
      * If the item is a blueprint, search for industry jobs for the item
@@ -66,13 +74,19 @@ public class OverlayWarehouse {
      */
     public WarehouseItem getWarehouseItem(Long itemId) {
         WarehouseItem item = warehouse.getWarehouseItem(itemId);
-
+        
+        updateInventedBpcs(item);
+        
+        return item;
+    }
+    
+    private void updateInventedBpcs(WarehouseItem item) {
         // Check if this is a blueprint by looking for industry jobs with this blueprint type ID
-        List<IndustryJob> jobs = industryJobRepository.findAll()
+        List<IndustryJob> jobs = industryJobRepository.findUnprocessed()
                 .stream()
-                .filter(job -> job.getBlueprintTypeId().equals(itemId))
+                .filter(job -> job.getProductTypeId().equals(item.getItemId()) && job.getActivityId().equals(8L))
                 .toList();
-
+        
         if (!jobs.isEmpty()) {
             // This is a blueprint with active industry jobs
             long totalEstimatedBpcs = 0;
@@ -82,15 +96,15 @@ public class OverlayWarehouse {
                 // Get the probability for this job
                 IndustryActivityProbability probability = industryActivityProbabilityRepository
                         .findById_TypeIdAndId_ActivityIdAndId_ProductTypeId(
-                                job.getBlueprintTypeId(), 
-                                job.getActivityId(), 
+                                job.getBlueprintTypeId(),
+                                job.getActivityId(),
                                 job.getProductTypeId())
                         .orElse(null);
 
                 if (probability != null) {
                     // Calculate estimated BPCs based on probability
-                    long runs = job.getRuns() * job.getLicensedRuns();
-                    long estimatedBpcs = Math.round(runs * probability.getProbability());
+                    long runs = job.getRuns();
+                    long estimatedBpcs = Math.round(runs * probability.getProbability()) * 10;
                     totalEstimatedBpcs += estimatedBpcs;
 
                     // Calculate cost contribution
@@ -118,10 +132,8 @@ public class OverlayWarehouse {
                 }
             }
         }
-
-        return item;
     }
-
+    
     /**
      * Remove an item from the warehouse.
      * 

@@ -2,7 +2,7 @@ CREATE TABLE industry_activity_probabilities (
     type_id bigint NOT NULL,
     activity_id bigint NOT NULL,
     product_type_id bigint NOT NULL,
-    probability decimal NOT NULL
+    probability double NOT NULL
 );
 
 alter table industry_activity_probabilities add primary key (type_id,activity_id,product_type_id);

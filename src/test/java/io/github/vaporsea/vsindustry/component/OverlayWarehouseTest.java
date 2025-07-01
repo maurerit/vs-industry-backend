@@ -48,7 +48,7 @@ public class OverlayWarehouseTest {
                 .build();
 
         when(warehouse.getWarehouseItem(itemId)).thenReturn(expectedItem);
-        when(industryJobRepository.findAll()).thenReturn(List.of());
+        when(industryJobRepository.findUnprocessed()).thenReturn(List.of());
 
         // When
         WarehouseItem result = overlayWarehouse.getWarehouseItem(itemId);
@@ -56,7 +56,7 @@ public class OverlayWarehouseTest {
         // Then
         assertEquals(expectedItem, result);
         verify(warehouse).getWarehouseItem(itemId);
-        verify(industryJobRepository).findAll();
+        verify(industryJobRepository).findUnprocessed();
         verifyNoInteractions(industryActivityProbabilityRepository);
     }
 
@@ -69,7 +69,7 @@ public class OverlayWarehouseTest {
 
         // Create a warehouse item for the blueprint
         WarehouseItem blueprintItem = WarehouseItem.builder()
-                .itemId(blueprintId)
+                .itemId(productId)
                 .quantity(5L)
                 .costPerItem(100.0)
                 .build();
@@ -97,23 +97,23 @@ public class OverlayWarehouseTest {
                 .probability(0.3) // 30% probability
                 .build();
 
-        when(warehouse.getWarehouseItem(blueprintId)).thenReturn(blueprintItem);
-        when(industryJobRepository.findAll()).thenReturn(List.of(job));
+        when(warehouse.getWarehouseItem(productId)).thenReturn(blueprintItem);
+        when(industryJobRepository.findUnprocessed()).thenReturn(List.of(job));
         when(industryActivityProbabilityRepository.findById_TypeIdAndId_ActivityIdAndId_ProductTypeId(
                 blueprintId, activityId, productId)).thenReturn(Optional.of(probability));
 
         // When
-        WarehouseItem result = overlayWarehouse.getWarehouseItem(blueprintId);
+        WarehouseItem result = overlayWarehouse.getWarehouseItem(productId);
 
         // Then
         // Expected: 5 (original) + 6 (estimated BPCs from 20 runs * 0.3 probability)
-        assertEquals(11L, result.getQuantity());
+        assertEquals(35L, result.getQuantity());
         
         // Expected cost per item: (5 * 100 + 1000) / 11 = 136.36...
-        assertEquals(136.36, result.getCostPerItem(), 0.01);
+        assertEquals(42.85, result.getCostPerItem(), 0.01);
         
-        verify(warehouse).getWarehouseItem(blueprintId);
-        verify(industryJobRepository).findAll();
+        verify(warehouse).getWarehouseItem(productId);
+        verify(industryJobRepository).findUnprocessed();
         verify(industryActivityProbabilityRepository).findById_TypeIdAndId_ActivityIdAndId_ProductTypeId(
                 blueprintId, activityId, productId);
     }
@@ -127,7 +127,7 @@ public class OverlayWarehouseTest {
 
         // Create a warehouse item for the blueprint
         WarehouseItem blueprintItem = WarehouseItem.builder()
-                .itemId(blueprintId)
+                .itemId(productId)
                 .quantity(5L)
                 .costPerItem(100.0)
                 .build();
@@ -143,21 +143,21 @@ public class OverlayWarehouseTest {
                 .cost(1000.0)
                 .build();
 
-        when(warehouse.getWarehouseItem(blueprintId)).thenReturn(blueprintItem);
-        when(industryJobRepository.findAll()).thenReturn(List.of(job));
+        when(warehouse.getWarehouseItem(productId)).thenReturn(blueprintItem);
+        when(industryJobRepository.findUnprocessed()).thenReturn(List.of(job));
         when(industryActivityProbabilityRepository.findById_TypeIdAndId_ActivityIdAndId_ProductTypeId(
                 blueprintId, activityId, productId)).thenReturn(Optional.empty());
 
         // When
-        WarehouseItem result = overlayWarehouse.getWarehouseItem(blueprintId);
+        WarehouseItem result = overlayWarehouse.getWarehouseItem(productId);
 
         // Then
         // Expected: 5 (original) + 0 (no probability found)
         assertEquals(5L, result.getQuantity());
         assertEquals(100.0, result.getCostPerItem());
         
-        verify(warehouse).getWarehouseItem(blueprintId);
-        verify(industryJobRepository).findAll();
+        verify(warehouse).getWarehouseItem(productId);
+        verify(industryJobRepository).findUnprocessed();
         verify(industryActivityProbabilityRepository).findById_TypeIdAndId_ActivityIdAndId_ProductTypeId(
                 blueprintId, activityId, productId);
     }
