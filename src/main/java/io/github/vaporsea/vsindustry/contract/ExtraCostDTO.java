@@ -33,4 +33,5 @@ public class ExtraCostDTO {
     private String name;
     private String costType;
     private Double cost;
+    private String originalCostType;
 }

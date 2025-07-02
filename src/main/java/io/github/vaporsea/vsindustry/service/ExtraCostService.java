@@ -27,6 +27,7 @@ package io.github.vaporsea.vsindustry.service;
 import io.github.vaporsea.vsindustry.contract.ExtraCostDTO;
 import io.github.vaporsea.vsindustry.contract.Page;
 import io.github.vaporsea.vsindustry.domain.ExtraCost;
+import io.github.vaporsea.vsindustry.domain.ExtraCostId;
 import io.github.vaporsea.vsindustry.domain.ExtraCostRepository;
 import io.github.vaporsea.vsindustry.domain.Item;
 import io.github.vaporsea.vsindustry.domain.ItemRepository;
@@ -120,9 +121,26 @@ public class ExtraCostService {
             extraCostDTO.setCostType("default");
         }
 
-        ExtraCost extraCost = modelMapper.map(extraCostDTO, ExtraCost.class);
-        extraCost = extraCostRepository.save(extraCost);
-        return mapExtraCost(extraCost);
+        if (extraCostDTO.getOriginalCostType().equals(extraCostDTO.getCostType())) {
+            ExtraCost extraCost = modelMapper.map(extraCostDTO, ExtraCost.class);
+            extraCost = extraCostRepository.save(extraCost);
+            
+            return mapExtraCost(extraCost);
+        }
+        else {
+            ExtraCost extraCost = modelMapper.map(extraCostDTO, ExtraCost.class);
+            extraCost.setCostType(extraCostDTO.getOriginalCostType());
+            
+            ExtraCostId extraCostId = new ExtraCostId(extraCost.getItemId(), extraCost.getCostType());
+            extraCostRepository.findById(extraCostId)
+                               .orElseThrow(() -> new IllegalArgumentException("ExtraCost not found for " + extraCostId.getItemId() + "-" + extraCostId.getCostType()));
+            extraCostRepository.delete(extraCost);
+            
+            extraCost.setCostType(extraCostDTO.getCostType());
+            extraCostRepository.save(extraCost);
+            
+            return mapExtraCost(extraCost);
+        }
     }
 
     /**
