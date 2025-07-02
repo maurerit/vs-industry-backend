@@ -130,13 +130,13 @@ public class ExtraCostService {
         else {
             ExtraCost extraCost = modelMapper.map(extraCostDTO, ExtraCost.class);
             extraCost.setCostType(extraCostDTO.getOriginalCostType());
+            
             ExtraCostId extraCostId = new ExtraCostId(extraCost.getItemId(), extraCost.getCostType());
             extraCostRepository.findById(extraCostId)
                                .orElseThrow(() -> new IllegalArgumentException("ExtraCost not found for " + extraCostId.getItemId() + "-" + extraCostId.getCostType()));
-            
             extraCostRepository.delete(extraCost);
             
-            extraCost = modelMapper.map(extraCostDTO, ExtraCost.class);
+            extraCost.setCostType(extraCostDTO.getCostType());
             extraCostRepository.save(extraCost);
             
             return mapExtraCost(extraCost);
