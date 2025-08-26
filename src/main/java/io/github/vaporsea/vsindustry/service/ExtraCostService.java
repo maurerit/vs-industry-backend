@@ -121,6 +121,14 @@ public class ExtraCostService {
             extraCostDTO.setCostType("default");
         }
 
+        // Handle case when originalCostType is null (new extra cost)
+        if (extraCostDTO.getOriginalCostType() == null) {
+            ExtraCost extraCost = modelMapper.map(extraCostDTO, ExtraCost.class);
+            extraCost = extraCostRepository.save(extraCost);
+            
+            return mapExtraCost(extraCost);
+        }
+        
         if (extraCostDTO.getOriginalCostType().equals(extraCostDTO.getCostType())) {
             ExtraCost extraCost = modelMapper.map(extraCostDTO, ExtraCost.class);
             extraCost = extraCostRepository.save(extraCost);
