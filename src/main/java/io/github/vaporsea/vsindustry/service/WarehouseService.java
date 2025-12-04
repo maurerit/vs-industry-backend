@@ -265,18 +265,20 @@ public class WarehouseService {
             return;
         }
 
-        //Stack the items in the contract
-        List<ContractDetail> details = contractDetailRepository.findByContractId(contractHeader.getContractId());
-        Map<Long, Long> stackedItems = details.stream()
-                                              .collect(Collectors.groupingBy(ContractDetail::getTypeId,
-                                                      Collectors.summingLong(ContractDetail::getQuantity)));
+        if(contractHeader.getType().equals("item_exchange")) {
+            //Stack the items in the contract
+            List<ContractDetail> details = contractDetailRepository.findByContractId(contractHeader.getContractId());
+            Map<Long, Long> stackedItems = details.stream()
+                    .collect(Collectors.groupingBy(ContractDetail::getTypeId,
+                            Collectors.summingLong(ContractDetail::getQuantity)));
 
-        //Process the items in the contract
-        for (Map.Entry<Long, Long> entry : stackedItems.entrySet()) {
-            Long typeId = entry.getKey();
-            Long quantity = entry.getValue();
+            //Process the items in the contract
+            for (Map.Entry<Long, Long> entry : stackedItems.entrySet()) {
+                Long typeId = entry.getKey();
+                Long quantity = entry.getValue();
 
-            warehouse.addItem(typeId, quantity, contractHeader.getPrice() / quantity);
+                warehouse.addItem(typeId, quantity, contractHeader.getPrice() / quantity);
+            }
         }
 
         lastProcessedRepository.save(LastProcessed.builder()
